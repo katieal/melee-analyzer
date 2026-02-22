@@ -1,0 +1,300 @@
+{
+  "name": "Cool PhoThai Tournament",
+  "date": "2026-02-06",
+  "location": "PhoThai",
+  "winner": "Andrew",
+  "matches": [
+    {
+      "bracket": "Winners",
+      "round": "1",
+      "results": [
+        {
+          "name": "Byrne",
+          "score": 3,
+          "winner": true,
+          "games": [
+            { "game:": 1, "character": "Mario", "winner": true },
+            { "game:": 2, "character": "Mario", "winner": true },
+            { "game:": 3, "character": "Mario", "winner": true }
+          ]
+        },
+        {
+          "name": "Jimmy Rustler",
+          "score": 0,
+          "winner": false,
+          "games": [
+            { "game:": 1, "character": "Mario", "winner": false },
+            { "game:": 2, "character": "Mario", "winner": false },
+            { "game:": 3, "character": "Mario", "winner": false }
+          ]
+        }
+      ]
+    },
+    {
+      "bracket": "Winners",
+      "round": "1",
+      "results": [
+        {
+          "name": "MOOP",
+          "score": 3,
+          "winner": true,
+          "games": [
+            { "game:": 1, "character": "Mario", "winner": true },
+            { "game:": 2, "character": "Mario", "winner": true },
+            { "game:": 3, "character": "Mario", "winner": true }
+          ]
+        },
+        {
+          "name": "Vlad The Inhaler",
+          "score": 0,
+          "winner": false,
+          "games": [
+            { "game:": 1, "character": "Mario", "winner": false },
+            { "game:": 2, "character": "Mario", "winner": false },
+            { "game:": 3, "character": "Mario", "winner": false }
+          ]
+        }
+      ]
+    },
+    {
+      "bracket": "Winners",
+      "round": "1",
+      "results": [
+        {
+          "name": "Andrew",
+          "score": 3,
+          "winner": true,
+          "games": [
+            { "game:": 1, "character": "Mario", "winner": true },
+            { "game:": 2, "character": "Mario", "winner": true },
+            { "game:": 3, "character": "Mario", "winner": true }
+          ]
+        },
+        {
+          "name": "Awkward.",
+          "score": 0,
+          "winner": false,
+          "games": [
+            { "game:": 1, "character": "Kirby", "winner": false },
+            { "game:": 2, "character": "Kirby", "winner": false },
+            { "game:": 3, "character": "Kirby", "winner": false }
+          ]
+        }
+      ]
+    },
+    {
+      "bracket": "Winners",
+      "round": "1",
+      "results": [
+        {
+          "name": "oz",
+          "score": 3,
+          "winner": true,
+          "games": [
+            { "game:": 1, "character": "Mario", "winner": true },
+            { "game:": 2, "character": "Mario", "winner": true },
+            { "game:": 3, "character": "Mario", "winner": true }
+          ]
+        },
+        {
+          "name": "Uncle Fraski",
+          "score": 0,
+          "winner": false,
+          "games": [
+            { "game:": 1, "character": "Peach", "winner": false },
+            { "game:": 2, "character": "Peach", "winner": false },
+            { "game:": 3, "character": "Peach", "winner": false }
+          ]
+        }
+      ]
+    },
+    {
+      "bracket": "Winners",
+      "round": "1",
+      "results": [
+        {
+          "name": "elicik",
+          "score": 3,
+          "winner": true,
+          "games": [
+            { "game:": 1, "character": "Mario", "winner": true },
+            { "game:": 2, "character": "Luigi", "winner": false },
+            { "game:": 3, "character": "Jigglypuff", "winner": true },
+            { "game:": 4, "character": "Jigglypuff", "winner": false },
+            { "game:": 5, "character": "Jigglypuff", "winner": true }
+          ]
+        },
+        {
+          "name": "Juicebox",
+          "score": 2,
+          "winner": false,
+          "games": [
+            { "game:": 1, "character": "Kirby", "winner": false },
+            { "game:": 2, "character": "Link", "winner": true },
+            { "game:": 3, "character": "Bowser", "winner": false },
+            { "game:": 4, "character": "Bowser", "winner": true },
+            { "game:": 5, "character": "Link", "winner": false }
+          ]
+        }
+      ]
+    },
+    {
+      "bracket": "Winners",
+      "round": "1",
+      "results": [
+        {
+          "name": "HotPeppers",
+          "score": 3,
+          "winner": true,
+          "games": [
+            { "game:": 1, "character": "DK", "winner": true },
+            { "game:": 2, "character": "DK", "winner": true },
+            { "game:": 3, "character": "Mario", "winner": true }
+          ]
+        },
+        {
+          "name": "Crowthegm",
+          "score": 0,
+          "winner": false,
+          "games": [
+            { "game:": 1, "character": "Mewtwo", "winner": false },
+            { "game:": 2, "character": "Mewtwo", "winner": false },
+            { "game:": 3, "character": "Yoshi", "winner": false }
+          ]
+        }
+      ]
+    },
+    {
+      "bracket": "Winners",
+      "round": "1",
+      "results": [
+        {
+          "name": "FantasticDeli",
+          "score": 3,
+          "winner": true,
+          "games": [
+            { "game:": 1, "character": "Yoshi", "winner": true },
+            { "game:": 2, "character": "Yoshi", "winner": true },
+            { "game:": 3, "character": "Yoshi", "winner": true }
+          ]
+        },
+        {
+          "name": "Groggy",
+          "score": 0,
+          "winner": false,
+          "games": [
+            { "game:": 1, "character": "Mario", "winner": false },
+            { "game:": 2, "character": "DK", "winner": false },
+            { "game:": 3, "character": "Mario", "winner": false }
+          ]
+        }
+      ]
+    },
+    {
+      "bracket": "Losers",
+      "round": "1",
+      "results": [
+        {
+          "name": "Vlad The Inhaler",
+          "score": 3,
+          "winner": true,
+          "games": [
+            { "game:": 1, "character": "Young Link", "winner": true },
+            { "game:": 2, "character": "Young Link", "winner": true },
+            { "game:": 3, "character": "Young Link", "winner": true }
+          ]
+        },
+        {
+          "name": "Awkward.",
+          "score": 0,
+          "winner": false,
+          "games": [
+            { "game:": 1, "character": "DK", "winner": false },
+            { "game:": 2, "character": "DK", "winner": false },
+            { "game:": 3, "character": "DK", "winner": false }
+          ]
+        }
+      ]
+    },
+    {
+      "bracket": "Losers",
+      "round": "1",
+      "results": [
+        {
+          "name": "Uncle Fraski",
+          "score": 0,
+          "winner": false,
+          "games": [
+            { "game:": 1, "character": "Marth", "winner": false },
+            { "game:": 2, "character": "Marth", "winner": false },
+            { "game:": 3, "character": "Marth", "winner": false }
+          ]
+        },
+        {
+          "name": "Juicebox",
+          "score": 3,
+          "winner": true,
+          "games": [
+            { "game:": 1, "character": "Pikachu", "winner": true },
+            { "game:": 2, "character": "Pikachu", "winner": true },
+            { "game:": 3, "character": "Pikachu", "winner": true }
+          ]
+        }
+      ]
+    },
+    {
+      "bracket": "Losers",
+      "round": "1",
+      "results": [
+        {
+          "name": "Crowthegm",
+          "score": 1,
+          "winner": false,
+          "games": [
+            { "game:": 1, "character": "Peach", "winner": true },
+            { "game:": 2, "character": "Peach", "winner": false },
+            { "game:": 3, "character": "Ness", "winner": false },
+            { "game:": 4, "character": "Ness", "winner": false }
+          ]
+        },
+        {
+          "name": "Groggy",
+          "score": 3,
+          "winner": true,
+          "games": [
+            { "game:": 1, "character": "Falcon", "winner": false },
+            { "game:": 2, "character": "Falcon", "winner": true },
+            { "game:": 3, "character": "Jigglypuff", "winner": true },
+            { "game:": 4, "character": "Jigglypuff", "winner": true }
+          ]
+        }
+      ]
+    },
+    {
+      "bracket": "Winners",
+      "round": "2",
+      "results": [
+        {
+          "name": "Kalvar",
+          "score": 3,
+          "winner": true,
+          "games": [
+            { "game:": 1, "character": "Marth", "winner": true },
+            { "game:": 2, "character": "Marth", "winner": true },
+            { "game:": 3, "character": "Marth", "winner": true }
+          ]
+        },
+        {
+          "name": "Byrne",
+          "score": 0,
+          "winner": false,
+          "games": [
+            { "game:": 1, "character": "Pichu", "winner": false },
+            { "game:": 2, "character": "Pichu", "winner": false },
+            { "game:": 3, "character": "Pichu", "winner": false }
+          ]
+        }
+      ]
+    }
+  ]
+}

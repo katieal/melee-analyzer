@@ -1,0 +1,154 @@
+[
+  {
+    "name": "First PhoThai Tournament",
+    "date": "2026-01-01",
+    "location": "PhoThai",
+    "mode": "single_elim",
+    "theme": "normal",
+    "winner": "Amy",
+    "matches": [
+      {
+        "bracket": "Main",
+        "round": "1",
+        "results": [
+          {
+            "name": "Amy",
+            "score": 1,
+            "winner": true,
+            "games": [
+              { "game:": 1, "character": "Mario", "winner": true }
+            ]
+          },
+          {
+            "name": "Andrew",
+            "score": 0,
+            "winner": false,
+            "games": [
+              { "game:": 1, "character": "Luigi", "winner": false }
+            ]
+          }
+        ]
+      },
+      {
+        "bracket": "Main",
+        "round": "1",
+        "results": [
+          {
+            "name": "Katie",
+            "score": 1,
+            "winner": true,
+            "games": [
+              { "game:": 1, "character": "Jigglypuff", "winner": true }
+            ]
+          },
+          {
+            "name": "Gavin",
+            "score": 0,
+            "winner": false,
+            "games": [
+              { "game:": 1, "character": "Mario", "winner": false }
+            ]
+          }
+        ]
+      },
+      {
+        "bracket": "Main",
+        "round": "Finals",
+        "results": [
+          {
+            "name": "Amy",
+            "score": 1,
+            "winner": true,
+            "games": [
+              { "game:": 1, "character": "Mario", "winner": true }
+            ]
+          },
+          {
+            "name": "Katie",
+            "score": 0,
+            "winner": false,
+            "games": [
+              { "game:": 1, "character": "Mario", "winner": false }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "AmyFest Tournament",
+    "date": "2026-02-01",
+    "location": "Amy's House",
+    "mode": "single_elim",
+    "theme": "normal",
+    "winner": "Jeff",
+    "matches": [
+      {
+        "bracket": "Main",
+        "round": "1",
+        "results": [
+          {
+            "name": "Jeff",
+            "score": 1,
+            "winner": true,
+            "games": [
+              { "game:": 1, "character": "Donkey Kong", "winner": true }
+            ]
+          },
+          {
+            "name": "Andrew",
+            "score": 0,
+            "winner": false,
+            "games": [
+              { "game:": 1, "character": "Pikachu", "winner": false }
+            ]
+          }
+        ]
+      },
+      {
+        "bracket": "Main",
+        "round": "1",
+        "results": [
+          {
+            "name": "Amy",
+            "score": 1,
+            "winner": true,
+            "games": [
+              { "game:": 1, "character": "Link", "winner": true }
+            ]
+          },
+          {
+            "name": "Katie",
+            "score": 0,
+            "winner": false,
+            "games": [
+              { "game:": 1, "character": "Marth", "winner": false }
+            ]
+          }
+        ]
+      },
+      {
+        "bracket": "Main",
+        "round": "Finals",
+        "results": [
+          {
+            "name": "Jeff",
+            "score": 1,
+            "winner": true,
+            "games": [
+              { "game:": 1, "character": "Mewtwo", "winner": true }
+            ]
+          },
+          {
+            "name": "Amy",
+            "score": 0,
+            "winner": false,
+            "games": [
+              { "game:": 1, "character": "Kirby", "winner": false }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
