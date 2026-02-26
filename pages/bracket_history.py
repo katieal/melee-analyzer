@@ -24,6 +24,7 @@ grid = dag.AgGrid(
         'pagination': True,
         'paginationPageSizeSelector': False,
         'paginationAutoPageSize': True,
+        'rowSelection': {'mode': 'singleRow', 'enableClickSelection': False}
     },
     style={ 'height': 430 },
     className="ag-theme-alpine"
@@ -31,6 +32,6 @@ grid = dag.AgGrid(
 
 # layout
 layout = dbc.Container([
-    dbc.Row(html.Div("Past Bracket Results", className='text-center h1 p-2 m-3')),
+    dbc.Row(dbc.Col(html.Div("Past Brackets", className='text-center h1 p-2 m-3'))),
     html.Div([dbc.Container([grid], className="dbc dbc-ag-grid")])
 ])

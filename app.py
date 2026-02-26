@@ -16,11 +16,12 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.VAPOR, dbc_css], use_pages
 app.layout = dbc.Container([
     dbc.NavbarSimple(
         children=[
-            dbc.NavItem(dbc.NavLink("Home", href=dash.page_registry['pages.home']['path'])),
-            dbc.NavItem(dbc.NavLink("Brackets", href=dash.page_registry['pages.bracket_history']['path']))
+            dbc.NavItem(dbc.NavLink("Brackets", href=dash.page_registry['pages.bracket_history']['path'])),
+            dbc.NavItem(dbc.NavLink("Bracket View", href=dash.page_registry['pages.bracket_view']['path'])),
+            dbc.NavItem(dbc.NavLink("Testing", href=dash.page_registry['pages.testing']['path']))
         ],
         brand="Melee Analyzer",
-        brand_href='#',
+        brand_href=dash.page_registry['pages.home']['path'],
         color='primary',
         dark=True
     ),

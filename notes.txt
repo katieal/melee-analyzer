@@ -1,53 +1,30 @@
-# Author: Katie LaCerda
-# Program to display and analyze results from Smash Mele tournaments
-from pymongo import MongoClient
-from bson.objectid import ObjectId
-from collections.abc import MutableMapping
 
-class MeleAnalyzer(object):
-    def __init__(self):
-        # Connection variables
-        USER = "admin"
-        PASS = "AmyFest1"
-        DB = "mele"
-        COL = 'results'
+match_block = dbc.Stack(
+    [
+        # match result
+        dbc.Col(match_lg, className='pe-0 flex-fill'),
+        # connector line
+        dbc.Col(html.Div([], className='h-0 border border-2'), width=1)
+    ],
+    direction='horizontal',
+    className='mb-4',
+)
 
-        # Initialize Connection
-        uri = ('mongodb+srv://%s:%s@prod-aws-mele.5ez5u0x.mongodb.net/?appName=prod-aws-mele' % (USER, PASS))
-        self.client = MongoClient(uri)
-        self.database = self.client.get_database(DB)
-        self.collection = self.database.get_collection(COL)
+match_block_two= dbc.Row(
+    [
+        dbc.Col([match_block, match_block], width=3),
+        col_visual
+    ],
+    justify='start'
+)
 
-    # Method for the C in CRUD (Create)
-    def create(self, data):
-        if data is not None:
-            self.database.results.insert_one(data)
-            return True
-        else:
-            raise Exception("Insert failed: no data provided")
-            return False
 
-    # Method for the R in CRUD (Read)
-    def read(self, query):
-        if query is not None:
-            return list(self.database.results.find(query))
-        else:
-            raise Exception("Search failed: no parameter specified")
-            return []  # return empty list if search fails
-
-    # Method for the U in CRUD (Update)
-    def update(self, query, data):
-        if query is not None and data is not None:
-            return self.database.results.update_many(query, {"$set": data}).modified_count
-        else:
-            raise Exception("Update failed: no parameter and/or data provided")
-            return 0  # return 0 if update fails
-
-    # Method for the D in CRUD (Delete)
-    def delete(self, query):
-        if query is not None:
-            return self.database.results.delete_many(query).deleted_count
-        else:
-            raise Exception("Delete failed: no parameter specified")
-            return 0  # return 0 if delete fails
-
+connect_flex_col = html.Div(
+    [
+        html.Div(connector_line_h, className="d-flex flex-grow-1"),
+        html.Div(connector_line_h, className="d-flex flex-grow-1"),
+        html.Div(connector_line_h, className="d-flex flex-grow-1"),
+        html.Div(connector_line_h, className="d-flex flex-grow-1"),
+    ],
+    className='h-100 w-25 d-flex flex-column',
+)
