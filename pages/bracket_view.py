@@ -14,139 +14,135 @@ player_name_border = 'border border-2 rounded-start-3 border-end-0'
 player_score_border = 'border border-2 rounded-end-3 border-start-0'
 bg_fill_class = 'bg-light border border-2'
 
-match_lg = html.Div(
-    [
-        dbc.ListGroup(
-            [
-                dbc.ListGroupItem("Player Name", class_name='flex-fill ' + player_name_border),
-                dbc.ListGroupItem("3", color='success', class_name=player_score_border)
-            ],
-            horizontal=True,
-            class_name='mb-2',
-        ),
-        dbc.ListGroup(
-            [
-                dbc.ListGroupItem("Player Name", class_name='flex-fill ' + player_name_border),
-                dbc.ListGroupItem("0", color='danger', class_name=player_score_border)
-            ],
-            horizontal=True,
-        )
-    ],
-    className='pe-0 flex-fill my-4'
-)
+match_single = [
+    dbc.ListGroup(
+        [
+            dbc.ListGroupItem("Player Name", class_name='flex-fill ' + player_name_border),
+            dbc.ListGroupItem("3", color='success', class_name=player_score_border)
+        ],
+        horizontal=True,
+        class_name='mb-2',
+    ),
+    dbc.ListGroup(
+        [
+            dbc.ListGroupItem("Player Name", class_name='flex-fill ' + player_name_border),
+            dbc.ListGroupItem("0", color='danger', class_name=player_score_border)
+        ],
+        horizontal=True,
+    )
+]
 
-# Match col
-match_flex_col = html.Div(
-    [
-        match_lg,
-        match_lg,
-    ],
-    className='d-flex flex-column justify-content-evenly',
-)
+match_pair = [
+    html.Div(match_single, className='flex-fill mt-2 mb-3'),
+    html.Div(match_single, className='flex-fill my-2'),
+]
+
+def get_match_pair(margin_bottom, margin_top):
+    content = [
+        html.Div(match_single, className='flex-fill mt-2 ' + margin_bottom),
+        html.Div(match_single, className='flex-fill mb-2 ' + margin_top)
+    ]
+    return content
+
+# NOTE: in future, change to be based on single matches instead
+# returns the first column of bracket with specified num of match pairs
+# sets the row height
+def get_first_match_col(num):
+    content = []
+    for i in range(num):
+        content.append(html.Div(get_match_pair('mb-3', 'mt-3'), className='flex-fill my-2'))
+
+    # return div with matches
+    return html.Div(content, className='d-flex flex-column justify-content-evenly')
+
+# return a html.Div with a single match that expands vertically to fill available space
+def get_flex_match_single():
+    return html.Div(
+        html.Div(match_single, className='flex-fill'),
+        className='flex-fill d-flex align-items-center'
+    )
+
+# return a html.Div with specified number of matches that auto centers and expands vertically
+def get_flex_match_col(num):
+    content = []
+    for i in range(num):
+        content.append(get_flex_match_single())
+    return html.Div(content, className='d-flex flex-column h-100')
 
 # ======== Connectors ========
-connector_line_h = html.Div(className='h-0 w-100 border border-2 align-self-center')
+base_border_class = 'flex-grow-1 border border-2'
+border_top_class = 'border-start-0 border-end-0 border-bottom-0'
+border_bottom_class = 'border-start-0 border-end-0 border-top-0'
 
-# TODO: make a grid of boxes, use border to draw lines (border top/bot)
-connector_line_v = html.Div(className='')
-
-connector_flex_col = html.Div(
+connector_merge = html.Div(
     [
-        # col 1
         html.Div(
             [
-                html.Div( style={"backgroundColor": "red"}, className="flex-grow-1"),
-                html.Div( style={"backgroundColor": "orange"}, className="flex-grow-1"),
+                html.Div(className=base_border_class + ' ' + border_bottom_class), # bot
+                html.Div(className=base_border_class + ' border-start-0 border-bottom-0'), # top and end
+                html.Div(className=base_border_class + ' border-start-0 border-top-0'), # bot and end
+                html.Div(className=base_border_class + ' ' + border_top_class) # top
             ],
-            className="h-100 w-50 d-flex flex-column",
-        ),
-        # col 2
-        html.Div(
-            [
-                html.Div(style={"backgroundColor": "red"}, className="flex-grow-1"),
-                html.Div(style={"backgroundColor": "orange"}, className="flex-grow-1"),
-            ],
-            className="h-100 w-50 d-flex flex-column",
+            className='h-100 d-flex flex-column',
         )
     ],
-    className='d-flex flex-row h-100'
+    className='flex-grow-1'
 )
 
-
-
-connector_grid_col = html.Div(
+connector_single = html.Div(
     [
         html.Div(
             [
-                html.Div(
-                    className="border border-2 flex-grow-1"
-                ),
-                html.Div(
-                    className="border border-2 flex-grow-1"
-                ),
-                html.Div(
-                    className="border border-2 flex-grow-1"
-                ),
-                html.Div(
-                    className="border border-2 flex-grow-1"
-                )
+                html.Div(className='flex-grow-1'), # none
+                html.Div(className=base_border_class + ' ' + border_bottom_class), # bot
+                html.Div(className=base_border_class + ' ' + border_top_class), # top
+                html.Div(className='flex-grow-1') # none
             ],
-            className="h-100 d-flex flex-column",
+            className='h-100 d-flex flex-column',
         )
     ],
-    className="flex-grow-1"
+    className='flex-grow-1'
 )
 
-connector_r1_lines = html.Div(
+connector_merge_grid = html.Div(
     [
-        html.Div(
-            [
-                html.Div( className="border border-2 border-top-5 flex-grow-1"),
-                html.Div( className="flex-grow-1"),
-                html.Div( className="flex-grow-1"),
-                html.Div( className="border border-top-2 flex-grow-1")
-            ],
-            className="h-100 d-flex flex-column",
-        )
+        connector_merge,
+        connector_single
     ],
-    className="flex-grow-1"
+    className='flex-grow-1 d-flex flex-row',
 )
 
-connector_grid = html.Div(
-    [
-        connector_r1_lines,
-        connector_grid_col
-    ],
-    className="h-100 d-flex flex-row",
-)
-
-
-# return a html.div with specified num of connector lines and width
-def make_connector_h(num_lines, width, add_visual):
+# return html.Div with specified number of connectors
+def get_connector_col(num):
     content = []
-    for i in range(num_lines):
-        if add_visual:
-            content.append(html.Div(connector_line_h, style={'backgroundColor': get_color(i)}, className='d-flex flex-grow-1'))
-        else:
-            content.append(html.Div(connector_line_h, className='d-flex flex-grow-1'))
-    connector = html.Div(content, className=width + ' h-100 d-flex flex-column')
-    return connector
+    for i in range(num):
+        content.append(connector_merge_grid)
 
-def get_color(num):
-    if num == 0: return 'red'
-    elif num == 1: return 'orange'
-    elif num == 2: return 'yellow'
-    elif num == 3: return 'green'
-    elif num == 4: return 'blue'
-    elif num == 5: return 'purple'
-    return 'white'
+    return html.Div(content, className='d-flex flex-column h-100 justify-content-evenly')
+
 
 # ============= Utility ==================
 col_visual = dbc.Col(
     width=1,
     class_name='bg-light border border-2'
 )
-# ===============================
+
+# ======= Final Layout ==============
+match_width = 3
+con_width = 1
+
+bracket_grid = html.Div(
+    [
+        dbc.Col([get_first_match_col(4)], width=match_width, className='pe-0'),
+        dbc.Col([get_connector_col(4)], width=con_width, className='ps-0 pe-0'),
+        dbc.Col([get_flex_match_col(4)], width=match_width, className='pe-0'),
+        dbc.Col([get_connector_col(2)], width=con_width, className='ps-0 pe-0'),
+        dbc.Col([get_flex_match_col(2)], width=match_width, className='pe-0'),
+        dbc.Col([get_connector_col(1)], width=con_width, className='ps-0 pe-0'),
+        dbc.Col([get_flex_match_col(1)], width=match_width, className='pe-0'),
+    ],
+    className='d-flex flex-row'
+)
 
 layout = dbc.Container([
     dbc.Row(dbc.Col(html.Div("Bracket Results", className='text-center h1 mt-5 mb-0'))),
@@ -154,13 +150,9 @@ layout = dbc.Container([
     html.Br(),
     dbc.Row(
         [
-            dbc.Col([match_flex_col], width=3, className='pe-0'),
-            dbc.Col([connector_grid], width=1, className='ps-0'),
-            #dbc.Col(make_connector_h(4, 'w-25', True), width=1, className='ps-0'),
-            #dbc.Col(make_connector_h(2, 'w-25', True), width=1, className='ps-0'),
-            col_visual
+            dbc.Col(bracket_grid, width=8, className='ps-0 pe-0')
         ],
-        justify='start'
+        align='center',
     )
 ])
 
