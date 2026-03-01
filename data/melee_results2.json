@@ -1,5 +1,6 @@
 [
   {
+    "id": 0,
     "name": "First PhoThai Tournament",
     "date": "2026-01-01",
     "location": "PhoThai",
@@ -76,6 +77,7 @@
     ]
   },
   {
+    "id": 13,
     "name": "AmyFest Tournament",
     "date": "2026-02-01",
     "location": "Amy's House",

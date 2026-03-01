@@ -19,12 +19,13 @@ grid = dag.AgGrid(
     id='past-bracket-data',
     columnDefs=columnDefs,
     rowData=df.to_dict('records'),
-    columnSize="responsiveSizeToFit",
+    columnSize='responsiveSizeToFit',
+    getRowId='',
     dashGridOptions= {
         'pagination': True,
         'paginationPageSizeSelector': False,
         'paginationAutoPageSize': True,
-        'rowSelection': {'mode': 'singleRow', 'enableClickSelection': False}
+        #'rowSelection': {'mode': 'singleRow', 'enableClickSelection': False}
     },
     style={ 'height': 430 },
     className="ag-theme-alpine"

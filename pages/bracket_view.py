@@ -131,6 +131,11 @@ col_visual = dbc.Col(
 match_width = 3
 con_width = 1
 
+def build_bracket():
+    # bracket data should be an array, with each slot holding an array of matches for that round
+    # separate array for sections like winner/loser bracket
+    pass
+
 bracket_grid = html.Div(
     [
         dbc.Col([get_first_match_col(4)], width=match_width, className='pe-0'),

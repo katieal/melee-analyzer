@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://snhmelee.com/schemas/match",
+  "title": "Melee Match",
+  "description": "A single 1v1 Super Smash Bros Melee match",
+  "type": "object",
+  "properties": {
+    "bracketLevel": {
+      "description": "Bracket level the match took place on",
+      "type": "string",
+      "enum": ["Main", "Upper", "Lower", "Winner's", "Loser's"]
+    },
+    "round": {
+      "description": "Tournament round number",
+      "type": "integer"
+    },
+    "results": {
+      "description": "Match results from Player 1 and Player 2",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/playerScore"
+      }
+    }
+  },
+  "$defs": {
+    "playerScore": {
+      "description": "A player's results in a match, includes an array of games",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Player username",
+          "type": "string"
+        },
+        "score": { "type": "integer" },
+        "winner": { "type": "boolean" }
+      }
+    },
+    "gameInfo": {
+      "description": "Info on one player's performance in a single game",
+      "type": "object",
+      "properties": {
+        "gameNumber": { "type": "integer" },
+        "character": {
+          "type": "string",
+          "enum": ["Dr. Mario","Mario", "Luigi", "Bowser", "Peach", "Yoshi", "DK", "C. Falcon",
+            "Ganondorf", "Falco", "Fox", "Ness", "Ice Climbers", "Kirby", "Samus", "Zelda",
+            "Link", "Young Link", "Pichu", "Pikachu", "Jigglypuff", "Mewtwo",
+            "Mr. Game & Watch", "Marth", "Roy"]
+        },
+        "winner": { "type": "boolean" }
+      }
+    }
+  }
+}

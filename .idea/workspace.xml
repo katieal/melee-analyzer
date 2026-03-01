@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="worked on bracket view page, added a grid system for displaying connector lines">
+    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="finished flexible grid system with matches and connecting lines">
+      <change afterPath="$PROJECT_DIR$/data/bracket.schema.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/match.schema.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/melee_results2.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/melee_results2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/melee_results3.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/melee_results3.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/bracket_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_history.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/bracket_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_view.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,18 +51,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "bracket-view",
-    "ignore_missing_gitignore": "true",
-    "last_opened_file_path": "Z:/Resume Projects/Python Projects/MeleAnalyzer",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;bracket-view&quot;,
+    &quot;ignore_missing_gitignore&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;Z:/Resume Projects/Python Projects/MeleAnalyzer&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -105,7 +110,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772131429158</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="finished flexible grid system with matches and connecting lines">
+      <option name="closed" value="true" />
+      <created>1772300369148</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1772300369148</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -150,6 +163,7 @@
     <MESSAGE value="initial commit" />
     <MESSAGE value="project name correction" />
     <MESSAGE value="worked on bracket view page, added a grid system for displaying connector lines" />
-    <option name="LAST_COMMIT_MESSAGE" value="worked on bracket view page, added a grid system for displaying connector lines" />
+    <MESSAGE value="finished flexible grid system with matches and connecting lines" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished flexible grid system with matches and connecting lines" />
   </component>
 </project>
