@@ -1,9 +1,10 @@
 # Import Packages
 import dash
-from dash import Dash, html
+from dash import Dash, html, Input, Output, callback, dcc
 import dash_ag_grid as dag
 import dash_bootstrap_components as dbc
 import pandas as pd
+import json
 from melee_db import df
 
 dash.register_page(__name__)
@@ -20,7 +21,7 @@ grid = dag.AgGrid(
     columnDefs=columnDefs,
     rowData=df.to_dict('records'),
     columnSize='responsiveSizeToFit',
-    getRowId='',
+    getRowId='params.data.id',
     dashGridOptions= {
         'pagination': True,
         'paginationPageSizeSelector': False,
@@ -34,5 +35,16 @@ grid = dag.AgGrid(
 # layout
 layout = dbc.Container([
     dbc.Row(dbc.Col(html.Div("Past Brackets", className='text-center h1 p-2 m-3'))),
-    html.Div([dbc.Container([grid], className="dbc dbc-ag-grid")])
+    html.Div([dbc.Container([grid], className="dbc dbc-ag-grid")]),
+    dcc.Location(id='url', refresh='callback-nav')
 ])
+
+@callback(
+    Output('url', 'href'),
+    Input('past-bracket-data', 'cellDoubleClicked'), prevent_initial_call=True,
+)
+def navigate_cell_clicked(cell):
+    if cell:
+        return f"/bracket-view?bracket_id={cell["rowId"]}"
+    else:
+        return None

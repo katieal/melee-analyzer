@@ -149,15 +149,16 @@ bracket_grid = html.Div(
     className='d-flex flex-row'
 )
 
-layout = dbc.Container([
-    dbc.Row(dbc.Col(html.Div("Bracket Results", className='text-center h1 mt-5 mb-0'))),
-    html.Hr(),
-    html.Br(),
-    dbc.Row(
-        [
-            dbc.Col(bracket_grid, width=8, className='ps-0 pe-0')
-        ],
-        align='center',
-    )
-])
+def layout(bracket_id=None, **kwargs):
+    return dbc.Container([
+        dbc.Row(dbc.Col(html.Div(f"Bracket {bracket_id} Results", className='text-center h1 mt-5 mb-0'))),
+        html.Hr(),
+        html.Br(),
+        dbc.Row(
+            [
+                dbc.Col(bracket_grid, width=8, className='ps-0 pe-0')
+            ],
+            align='center',
+        )
+    ])
 
