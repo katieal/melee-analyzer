@@ -1,6 +1,6 @@
 [
   {
-    "id": 0,
+    "bracket_id": 0,
     "name": "First PhoThai Tournament",
     "date": "2026-01-01",
     "location": "PhoThai",
@@ -10,7 +10,7 @@
     "matches": [
       {
         "bracket": "Main",
-        "round": "1",
+        "round": 1,
         "results": [
           {
             "name": "Amy",
@@ -32,7 +32,7 @@
       },
       {
         "bracket": "Main",
-        "round": "1",
+        "round": 1,
         "results": [
           {
             "name": "Katie",
@@ -54,7 +54,7 @@
       },
       {
         "bracket": "Main",
-        "round": "Finals",
+        "round": 2,
         "results": [
           {
             "name": "Amy",
@@ -77,7 +77,7 @@
     ]
   },
   {
-    "id": 13,
+    "bracket_id": 13,
     "name": "AmyFest Tournament",
     "date": "2026-02-01",
     "location": "Amy's House",
@@ -87,7 +87,7 @@
     "matches": [
       {
         "bracket": "Main",
-        "round": "1",
+        "round": 1,
         "results": [
           {
             "name": "Jeff",
@@ -109,7 +109,7 @@
       },
       {
         "bracket": "Main",
-        "round": "1",
+        "round": 1,
         "results": [
           {
             "name": "Amy",
@@ -131,7 +131,7 @@
       },
       {
         "bracket": "Main",
-        "round": "Finals",
+        "round": 2,
         "results": [
           {
             "name": "Jeff",

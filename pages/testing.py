@@ -4,7 +4,7 @@ from dash import Dash, html
 import dash_ag_grid as dag
 import dash_bootstrap_components as dbc
 import pandas as pd
-from melee_db import df
+import melee_db as db
 
 dash.register_page(__name__)
 

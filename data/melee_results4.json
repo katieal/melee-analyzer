@@ -1,0 +1,86 @@
+[
+  {
+    "bracket_id": 20,
+    "name": "Big Tournament",
+    "date": "2026-03-01",
+    "location": "PhoThai",
+    "mode": "single_elim",
+    "theme": "normal",
+    "winner": "Amy",
+    "matches": [
+      {
+        "bracket": "Main",
+        "round": 1,
+        "results": [
+          { "name": "Amy", "score": 1, "winner": true, "games": [{ "game:": 1, "character": "", "winner": true }]},
+          { "name": "Andrew", "score": 0, "winner": false, "games": [{ "game:": 1, "character": "", "winner": false }]}
+        ]
+      },
+      {
+        "bracket": "Main",
+        "round": 1,
+        "results": [
+          { "name": "Jeff", "score": 0, "winner": false, "games": [{ "game:": 1, "character": "", "winner": false }]},
+          { "name": "Katie", "score": 1, "winner": true, "games": [{ "game:": 1, "character": "", "winner": true }]}
+        ]
+      },
+      {
+        "bracket": "Main",
+        "round": 1,
+        "results": [
+          { "name": "Gavin", "score": 1, "winner": true, "games": [{ "game:": 1, "character": "", "winner": true }]},
+          { "name": "Owen", "score": 0, "winner": false, "games": [{ "game:": 1, "character": "", "winner": false }]}
+        ]
+      },
+      {
+        "bracket": "Main",
+        "round": 1,
+        "results": [
+          { "name": "M", "score": 0, "winner": false, "games": [{ "game:": 1, "character": "", "winner": false }]},
+          { "name": "Arielle", "score": 1, "winner": true, "games": [{ "game:": 1, "character": "", "winner": true }]}
+        ]
+      },
+
+      {
+        "bracket": "Main",
+        "round": 2,
+        "results": [
+          { "name": "Amy", "score": 1, "winner": true, "games": [{ "game:": 1, "character": "", "winner": true }]},
+          { "name": "Katie", "score": 0, "winner": false, "games": [{ "game:": 1, "character": "", "winner": false }]}
+        ]
+      },
+      {
+        "bracket": "Main",
+        "round": 2,
+        "results": [
+          { "name": "Arielle", "score": 0, "winner": false, "games": [{ "game:": 1, "character": "", "winner": false }]},
+          { "name": "Gavin", "score": 1, "winner": true, "games": [{ "game:": 1, "character": "", "winner": true }]}
+        ]
+      },
+
+      {
+        "bracket": "Main",
+        "round": 3,
+        "results": [
+          {
+            "name": "Amy", "score": 3, "winner": true,
+            "games": [
+              { "game:": 1, "character": "", "winner": true },
+              { "game:": 2, "character": "", "winner": false },
+              { "game:": 3, "character": "", "winner": true },
+              { "game:": 4, "character": "", "winner": true }]
+          },
+          {
+            "name": "Arielle", "score": 1, "winner": false,
+            "games": [
+              { "game:": 1, "character": "", "winner": false },
+              { "game:": 1, "character": "", "winner": true },
+              { "game:": 1, "character": "", "winner": false },
+              { "game:": 1, "character": "", "winner": false }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

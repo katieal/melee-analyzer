@@ -1,4 +1,5 @@
 {
+  "bracket_id": 30,
   "name": "Cool PhoThai Tournament",
   "date": "2026-02-06",
   "location": "PhoThai",
@@ -6,7 +7,7 @@
   "matches": [
     {
       "bracket": "Winners",
-      "round": "1",
+      "round": 1,
       "results": [
         {
           "name": "Byrne",
@@ -32,7 +33,7 @@
     },
     {
       "bracket": "Winners",
-      "round": "1",
+      "round": 1,
       "results": [
         {
           "name": "MOOP",
@@ -58,7 +59,7 @@
     },
     {
       "bracket": "Winners",
-      "round": "1",
+      "round": 1,
       "results": [
         {
           "name": "Andrew",
@@ -84,7 +85,7 @@
     },
     {
       "bracket": "Winners",
-      "round": "1",
+      "round": 1,
       "results": [
         {
           "name": "oz",
@@ -110,7 +111,7 @@
     },
     {
       "bracket": "Winners",
-      "round": "1",
+      "round": 1,
       "results": [
         {
           "name": "elicik",
@@ -140,7 +141,7 @@
     },
     {
       "bracket": "Winners",
-      "round": "1",
+      "round": 1,
       "results": [
         {
           "name": "HotPeppers",
@@ -166,7 +167,7 @@
     },
     {
       "bracket": "Winners",
-      "round": "1",
+      "round": 1,
       "results": [
         {
           "name": "FantasticDeli",
@@ -192,7 +193,7 @@
     },
     {
       "bracket": "Losers",
-      "round": "1",
+      "round": 1,
       "results": [
         {
           "name": "Vlad The Inhaler",
@@ -218,7 +219,7 @@
     },
     {
       "bracket": "Losers",
-      "round": "1",
+      "round": 1,
       "results": [
         {
           "name": "Uncle Fraski",
@@ -244,7 +245,7 @@
     },
     {
       "bracket": "Losers",
-      "round": "1",
+      "round": 1,
       "results": [
         {
           "name": "Crowthegm",
@@ -272,7 +273,7 @@
     },
     {
       "bracket": "Winners",
-      "round": "2",
+      "round": 2,
       "results": [
         {
           "name": "Kalvar",

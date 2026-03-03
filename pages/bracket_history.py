@@ -5,7 +5,7 @@ import dash_ag_grid as dag
 import dash_bootstrap_components as dbc
 import pandas as pd
 import json
-from melee_db import df
+import melee_db as melee_db
 
 dash.register_page(__name__)
 
@@ -19,9 +19,9 @@ columnDefs = [
 grid = dag.AgGrid(
     id='past-bracket-data',
     columnDefs=columnDefs,
-    rowData=df.to_dict('records'),
+    rowData=melee_db.df.to_dict('records'),
     columnSize='responsiveSizeToFit',
-    getRowId='params.data.id',
+    getRowId='params.data.bracket_id',
     dashGridOptions= {
         'pagination': True,
         'paginationPageSizeSelector': False,
@@ -45,6 +45,7 @@ layout = dbc.Container([
 )
 def navigate_cell_clicked(cell):
     if cell:
+        melee_db.get_bracket_info(cell["rowId"])
         return f"/bracket-view?bracket_id={cell["rowId"]}"
     else:
         return None

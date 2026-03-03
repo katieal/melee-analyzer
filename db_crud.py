@@ -18,6 +18,7 @@ class MeleeAnalyzer(object):
         self.database = self.client.get_database(DB)
         self.collection = self.database.get_collection(COL)
 
+    # ============ Main CRUD Methods ============
     # Method for the C in CRUD (Create)
     def create(self, data):
         if data is not None:
