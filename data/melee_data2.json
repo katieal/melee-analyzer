@@ -1,0 +1,174 @@
+[
+  {
+    "bracket_id": 0,
+    "name": "First PhoThai Tournament",
+    "date": "2026-01-01",
+    "location": "PhoThai",
+    "mode": "single_elim",
+    "theme": "normal",
+    "winner": "Amy",
+    "matches": [
+      {
+        "bracket": "Main",
+        "round": 1,
+        "team_1": {
+          "name": "Amy",
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "Mario", "winner": true }]
+        },
+        "team_2": {
+          "name": "Andrew",
+          "score": 0,
+          "winner": false,
+          "games": [{ "game:": 1, "character": "Luigi", "winner": false }]
+        }
+      },
+      {
+        "bracket": "Main",
+        "round": 1,
+        "team_1": {
+          "name": "Gavin",
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "Mario", "winner": true }]
+        },
+        "team_2": {
+          "name": "Katie",
+          "score": 0,
+          "winner": false,
+          "games": [{ "game:": 1, "character": "Luigi", "winner": false }]
+        }
+      },
+      {
+        "bracket": "Main",
+        "round": 2,
+        "team_1": {
+          "name": "Amy",
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "Mario", "winner": true }]
+        },
+        "team_2": {
+          "name": "Gavin",
+          "score": 0,
+          "winner": false,
+          "games": [{ "game:": 1, "character": "Luigi", "winner": false }]
+        }
+      }
+    ]
+  },
+  {
+    "bracket_id": 13,
+    "name": "AmyFest Tournament",
+    "date": "2026-02-01",
+    "location": "Amy's House",
+    "mode": "single_elim",
+    "theme": "normal",
+    "winner": "Jeff",
+    "matches": [
+      {
+        "bracket": "Main",
+        "round": 1,
+        "team_1": {
+          "name": "Jeff",
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "Mario", "winner": true }]
+        },
+        "team_2": {
+          "name": "Andrew",
+          "score": 0,
+          "winner": false,
+          "games": [{ "game:": 1, "character": "Luigi", "winner": false }]
+        }
+      }
+    ]
+  },
+  {
+    "bracket_id": 1,
+    "name": "Tournament 1",
+    "date": "2025-01-01",
+    "location": "PhoThai",
+    "mode": "single_elim",
+    "theme": "normal",
+    "winner": "Amy",
+    "matches": [
+      {
+        "bracket": "Main",
+        "round": 1,
+        "team_1": {
+          "name": "Amy",
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "Mario", "winner": true }]
+        },
+        "team_2": {
+          "name": "Andrew",
+          "score": 0,
+          "winner": false,
+          "games": [{ "game:": 1, "character": "Luigi", "winner": false }]
+        }
+      }
+    ]
+  },
+  {
+    "bracket_id": 2,
+    "name": "Tournament 2",
+    "date": "2025-02-01",
+    "location": "PhoThai",
+    "mode": "single_elim",
+    "theme": "normal",
+    "winner": "Andrew",
+    "matches": [
+      {
+        "bracket": "Main",
+        "round": 1,
+        "team_1": {
+          "name": "Gavin",
+          "score": 0,
+          "winner": false,
+          "games": [{ "game:": 1, "character": "Pichu", "winner": false }]
+        },
+        "team_2": {
+          "name": "Andrew",
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "Marth", "winner": true }]
+        }
+      },
+      {
+        "bracket": "Main",
+        "round": 1,
+        "team_1": {
+          "name": "Amy",
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "Marth", "winner": true }]
+        },
+        "team_2": {
+          "name": "Katie",
+          "score": 0,
+          "winner": false,
+          "games": [{ "game:": 1, "character": "Pichu", "winner": false }]
+        }
+      },
+      {
+        "bracket": "Main",
+        "round": 2,
+        "team_1": {
+          "name": "Andrew",
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "Marth", "winner": true }]
+        },
+        "team_2": {
+          "name": "Amy",
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "Marth", "winner": true }]
+        }
+      }
+    ]
+  }
+]

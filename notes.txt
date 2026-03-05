@@ -1,42 +1,29 @@
-json schema notes
+# add one list to match data for every round
+    match_data = []
+    for x in range(rounds - 1):
+        match_data.append([])
 
-schema keywords - $schema and $id
-should include {"$schema":""} at top with uri to latest version
-also include an $id property for a unique identifier for each schema
-
-also include title and description (schema annotations)
-
-validation keywords - type, properties
-
-{
-  "name": "",
-  "date": "YYYY-MM-DD (ISO 8601)",
-  "location": "",
-  "mode": "[single_elim][double_elim]",
-  "theme": "[normal][reverse_mains][random]",
-  "winner": "",
-  "matches": [
-    {
-      "bracket": "[main][upper][lower]",
-      "round": 1,
-      "results": [
-        {
-          "name": "Player 1",
-          "score": 1,
-          "winner": true,
-          "games": [
-            { "id:": 1, "character": "Mario", "winner": true }
-          ]
-        },
-        {
-          "name": "Player 2",
-          "score": 0,
-          "winner": false,
-          "games": [
-            { "id:": 1, "character": "Mario", "winner": false }
-          ]
-        }
-      ]
-    }
-  ]
-}
+    # add matches to match data, starting with the last round
+    for round_num in range(rounds, 1, -1):
+        for match in matches:
+            if match['round'] == round_num:
+                results = match['results']
+                # make sure results has 2 entries
+                if len(results) == 2:
+                    match_data[round_num - 1].append(
+                        {
+                            'player_1': {
+                                'name': results[0]['name'],
+                                'score': results[0]['score'],
+                                'winner': results[0]['winner'],
+                            },
+                            'player_2': {
+                                'name': results[1]['name'],
+                                'score': results[1]['score'],
+                                'winner': results[1]['winner'],
+                            }
+                        }
+                    )
+                else:
+                    raise Exception("bracket ", bracket_id, " round ", round_num, " has incorrect number of results")
+                    return

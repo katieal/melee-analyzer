@@ -1,0 +1,42 @@
+json schema notes
+
+schema keywords - $schema and $id
+should include {"$schema":""} at top with uri to latest version
+also include an $id property for a unique identifier for each schema
+
+also include title and description (schema annotations)
+
+validation keywords - type, properties
+
+{
+  "name": "",
+  "date": "YYYY-MM-DD (ISO 8601)",
+  "location": "",
+  "mode": "[single_elim][double_elim]",
+  "theme": "[normal][reverse_mains][random]",
+  "winner": "",
+  "matches": [
+    {
+      "bracket": "[main][upper][lower]",
+      "round": 1,
+      "results": [
+        {
+          "name": "Player 1",
+          "score": 1,
+          "winner": true,
+          "games": [
+            { "id:": 1, "character": "Mario", "winner": true }
+          ]
+        },
+        {
+          "name": "Player 2",
+          "score": 0,
+          "winner": false,
+          "games": [
+            { "id:": 1, "character": "Mario", "winner": false }
+          ]
+        }
+      ]
+    }
+  ]
+}

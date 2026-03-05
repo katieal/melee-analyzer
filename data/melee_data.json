@@ -1,0 +1,140 @@
+[
+  {
+    "bracket_id": 100,
+    "name": "Big Better Tournament",
+    "date": "2026-03-05",
+    "location": "PhoThai",
+    "mode": "single_elim",
+    "theme": "normal",
+    "winner": "Jeff",
+    "matches": [
+      {
+        "bracket": "Main",
+        "round": 1,
+        "team_1": {
+          "name": "Amy",
+          "player_names": ["eemee"],
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "", "winner": true }]
+        },
+        "team_2": {
+          "name": "Andrew",
+          "player_names": ["Andrew"],
+          "score": 0,
+          "winner": false,
+          "games": [{ "game:": 1, "character": "", "winner": false }]
+        }
+      },
+      {
+        "bracket": "Main",
+        "round": 1,
+        "team_1": {
+          "name": "cool Player Name",
+          "player_names": [],
+          "score": 0,
+          "winner": false,
+          "games": [{ "game:": 1, "character": "", "winner": false }]
+        },
+        "team_2": {
+          "name": "Katie",
+          "player_names": [],
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "", "winner": true }]
+        }
+      },
+      {
+        "bracket": "Main",
+        "round": 1,
+        "team_1": {
+          "name": "Jeff",
+          "player_names": ["NotAndrew"],
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "", "winner": true }]
+        },
+        "team_2": {
+          "name": "Gavin",
+          "player_names": ["Juicebox"],
+          "score": 0,
+          "winner": false,
+          "games": [{ "game:": 1, "character": "", "winner": false }]
+        }
+      },
+      {
+        "bracket": "Main",
+        "round": 1,
+        "team_1": {
+          "name": "Arielle",
+          "player_names": [],
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "", "winner": true }]
+        },
+        "team_2": {
+          "name": "someone else",
+          "player_names": [],
+          "score": 0,
+          "winner": false,
+          "games": [{ "game:": 1, "character": "", "winner": false }]
+        }
+      },
+      {
+        "bracket": "Main",
+        "round": 2,
+        "team_1": {
+          "name": "Jeff",
+          "player_names": [],
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "", "winner": true }]
+
+        },
+        "team_2": {
+          "name": "Arielle",
+          "player_names": [],
+          "score": 0,
+          "winner": false,
+          "games": [{ "game:": 1, "character": "", "winner": false }]
+        }
+      },
+      {
+        "bracket": "Main",
+        "round": 2,
+        "team_1": {
+          "name": "Katie",
+          "player_names": [],
+          "score": 0,
+          "winner": false,
+          "games": [{ "game:": 1, "character": "", "winner": false }]
+        },
+        "team_2": {
+          "name": "Amy",
+          "player_names": [],
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "", "winner": true }]
+        }
+      },
+      {
+        "bracket": "Main",
+        "round": 3,
+        "team_1": {
+          "name": "Amy",
+          "player_names": ["eemee"],
+          "score": 0,
+          "winner": false,
+          "games": [{ "game:": 1, "character": "", "winner": false }]
+        },
+        "team_2": {
+          "name": "Jeff",
+          "player_names": ["NotAndrew"],
+          "score": 1,
+          "winner": true,
+          "games": [{ "game:": 1, "character": "", "winner": true }]
+        }
+      }
+    ]
+  }
+]

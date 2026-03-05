@@ -33,11 +33,6 @@ match_single = [
     )
 ]
 
-match_pair = [
-    html.Div(match_single, className='flex-fill mt-2 mb-3'),
-    html.Div(match_single, className='flex-fill my-2'),
-]
-
 def get_match_pair(margin_bottom, margin_top):
     content = [
         html.Div(match_single, className='flex-fill mt-2 ' + margin_bottom),
@@ -69,6 +64,35 @@ def get_flex_match_col(num):
     for i in range(num):
         content.append(get_flex_match_single())
     return html.Div(content, className='d-flex flex-column h-100')
+
+
+def make_team_score(team_info, add_margin_bot):
+    """
+    Make a dbc.ListGroup for a single team's name and score
+    :param add_margin_bot: should a bottom margin be included?
+    :param team_info: team info dict
+    :return:
+    """
+    return dbc.ListGroup(
+        [
+            dbc.ListGroupItem(team_info['name'], class_name='flex-fill ' + player_name_border),
+            dbc.ListGroupItem(team_info['score'], color='success' if team_info['winner'] else 'danger', class_name=player_score_border)
+        ],
+        horizontal=True,
+        class_name='mb-2' if add_margin_bot else '',
+    )
+
+def make_match_score(team_1_info, team_2_info):
+    """
+    Return a list with a list group for team 1 and team 2
+    :param team_1_info:
+    :param team_2_info:
+    :return:
+    """
+    return [
+        make_team_score(team_1_info, True),
+        make_team_score(team_2_info, False)
+    ]
 
 # ======== Connectors ========
 base_border_class = 'flex-grow-1 border border-2'
@@ -146,12 +170,19 @@ bracket_grid = html.Div(
 )
 
 def build_bracket(bracket_id):
-    # returns an array of arrays of matches,
+    print("calling melee db from bracket view with bracket id: ", bracket_id)
+    data = melee_db.get_bracket_info(bracket_id)
+    print("data: ")
+    for x in data:
+        x.print()
 
     # should return a bracket_grid
     pass
 
 def layout(bracket_id=None, **kwargs):
+    if bracket_id is not None:
+        build_bracket(bracket_id)
+
     return dbc.Container([
         dbc.Row(dbc.Col(html.Div(f"Bracket {bracket_id} Results", className='text-center h1 mt-5 mb-0'))),
         html.Hr(),
