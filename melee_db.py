@@ -1,5 +1,7 @@
 from pymongo import MongoClient
 import pandas as pd
+import typing
+from typing import TypedDict, NotRequired
 
 # Import CRUD Module
 from db_crud import MeleeAnalyzer
@@ -16,32 +18,8 @@ df.drop(columns=['_id'],inplace=True)
 df_bracket = pd.DataFrame.from_records(data=db.read({}), index=['bracket_id'])
 df_bracket.drop(columns=['_id'],inplace=True)
 
-# ============ JSON Data Structure Info ============
-# ----------- Tournament -----------
-#   'bracket_id': int
-#   'name': string
-#   'date': string
-#   'location': string
-#   'mode': string
-#   'theme': string
-#   'winner': string(PlayerName)
-#   'matches': list(MatchDict)
-#
-# ----------- MatchDict -----------
-#   'bracket': string [Main/Upper/Lower/Winner's/Loser's]
-#   'round': int
-#   'team_1': TeamInfo
-#   'team_2': TeamInfo
-#
-# ----------- TeamInfo -----------
-#   'name': string
-#   'player_names': list(string)
-#   'score': int
-#   'winner': boolean
-#   'games': GameInfo
-#
 
-def get_bracket_info(bracket_id):
+def get_bracket_info(bracket_id: int) -> list[MatchNode]:
     """
     Given a bracket id, return a list of MatchNode head nodes,
      with one node for each match in the final round of a bracket. Each node is
@@ -95,8 +73,6 @@ def make_linked_list(match_list, round_num):
         # add node to list
         match_nodes.append(node)
 
-    print_nodes(match_nodes, match_list)
-
     return match_nodes
 
 def make_node(match_list, round_num, name, next_node):
@@ -141,13 +117,13 @@ def print_nodes(match_nodes, match_list):
 
 class MatchNode(object):
     # pass in a match dict
-    def __init__(self, match):
-        self.round_num = match['round']
-        self.team_1 = match['team_1']
-        self.team_2 = match['team_2']
-        self.top_node = None
-        self.bottom_node = None
-        self.next_node = None
+    def __init__(self, match: MatchInfo, top_node:MatchNode=None, bottom_node:MatchNode=None, next_node:MatchNode=None):
+        self.round_num:int = match['round']
+        self.team_1:TeamInfo = match['team_1']
+        self.team_2:TeamInfo = match['team_2']
+        self.top_node = top_node
+        self.bottom_node = bottom_node
+        self.next_node = next_node
 
     def print(self):
         print("========== Node Info ==========")
@@ -157,3 +133,54 @@ class MatchNode(object):
         print("top_node: ", self.top_node)
         print("bottom_node: ", self.bottom_node)
         print("next_node: ", self.next_node)
+
+
+# ============ JSON Data Structure Info ============
+# ----------- Tournament -----------
+#   'bracket_id': int
+#   'name': string
+#   'date': string
+#   'location': string
+#   'mode': string
+#   'theme': string
+#   'winner': string(PlayerName)
+#   'matches': list(MatchDict)
+#
+class TournamentInfo(TypedDict):
+    bracket_id: int
+    name: str
+    date: str
+    location: str
+    mode: str
+    theme: str
+    winner: str
+    matches: list[MatchInfo]
+# ----------- MatchInfo -----------
+#   'bracket': string [Main/Upper/Lower/Winner's/Loser's]
+#   'round': int
+#   'team_1': TeamInfo
+#   'team_2': TeamInfo
+#
+class MatchInfo(TypedDict):
+    bracket: str
+    round: int
+    team_1: TeamInfo
+    team_2: TeamInfo
+# ----------- TeamInfo -----------
+#   'name': string
+#   'player_names': list(string)
+#   'score': int
+#   'winner': boolean
+#   'games': GameInfo
+#
+class TeamInfo(TypedDict):
+    name: str
+    player_names: NotRequired[list[str]]
+    score: int
+    winner: bool
+    games: NotRequired[list[GameInfo]]
+# GameInfo
+class GameInfo(TypedDict):
+    game_num: int
+    character: NotRequired[str]
+    winner: bool

@@ -15,13 +15,13 @@
           "name": "Amy",
           "score": 1,
           "winner": true,
-          "games": [{ "game:": 1, "character": "Mario", "winner": true }]
+          "games": [{ "game_num:": 1, "character": "Mario", "winner": true }]
         },
         "team_2": {
           "name": "Andrew",
           "score": 0,
           "winner": false,
-          "games": [{ "game:": 1, "character": "Luigi", "winner": false }]
+          "games": [{ "game_num:": 1, "character": "Luigi", "winner": false }]
         }
       },
       {
@@ -31,13 +31,13 @@
           "name": "Gavin",
           "score": 1,
           "winner": true,
-          "games": [{ "game:": 1, "character": "Mario", "winner": true }]
+          "games": [{ "game_num:": 1, "character": "Mario", "winner": true }]
         },
         "team_2": {
           "name": "Katie",
           "score": 0,
           "winner": false,
-          "games": [{ "game:": 1, "character": "Luigi", "winner": false }]
+          "games": [{ "game_num:": 1, "character": "Luigi", "winner": false }]
         }
       },
       {
@@ -47,13 +47,13 @@
           "name": "Amy",
           "score": 1,
           "winner": true,
-          "games": [{ "game:": 1, "character": "Mario", "winner": true }]
+          "games": [{ "game_num:": 1, "character": "Mario", "winner": true }]
         },
         "team_2": {
           "name": "Gavin",
           "score": 0,
           "winner": false,
-          "games": [{ "game:": 1, "character": "Luigi", "winner": false }]
+          "games": [{ "game_num:": 1, "character": "Luigi", "winner": false }]
         }
       }
     ]
@@ -74,13 +74,13 @@
           "name": "Jeff",
           "score": 1,
           "winner": true,
-          "games": [{ "game:": 1, "character": "Mario", "winner": true }]
+          "games": [{ "game_num:": 1, "character": "Mario", "winner": true }]
         },
         "team_2": {
           "name": "Andrew",
           "score": 0,
           "winner": false,
-          "games": [{ "game:": 1, "character": "Luigi", "winner": false }]
+          "games": [{ "game_num:": 1, "character": "Luigi", "winner": false }]
         }
       }
     ]
@@ -101,13 +101,13 @@
           "name": "Amy",
           "score": 1,
           "winner": true,
-          "games": [{ "game:": 1, "character": "Mario", "winner": true }]
+          "games": [{ "game_num:": 1, "character": "Mario", "winner": true }]
         },
         "team_2": {
           "name": "Andrew",
           "score": 0,
           "winner": false,
-          "games": [{ "game:": 1, "character": "Luigi", "winner": false }]
+          "games": [{ "game_num:": 1, "character": "Luigi", "winner": false }]
         }
       }
     ]
@@ -128,13 +128,13 @@
           "name": "Gavin",
           "score": 0,
           "winner": false,
-          "games": [{ "game:": 1, "character": "Pichu", "winner": false }]
+          "games": [{ "game_num:": 1, "character": "Pichu", "winner": false }]
         },
         "team_2": {
           "name": "Andrew",
           "score": 1,
           "winner": true,
-          "games": [{ "game:": 1, "character": "Marth", "winner": true }]
+          "games": [{ "game_num:": 1, "character": "Marth", "winner": true }]
         }
       },
       {
@@ -144,13 +144,13 @@
           "name": "Amy",
           "score": 1,
           "winner": true,
-          "games": [{ "game:": 1, "character": "Marth", "winner": true }]
+          "games": [{ "game_num:": 1, "character": "Marth", "winner": true }]
         },
         "team_2": {
           "name": "Katie",
           "score": 0,
           "winner": false,
-          "games": [{ "game:": 1, "character": "Pichu", "winner": false }]
+          "games": [{ "game_num:": 1, "character": "Pichu", "winner": false }]
         }
       },
       {
@@ -160,13 +160,13 @@
           "name": "Andrew",
           "score": 1,
           "winner": true,
-          "games": [{ "game:": 1, "character": "Marth", "winner": true }]
+          "games": [{ "game_num:": 1, "character": "Marth", "winner": true }]
         },
         "team_2": {
           "name": "Amy",
           "score": 1,
           "winner": true,
-          "games": [{ "game:": 1, "character": "Marth", "winner": true }]
+          "games": [{ "game_num:": 1, "character": "Marth", "winner": true }]
         }
       }
     ]

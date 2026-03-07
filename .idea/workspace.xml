@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="began work to extract data for individual bracket view. successfully extracted list of matches, began to insert match data into separate list for viewing">
-      <change afterPath="$PROJECT_DIR$/data/melee_data.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/melee_data2.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/schema-notes.txt" afterDir="false" />
+    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="finished code in melee_db to extract bracket info into linked list with MatchNode object. Changed json match data structure to include fields for team_1 and team_2. started work in bracket_view to display linked list">
+      <change afterPath="$PROJECT_DIR$/data/melee_data3.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/melee_results2.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/melee_data.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/melee_data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/melee_data2.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/melee_data2.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/melee_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/melee_db.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/bracket_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_history.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/bracket_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_view.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -141,7 +139,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772560971707</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="finished code in melee_db to extract bracket info into linked list with MatchNode object. Changed json match data structure to include fields for team_1 and team_2. started work in bracket_view to display linked list">
+      <option name="closed" value="true" />
+      <created>1772732756752</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1772732756752</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -194,6 +200,7 @@
     <MESSAGE value="finished flexible grid system with matches and connecting lines" />
     <MESSAGE value="added click callbacks to AG grid in bracket_history.py that redirect to bracket_view.py with bracket_id as arg" />
     <MESSAGE value="began work to extract data for individual bracket view. successfully extracted list of matches, began to insert match data into separate list for viewing" />
-    <option name="LAST_COMMIT_MESSAGE" value="began work to extract data for individual bracket view. successfully extracted list of matches, began to insert match data into separate list for viewing" />
+    <MESSAGE value="finished code in melee_db to extract bracket info into linked list with MatchNode object. Changed json match data structure to include fields for team_1 and team_2. started work in bracket_view to display linked list" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished code in melee_db to extract bracket info into linked list with MatchNode object. Changed json match data structure to include fields for team_1 and team_2. started work in bracket_view to display linked list" />
   </component>
 </project>
