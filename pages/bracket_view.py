@@ -28,25 +28,32 @@ def make_team_score(team_info:TeamInfo, add_margin_bot:bool):
     :param team_info: team info dict
     :return:
     """
+    margin = 'mb-2' if add_margin_bot else ''
     return dbc.ListGroup(
         [
             dbc.ListGroupItem(team_info['name'], class_name='flex-fill ' + player_name_border),
             dbc.ListGroupItem(team_info['score'], color='success' if team_info['winner'] else 'danger', class_name=player_score_border)
         ],
         horizontal=True,
-        class_name='mb-2' if add_margin_bot else '',
+        class_name='flex-fill ' + margin
     )
 
 # double (aka match_pair or get_flex_match_single)
-def make_match_score(team_1:TeamInfo, team_2:TeamInfo, add_space_top=False, add_space_bot=False):
+def make_match_score(team_1:TeamInfo, team_2:TeamInfo, add_space_top:bool, add_space_bot:bool, height=""):
     """
     Return a div containing team 1 and 2 scores
+    :param height:
     :param team_1:
     :param team_2:
     :param add_space_top:
     :param add_space_bot:
     :return:
     """
+
+    flex_class = ' flex-fill ' if height == "" else ''
+    margin_top = ' mt-1 ' if add_space_top else ' '
+    margin_bot = ' mb-1 ' if add_space_bot else ' '
+
     return html.Div(
         html.Div(
             [
@@ -55,11 +62,11 @@ def make_match_score(team_1:TeamInfo, team_2:TeamInfo, add_space_top=False, add_
             ],
             className='flex-fill my-2'
         ),
-        className='flex-fill d-flex align-items-center'
+        className=flex_class + 'd-flex align-items-center border border-primary border-2' + margin_top + margin_bot,
+        style={
+            'height': height if height != "" else 'auto'
+        }
     )
-
-def make_match_score2(team_1:TeamInfo, team_2:TeamInfo=None):
-    pass
 
 # ======== Connectors ========
 base_border_class = 'flex-grow-1 border border-2'
@@ -96,21 +103,20 @@ connector_single = html.Div(
     className='flex-grow-1'
 )
 
-connector_merge_grid = html.Div(
-    [
-        connector_merge,
-        connector_single
-    ],
-    className='flex-grow-1 d-flex flex-row',
-)
+def get_connector(is_single:bool, height:str=None) -> html.Div:
 
-connector_single_grid = html.Div(
-    [
-        connector_single,
-        connector_single
-    ],
-    className='flex-grow-1 d-flex flex-row'
-)
+    flex_class = '' if height else 'flex-grow-1 '
+
+    return html.Div(
+        [
+            connector_single if is_single else connector_merge,
+            connector_single
+        ],
+        className=flex_class + ' d-flex flex-row',
+        style={
+            'height': height if height else 'auto'
+        }
+    )
 
 
 # ============= Utility ==================
@@ -126,10 +132,14 @@ first_match_class = 'd-flex flex-column justify-content-evenly'
 match_class = 'd-flex flex-column h-100'
 conn_class = 'd-flex flex-column h-100 justify-content-evenly'
 
-def add_match(match_cols:list[html.Div], connector_cols:list[html.Div], node:MatchNode):
+def add_match(match_size:list[int], match_cols:list[html.Div], connector_cols:list[html.Div],
+              node:MatchNode, add_margin_top:bool, add_margin_bottom:bool):
     """
     Recursive method to construct list of matches and list of columns.
     Will immediately return if node is None
+    :param match_size:
+    :param add_margin_bottom:
+    :param add_margin_top:
     :param match_cols: list containing html.Divs for matches
     :param connector_cols: list containing html.Divs for connectors
     :param node: the current MatchNode to be added
@@ -139,43 +149,60 @@ def add_match(match_cols:list[html.Div], connector_cols:list[html.Div], node:Mat
     if node is None:
         return
 
-    # add match to column
-    match_cols[node.round_num - 1].children.append(make_match_score(node.team_1, node.team_2))
-
     # don't need connector col before first round
-    if node.round_num > 1:
+    if node.round_num > 0:
         if node.top_node is not None or node.bottom_node is not None:
             # insert merge or single connector
             if node.top_node is not None and node.bottom_node is not None:
-                connector_cols[node.round_num - 2].children.append(connector_merge_grid)  # insert double connector
+                # insert match with default height
+                match_cols[node.round_num].children.append(
+                    make_match_score(node.team_1, node.team_2, add_margin_top, add_margin_bottom))
+                # insert merge connector
+                connector_cols[node.round_num - 1].children.append(get_connector(False))  # insert double connector
             else:
-                connector_cols[node.round_num - 2].children.append(connector_single_grid)  # insert single connector
+                # calculate height percentage to be same as height of match in prev round
+                height = (2 / match_size[node.round_num - 1]) * 100
+                # cap at 100%
+                height = 100 if height > 100 else height
+                h_percent = str(int(height)) + "%"
+
+                # insert match with custom height
+                match_cols[node.round_num].children.append(
+                    make_match_score(node.team_1, node.team_2, add_margin_top, add_margin_bottom, h_percent))
+                # insert single connector with custom height
+                connector_cols[node.round_num - 1].children.append(get_connector(True, h_percent))  # insert single connector
+    else:
+        # add match with default height
+        match_cols[node.round_num].children.append(
+            make_match_score(node.team_1, node.team_2, add_margin_top, add_margin_bottom))
 
     # add top and bottom node matches
-    add_match(match_cols, connector_cols, node.top_node)
-    add_match(match_cols, connector_cols, node.bottom_node)
+    add_match(match_size, match_cols, connector_cols, node.top_node, True, False)
+    add_match(match_size, match_cols, connector_cols, node.bottom_node, False, True)
     return
 
-def get_match_content(match_data:list[MatchNode]) -> tuple[list[html.Div], list[html.Div]]:
+def get_match_content(match_data:list[MatchNode], match_size:list[int]) -> tuple[list[html.Div], list[html.Div]]:
     """
     Construct a list of match columns and a list of connector columns for a match
+    :param match_size:
     :param match_data: list of head match nodes
     :return: List of match columns, list of connector columns
     """
+    # get starting round num
     round_num = match_data[0].round_num
     connector_cols = []
 
     # init match column list
-    match_cols = [html.Div([], className=first_match_class if i == 0 else match_class) for i in range(round_num)]
+    match_cols = [html.Div([], className=first_match_class if i == 0 else match_class) for i in range(round_num + 1)]
 
     # connectors are only needed if bracket has more than 1 round
-    if round_num > 1:
+    if round_num > 0:
         # subtract 1 bc last round doesn't need connectors
-        connector_cols = [html.Div([], className=conn_class) for _ in range(round_num - 1)]
+        connector_cols = [html.Div([], className=conn_class) for _ in range(round_num)]
 
     # call add_match on all head nodes
     for node in match_data:
-        add_match(match_cols, connector_cols, node)
+        add_match(match_size, match_cols, connector_cols, node, False, False)
 
     # return lists of divs for match cols and connectors
     return match_cols, connector_cols
@@ -187,8 +214,8 @@ def build_bracket(bracket_id):
     :return: a bracket_grid
     """
     # get data
-    data = melee_db.get_bracket_info(bracket_id)
-    matches, connectors = get_match_content(data)
+    match_data, match_size = melee_db.get_bracket_info(bracket_id)
+    matches, connectors = get_match_content(match_data, match_size)
 
     content = []
     for i in range(len(matches)):

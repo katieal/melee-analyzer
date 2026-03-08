@@ -10,7 +10,7 @@
     "matches": [
       {
         "bracket": "Main",
-        "round": 1,
+        "round": 0,
         "team_1": {
           "name": "Amy",
           "player_names": ["eemee"],
@@ -28,7 +28,7 @@
       },
       {
         "bracket": "Main",
-        "round": 1,
+        "round": 0,
         "team_1": {
           "name": "cool Player Name",
           "player_names": [],
@@ -46,7 +46,7 @@
       },
       {
         "bracket": "Main",
-        "round": 1,
+        "round": 0,
         "team_1": {
           "name": "Jeff",
           "player_names": ["NotAndrew"],
@@ -64,7 +64,7 @@
       },
       {
         "bracket": "Main",
-        "round": 1,
+        "round": 0,
         "team_1": {
           "name": "Arielle",
           "player_names": [],
@@ -82,7 +82,7 @@
       },
       {
         "bracket": "Main",
-        "round": 2,
+        "round": 1,
         "team_1": {
           "name": "Jeff",
           "player_names": [],
@@ -101,7 +101,7 @@
       },
       {
         "bracket": "Main",
-        "round": 2,
+        "round": 1,
         "team_1": {
           "name": "Katie",
           "player_names": [],
@@ -119,7 +119,7 @@
       },
       {
         "bracket": "Main",
-        "round": 3,
+        "round": 2,
         "team_1": {
           "name": "Amy",
           "player_names": ["eemee"],

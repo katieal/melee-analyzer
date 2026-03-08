@@ -10,7 +10,7 @@
     "matches": [
       {
         "bracket": "Main",
-        "round": 1,
+        "round": 0,
         "team_1": {
           "name": "Amy",
           "score": 1,
@@ -26,7 +26,7 @@
       },
       {
         "bracket": "Main",
-        "round": 1,
+        "round": 0,
         "team_1": {
           "name": "Gavin",
           "score": 1,
@@ -42,7 +42,7 @@
       },
       {
         "bracket": "Main",
-        "round": 2,
+        "round": 1,
         "team_1": {
           "name": "Amy",
           "score": 1,
@@ -69,7 +69,7 @@
     "matches": [
       {
         "bracket": "Main",
-        "round": 1,
+        "round": 0,
         "team_1": {
           "name": "Jeff",
           "score": 1,
@@ -96,7 +96,7 @@
     "matches": [
       {
         "bracket": "Main",
-        "round": 1,
+        "round": 0,
         "team_1": {
           "name": "Amy",
           "score": 1,
@@ -123,7 +123,7 @@
     "matches": [
       {
         "bracket": "Main",
-        "round": 1,
+        "round": 0,
         "team_1": {
           "name": "Gavin",
           "score": 0,
@@ -139,7 +139,7 @@
       },
       {
         "bracket": "Main",
-        "round": 1,
+        "round": 0,
         "team_1": {
           "name": "Amy",
           "score": 1,
@@ -155,7 +155,7 @@
       },
       {
         "bracket": "Main",
-        "round": 2,
+        "round": 1,
         "team_1": {
           "name": "Andrew",
           "score": 1,
@@ -164,8 +164,8 @@
         },
         "team_2": {
           "name": "Amy",
-          "score": 1,
-          "winner": true,
+          "score": 0,
+          "winner": false,
           "games": [{ "game_num:": 1, "character": "Marth", "winner": true }]
         }
       }

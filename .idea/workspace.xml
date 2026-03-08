@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="finished code in melee_db to extract bracket info into linked list with MatchNode object. Changed json match data structure to include fields for team_1 and team_2. started work in bracket_view to display linked list">
-      <change afterPath="$PROJECT_DIR$/data/melee_data3.json" afterDir="false" />
+    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="added type annotations for json data structures in melee_db, implemented ability to dynamically display brackets with data in bracket_view.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/melee_data.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/melee_data.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/melee_data2.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/melee_data2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/melee_data3.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/melee_data3.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/melee_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/melee_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/bracket_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/testing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,7 +147,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772732756752</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="added type annotations for json data structures in melee_db, implemented ability to dynamically display brackets with data in bracket_view.py">
+      <option name="closed" value="true" />
+      <created>1772907913717</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1772907913717</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -175,19 +183,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="bracket-view" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -201,6 +197,7 @@
     <MESSAGE value="added click callbacks to AG grid in bracket_history.py that redirect to bracket_view.py with bracket_id as arg" />
     <MESSAGE value="began work to extract data for individual bracket view. successfully extracted list of matches, began to insert match data into separate list for viewing" />
     <MESSAGE value="finished code in melee_db to extract bracket info into linked list with MatchNode object. Changed json match data structure to include fields for team_1 and team_2. started work in bracket_view to display linked list" />
-    <option name="LAST_COMMIT_MESSAGE" value="finished code in melee_db to extract bracket info into linked list with MatchNode object. Changed json match data structure to include fields for team_1 and team_2. started work in bracket_view to display linked list" />
+    <MESSAGE value="added type annotations for json data structures in melee_db, implemented ability to dynamically display brackets with data in bracket_view.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="added type annotations for json data structures in melee_db, implemented ability to dynamically display brackets with data in bracket_view.py" />
   </component>
 </project>

@@ -19,7 +19,7 @@ df_bracket = pd.DataFrame.from_records(data=db.read({}), index=['bracket_id'])
 df_bracket.drop(columns=['_id'],inplace=True)
 
 
-def get_bracket_info(bracket_id: int) -> list[MatchNode]:
+def get_bracket_info(bracket_id: int) -> tuple[list[MatchNode], list[int]]:
     """
     Given a bracket id, return a list of MatchNode head nodes,
      with one node for each match in the final round of a bracket. Each node is
@@ -32,18 +32,67 @@ def get_bracket_info(bracket_id: int) -> list[MatchNode]:
     # get matches from the bracket (list of dicts)
     matches = df_bracket.loc[bracket_id, 'matches']
 
-    # find highest round number
-    max_rounds = 1
+    # find highest round number (round num is zero indexed)
+    max_rounds = 0
     for match in matches:
         if match['round'] > max_rounds:
             max_rounds = match['round']
 
     # array of linked list nodes
     match_data = make_linked_list(matches[:], max_rounds)
-    return match_data
+
+    # count num of matches in each round
+    match_size = get_match_size(match_data, max_rounds)
+
+    return match_data, match_size
 
 
-def make_linked_list(match_list, round_num):
+def get_match_size(match_data:list[MatchNode], max_rounds:int) -> list[int]:
+    # calculate size of matches in each round
+    match_size = [0 for _ in range(max_rounds + 1)]
+
+    # iterate over head nodes
+    for head_node in match_data:
+        eval_node_size(match_size, head_node)
+
+    return match_size
+
+def eval_node_size(match_size:list[int], node:MatchNode):
+    """
+    Recursively traverse linked list to calculate amount of space
+    each match should take up in its column.
+    Node with a top AND bottom node = 2
+    Node with a top OR bottom node = 1
+    Node with neither = 0
+    First round gives all matches a default value of 2
+    :param match_size: list containing match sizes
+    :param node: current node to evaluate
+    :return:
+    """
+    # matches in first round have a default value of 2
+    if node.round_num == 0:
+        match_size[node.round_num] += 2
+    else:
+        # only add size if node has a top or bottom node
+        if node.top_node or node.bottom_node:
+            if node.top_node and node.bottom_node:
+                # add 2 if has both top and bottom node
+                match_size[node.round_num] += 2
+            else:
+                # add 1 if only has top or bottom node
+                match_size[node.round_num] += 1
+
+        # eval top node if needed
+        if node.top_node:
+            eval_node_size(match_size, node.top_node)
+        # eval bot node if needed
+        if node.bottom_node:
+            eval_node_size(match_size, node.bottom_node)
+
+    return
+
+
+def make_linked_list(match_list:list[dict], round_num:int) -> list[MatchNode]:
     """
     Create a head node for each match in the final round, then call
     make_node to link all previous matches to the node
@@ -66,7 +115,7 @@ def make_linked_list(match_list, round_num):
         # create new node
         node = MatchNode(match)
         # check if there are previous rounds
-        if round_num - 1 >= 1:
+        if round_num - 1 >= 0:
             # assign top and bottom nodes
             node.top_node, match_list = make_node(match_list, round_num - 1, match['team_1']['name'], node)
             node.bottom_node, match_list = make_node(match_list, round_num - 1, match['team_2']['name'], node)
@@ -102,7 +151,7 @@ def make_node(match_list, round_num, name, next_node):
         node = MatchNode(prev_match)
         node.next_node = next_node
         # check if there are previous rounds
-        if round_num - 1 >= 1:
+        if round_num - 1 >= 0:
             # assign top and bottom nodes
             node.top_node, match_list = make_node(match_list, round_num - 1, prev_match['team_1']['name'], node)
             node.bottom_node, match_list = make_node(match_list, round_num - 1, prev_match['team_2']['name'], node)
@@ -117,22 +166,21 @@ def print_nodes(match_nodes, match_list):
 
 class MatchNode(object):
     # pass in a match dict
-    def __init__(self, match: MatchInfo, top_node:MatchNode=None, bottom_node:MatchNode=None, next_node:MatchNode=None):
+    def __init__(self, match: MatchInfo, top_node:MatchNode=None, bottom_node:MatchNode=None):
         self.round_num:int = match['round']
         self.team_1:TeamInfo = match['team_1']
         self.team_2:TeamInfo = match['team_2']
         self.top_node = top_node
         self.bottom_node = bottom_node
-        self.next_node = next_node
+        #self.next_node = next_node
 
     def print(self):
         print("========== Node Info ==========")
         print("round: ", self.round_num)
-        print("player1: ", self.team_1)
-        print("player2: ", self.team_2)
+        print("team1: ", self.team_1)
+        print("team2: ", self.team_2)
         print("top_node: ", self.top_node)
         print("bottom_node: ", self.bottom_node)
-        print("next_node: ", self.next_node)
 
 
 # ============ JSON Data Structure Info ============
