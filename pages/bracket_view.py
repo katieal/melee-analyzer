@@ -62,7 +62,7 @@ def make_match_score(team_1:TeamInfo, team_2:TeamInfo, add_space_top:bool, add_s
             ],
             className='flex-fill my-2'
         ),
-        className=flex_class + 'd-flex align-items-center border border-primary border-2' + margin_top + margin_bot,
+        className=flex_class + 'd-flex align-items-center' + margin_top + margin_bot,
         style={
             'height': height if height != "" else 'auto'
         }

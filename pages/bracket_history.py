@@ -33,10 +33,19 @@ grid = dag.AgGrid(
     className="ag-theme-alpine"
 )
 
+# add tournament button
+add_btn = html.Div(
+    [
+        dbc.Button("Add Tournament", id="add-button", href='/bracket-add', n_clicks=0),
+    ],
+    className='d-flex justify-content-end me-4 mb-2'
+)
+
 # layout
 layout = dbc.Container([
-    dbc.Row(dbc.Col(html.Div("Past Brackets", className='text-center h1 p-2 m-3'))),
-    html.Div([dbc.Container([grid], className="dbc dbc-ag-grid")]),
+    dbc.Row(dbc.Col(html.Div("Past Brackets", className='text-center h1 pt-2 mt-3'))),
+    dbc.Row(dbc.Col(add_btn)),
+    html.Div([dbc.Container([grid], className='dbc dbc-ag-grid')]),
     dcc.Location(id='url_redirect', refresh='callback-nav')
 ])
 

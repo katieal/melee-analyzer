@@ -152,7 +152,7 @@ col_visual = dbc.Col(
 )
 
 # ======= Final Layout ==============
-match_width = 3
+match_width = 4
 con_width = 1
 
 bracket_grid = html.Div(
