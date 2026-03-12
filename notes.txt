@@ -1,0 +1,36 @@
+
+===== setting round num
+https://dash.plotly.com/pattern-matching-callbacks
+
+@callback(
+    Output("dropdown-container-output-div", "children"),
+    Input({"type": "city-filter-dropdown", "index": ALL}, "value"),
+)
+def display_output(values):
+    return html.Div(
+        [html.Div(f"Dropdown {i + 1} = {value}") for (i, value) in enumerate(values)]
+    )
+
+
+
+round_header = dbc.Stack(
+    [
+        html.Div("Round 2", className='h3 text-secondary mb-0 mx-auto'),
+        html.Div(h_line, className='d-flex justify-content-center')
+    ]
+)
+
+round_stack = html.Div(
+    [
+        round_header,
+        dbc.Stack(
+            [
+                html.Div(match_score, className='flex-fill'),
+            ],
+            gap=3,
+            className='mt-3 mb-3'
+        ),
+        html.Div(add_match_btn, className='my-5')
+    ],
+    className='my-2'
+)

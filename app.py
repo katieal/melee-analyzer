@@ -13,20 +13,32 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.VAPOR, dbc_css], use_pages
 # ======================
 
 # layout
-app.layout = dbc.Container([
-    dbc.NavbarSimple(
-        children=[
-            dbc.NavItem(dbc.NavLink("Brackets", href=dash.page_registry['pages.bracket_history']['path'])),
-            dbc.NavItem(dbc.NavLink("Bracket View", href=dash.page_registry['pages.bracket_view']['path'])),
-            dbc.NavItem(dbc.NavLink("Testing", href=dash.page_registry['pages.testing']['path']))
-        ],
-        brand="Melee Analyzer",
-        brand_href=dash.page_registry['pages.home']['path'],
-        color='primary',
-        dark=True
-    ),
-    dash.page_container
-])
+app.layout = dbc.Container(
+    [
+        dbc.NavbarSimple(
+            children=[
+                dbc.NavItem(dbc.NavLink("Brackets", href=dash.page_registry['pages.bracket_history']['path'])),
+                dbc.NavItem(dbc.NavLink("Bracket View", href=dash.page_registry['pages.bracket_view']['path'])),
+                dbc.NavItem(dbc.NavLink("Testing", href=dash.page_registry['pages.testing']['path']))
+            ],
+            brand="Melee Analyzer",
+            brand_href=dash.page_registry['pages.home']['path'],
+            color='primary',
+            dark=True,
+            className='mx-5'
+        ),
+        dbc.Row(
+            dbc.Col(dash.page_container, width=10),
+            justify='center'
+        ),
+        #html.Div(dash.page_container, className='mx-5 px-5'),
+        html.Div(className='my-5'),
+        html.Footer("",
+                    className='mx-5 p-4 bg-primary')
+    ],
+    fluid=True,
+    className='px-5'
+)
 
 if __name__ == "__main__":
     app.run(debug=True)
