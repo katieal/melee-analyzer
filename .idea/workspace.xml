@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="added a button on bracket_history.py to redirect to bracket_add.py. began work on page to add a new tournament, made initial layout using bracket_view.py for reference, began replacing elements with input">
+    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="changed app layout container to fluid, enabled horizontal scrolling and added add/delete round functionality to bracket_add.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/bracket_add.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_add.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/bracket_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_view.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +168,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773163191505</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="changed app layout container to fluid, enabled horizontal scrolling and added add/delete round functionality to bracket_add.py">
+      <option name="closed" value="true" />
+      <created>1773336711896</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1773336711896</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -225,6 +233,7 @@
     <MESSAGE value="added type annotations for json data structures in melee_db, implemented ability to dynamically display brackets with data in bracket_view.py" />
     <MESSAGE value="refactored round_num to be zero indexed, fixed display for rematches and single connectors by adding a size calculation in melee_db.py and specifying element height in bracket_view.py" />
     <MESSAGE value="added a button on bracket_history.py to redirect to bracket_add.py. began work on page to add a new tournament, made initial layout using bracket_view.py for reference, began replacing elements with input" />
-    <option name="LAST_COMMIT_MESSAGE" value="added a button on bracket_history.py to redirect to bracket_add.py. began work on page to add a new tournament, made initial layout using bracket_view.py for reference, began replacing elements with input" />
+    <MESSAGE value="changed app layout container to fluid, enabled horizontal scrolling and added add/delete round functionality to bracket_add.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed app layout container to fluid, enabled horizontal scrolling and added add/delete round functionality to bracket_add.py" />
   </component>
 </project>

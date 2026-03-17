@@ -29,10 +29,11 @@ def make_team_score(team_info:TeamInfo, add_margin_bot:bool):
     :return:
     """
     margin = 'mb-2' if add_margin_bot else ''
+    bg_color = ' bg-success ' if team_info['winner'] else ' bg-danger '
     return dbc.ListGroup(
         [
             dbc.ListGroupItem(team_info['name'], class_name='flex-fill ' + player_name_border),
-            dbc.ListGroupItem(team_info['score'], color='success' if team_info['winner'] else 'danger', class_name=player_score_border)
+            dbc.ListGroupItem(team_info['score'], class_name=bg_color + player_score_border)
         ],
         horizontal=True,
         class_name='flex-fill ' + margin

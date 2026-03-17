@@ -34,3 +34,14 @@ round_stack = html.Div(
     ],
     className='my-2'
 )
+
+
+================ bracket round
+    dbc.ListGroup(
+        [
+            dbc.ListGroupItem("Player Name", class_name='flex-fill ' + player_name_border),
+            dbc.ListGroupItem("0", color='danger', class_name=player_score_border)
+        ],
+        horizontal=True,
+        class_name='flex-fill'
+    )
