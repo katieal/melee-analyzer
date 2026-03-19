@@ -19,7 +19,7 @@ app.layout = dbc.Container(
             children=[
                 dbc.NavItem(dbc.NavLink("Brackets", href=dash.page_registry['pages.bracket_history']['path'])),
                 dbc.NavItem(dbc.NavLink("Bracket View", href=dash.page_registry['pages.bracket_view']['path'])),
-                dbc.NavItem(dbc.NavLink("Testing", href=dash.page_registry['pages.testing']['path']))
+                dbc.NavItem(dbc.NavLink("Embed Page", href='/bracket-view-embed?bracket_link=https://challonge.com/47a7kyvx/module'))
             ],
             brand="Melee Analyzer",
             brand_href=dash.page_registry['pages.home']['path'],

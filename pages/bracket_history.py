@@ -59,3 +59,11 @@ def navigate_cell_clicked(cell):
         return f"/bracket-view?bracket_id={cell["rowId"]}"
     else:
         raise PreventUpdate
+
+@callback(
+    Input('past-bracket-data', 'cellClicked'),
+    prevent_initial_call=True,
+)
+def navigate_cell_clicked(cell):
+    if cell:
+        melee_db.use_bracket_embed(cell["rowId"])

@@ -1,3 +1,4 @@
+import pandas
 from pymongo import MongoClient
 import pandas as pd
 import typing
@@ -17,6 +18,23 @@ df.drop(columns=['_id'],inplace=True)
 
 df_bracket = pd.DataFrame.from_records(data=db.read({}), index=['bracket_id'])
 df_bracket.drop(columns=['_id'],inplace=True)
+
+def use_bracket_embed(bracket_id:int) -> bool:
+    """
+    Check if a given bracket should be shown using the embed page.
+    :param bracket_id: id of bracket to check
+    :return: True if embed page should be displayed, False for manual bracket result view
+    """
+    bracket_id = int(bracket_id)
+    data = df_bracket.loc[bracket_id]
+
+    # check for 'link' column
+    if 'link' in data.Keys() and pandas.notna(data.get('link')):
+        # return true if link is found and isn't null
+        return True
+    else:
+        # return false if entry doesn't have a link
+        return False
 
 
 def get_bracket_info(bracket_id: int) -> tuple[list[MatchNode], list[int]]:
@@ -192,6 +210,7 @@ class MatchNode(object):
 #   'mode': string
 #   'theme': string
 #   'winner': string(PlayerName)
+#   'link': string
 #   'matches': list(MatchDict)
 #
 class TournamentInfo(TypedDict):
@@ -202,7 +221,8 @@ class TournamentInfo(TypedDict):
     mode: str
     theme: str
     winner: str
-    matches: list[MatchInfo]
+    link: NotRequired[str]
+    matches: NotRequired[list[MatchInfo]]
 # ----------- MatchInfo -----------
 #   'bracket': string [Main/Upper/Lower/Winner's/Loser's]
 #   'round': int
