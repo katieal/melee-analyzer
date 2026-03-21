@@ -36,15 +36,37 @@ grid = dag.AgGrid(
 # add tournament button
 add_btn = html.Div(
     [
-        dbc.Button("Add Tournament", id="add-button", href='/bracket-add', n_clicks=0),
+        dbc.Button("Add Tournament", id="add-button", href='/bracket-add-manual', n_clicks=0),
     ],
     className='d-flex justify-content-end me-4 mb-2'
+)
+#
+add_bracket_dropdown = dbc.DropdownMenu(
+    [
+        dbc.DropdownMenuItem(
+            "Add by URL",
+            href='/bracket-add-url'
+        ),
+        #dbc.DropdownMenuItem(divider=True),
+        dbc.DropdownMenuItem(
+            "Add Manually",
+            href='/bracket-add-manual'
+        )
+    ],
+    label="Add New Tournament",
+    color='secondary',
+    menu_variant='dark',
+    align_end=True
 )
 
 # layout
 layout = dbc.Container([
-    dbc.Row(dbc.Col(html.Div("Past Brackets", className='text-center h1 pt-2 mt-3'))),
-    dbc.Row(dbc.Col(add_btn)),
+    dbc.Row(dbc.Col(html.Div("Past Tournaments", className='text-center h1 mt-5 mb-0'))),
+    html.Hr(),
+    dbc.Row(
+        dbc.Col(add_bracket_dropdown, width='auto', className='me-4 mb-2'),
+        justify='end'
+    ),
     html.Div([dbc.Container([grid], className='dbc dbc-ag-grid')]),
     dcc.Location(id='url_redirect', refresh='callback-nav')
 ])
@@ -56,14 +78,11 @@ layout = dbc.Container([
 )
 def navigate_cell_clicked(cell):
     if cell:
-        return f"/bracket-view?bracket_id={cell["rowId"]}"
+        if melee_db.use_bracket_embed(cell["rowId"]):
+            # redirect to embed page if bracket data has a link
+            return f"/bracket-view-embed?bracket_id={cell["rowId"]}"
+        else:
+            # otherwise, redirect to manual bracket view
+            return f"/bracket-view?bracket_id={cell["rowId"]}"
     else:
         raise PreventUpdate
-
-@callback(
-    Input('past-bracket-data', 'cellClicked'),
-    prevent_initial_call=True,
-)
-def navigate_cell_clicked(cell):
-    if cell:
-        melee_db.use_bracket_embed(cell["rowId"])

@@ -185,8 +185,8 @@ def add_match(match_size:list[int], match_cols:list[html.Div], connector_cols:li
 def get_match_content(match_data:list[MatchNode], match_size:list[int]) -> tuple[list[html.Div], list[html.Div]]:
     """
     Construct a list of match columns and a list of connector columns for a match
-    :param match_size:
     :param match_data: list of head match nodes
+    :param match_size: list of match sizes
     :return: List of match columns, list of connector columns
     """
     # get starting round num
@@ -208,14 +208,14 @@ def get_match_content(match_data:list[MatchNode], match_size:list[int]) -> tuple
     # return lists of divs for match cols and connectors
     return match_cols, connector_cols
 
-def build_bracket(bracket_id):
+def build_bracket(match_data, match_size):
     """
     Build a bracket grid with data from given bracket id
-    :param bracket_id:
+    :param match_data: list of head match nodes
+    :param match_size: list of match sizes
     :return: a bracket_grid
     """
-    # get data
-    match_data, match_size = melee_db.get_bracket_info(bracket_id)
+    # construct lists for match and connector columns
     matches, connectors = get_match_content(match_data, match_size)
 
     content = []
@@ -237,13 +237,18 @@ def build_bracket(bracket_id):
 
 def layout(bracket_id=None, **kwargs):
     if bracket_id is not None:
+
+        # get data from melee db
+        name, match_data, match_sizes = melee_db.get_bracket_info(bracket_id)
+
+        # construct final container
         return dbc.Container([
-            dbc.Row(dbc.Col(html.Div(f"Bracket {bracket_id} Results", className='text-center h1 mt-5 mb-0'))),
+            dbc.Row(dbc.Col(html.Div(f"{name} Results", className='text-center h1 mt-5 mb-0'))),
             html.Hr(),
             html.Br(),
             dbc.Row(
                 [
-                    dbc.Col(build_bracket(bracket_id), width=8, className='ps-0 pe-0')
+                    dbc.Col(build_bracket(match_data, match_sizes), width=8, className='ps-0 pe-0')
                 ],
                 align='center',
             )

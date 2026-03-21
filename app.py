@@ -6,7 +6,7 @@ import dash_bootstrap_components as dbc
 
 # initialize dash app
 dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"
-app = Dash(__name__, external_stylesheets=[dbc.themes.VAPOR, dbc_css], use_pages=True)
+app = Dash(__name__, external_stylesheets=[dbc.themes.VAPOR, dbc.icons.FONT_AWESOME, dbc_css], use_pages=True)
 
 # ======================
 # ===== App Layout =====
@@ -19,7 +19,7 @@ app.layout = dbc.Container(
             children=[
                 dbc.NavItem(dbc.NavLink("Brackets", href=dash.page_registry['pages.bracket_history']['path'])),
                 dbc.NavItem(dbc.NavLink("Bracket View", href=dash.page_registry['pages.bracket_view']['path'])),
-                dbc.NavItem(dbc.NavLink("Embed Page", href='/bracket-view-embed?bracket_link=https://challonge.com/47a7kyvx/module'))
+                dbc.NavItem(dbc.NavLink("testing", href=dash.page_registry['pages.testing']['path'])),
             ],
             brand="Melee Analyzer",
             brand_href=dash.page_registry['pages.home']['path'],
@@ -31,10 +31,11 @@ app.layout = dbc.Container(
             dbc.Col(dash.page_container, width=10),
             justify='center'
         ),
-        #html.Div(dash.page_container, className='mx-5 px-5'),
         html.Div(className='my-5'),
-        html.Footer("",
-                    className='mx-5 p-4 bg-primary')
+        html.Footer(
+            [
+            ],
+            className='mx-5 p-4 bg-primary')
     ],
     fluid=True,
     className='px-5'

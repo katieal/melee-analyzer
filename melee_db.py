@@ -29,7 +29,7 @@ def use_bracket_embed(bracket_id:int) -> bool:
     data = df_bracket.loc[bracket_id]
 
     # check for 'link' column
-    if 'link' in data.Keys() and pandas.notna(data.get('link')):
+    if 'link' in data.keys() and pandas.notna(data.get('link')):
         # return true if link is found and isn't null
         return True
     else:
@@ -37,13 +37,23 @@ def use_bracket_embed(bracket_id:int) -> bool:
         return False
 
 
-def get_bracket_info(bracket_id: int) -> tuple[list[MatchNode], list[int]]:
+def get_bracket_link(bracket_id:int) -> tuple[str, str, str]:
     """
-    Given a bracket id, return a list of MatchNode head nodes,
-     with one node for each match in the final round of a bracket. Each node is
-     the head node for a linked list.
-    :param bracket_id: the bracket_id field of the bracket
-    :return: a list of MatchNode objects
+    Given a bracket id, return the name, website type, and external link to the results
+    :param bracket_id: id of bracket to find
+    :return: tournament name, website used, link to bracket
+    """
+    bracket_id = int(bracket_id)
+    return df_bracket.loc[bracket_id, 'name'], "Challonge", df_bracket.loc[bracket_id, 'link']
+
+
+def get_bracket_info(bracket_id: int) -> tuple[str, list[MatchNode], list[int]]:
+    """
+    Given a bracket id, return its name, a list of MatchNode head nodes, and sizes.
+     MatchNode list contains one node for each match in the final round of a bracket, where
+     each node is the head node for a linked list.
+    :param bracket_id: the bracket id
+    :return: bracket name, MatchNode list, sizes list
     """
     bracket_id = int(bracket_id)
 
@@ -62,7 +72,7 @@ def get_bracket_info(bracket_id: int) -> tuple[list[MatchNode], list[int]]:
     # count num of matches in each round
     match_size = get_match_size(match_data, max_rounds)
 
-    return match_data, match_size
+    return df_bracket.loc[bracket_id, 'name'], match_data, match_size
 
 
 def get_match_size(match_data:list[MatchNode], max_rounds:int) -> list[int]:
