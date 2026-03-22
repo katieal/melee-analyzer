@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="added page to display embedded challonge bracket, added data to db with links instead of matches, started code to redirect based on data embed link">
+    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="added dropdown in bracket_history.py to redirect to bracket_add_url.py or bracket_add_manual.py, finished redirect from bracket_history.py to bracket_view_embed.py to display corresponding embed for Challonge brackets, started work on bracket_add_url.py to submit new bracket by url">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melee_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/melee_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/bracket_add.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_add_manual.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/bracket_add_external.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_add_url.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/bracket_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_history.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/bracket_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/bracket_view_embed.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_view_embed.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/testing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/melee_results.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/melee_results3.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/melee_results4.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/bracket_add_url.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_add_url.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,7 +193,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773942054759</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="added dropdown in bracket_history.py to redirect to bracket_add_url.py or bracket_add_manual.py, finished redirect from bracket_history.py to bracket_view_embed.py to display corresponding embed for Challonge brackets, started work on bracket_add_url.py to submit new bracket by url">
+      <option name="closed" value="true" />
+      <created>1774111730051</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1774111730051</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -257,6 +261,7 @@
     <MESSAGE value="changed app layout container to fluid, enabled horizontal scrolling and added add/delete round functionality to bracket_add.py" />
     <MESSAGE value="implemented add match button, modified style for input components" />
     <MESSAGE value="added page to display embedded challonge bracket, added data to db with links instead of matches, started code to redirect based on data embed link" />
-    <option name="LAST_COMMIT_MESSAGE" value="added page to display embedded challonge bracket, added data to db with links instead of matches, started code to redirect based on data embed link" />
+    <MESSAGE value="added dropdown in bracket_history.py to redirect to bracket_add_url.py or bracket_add_manual.py, finished redirect from bracket_history.py to bracket_view_embed.py to display corresponding embed for Challonge brackets, started work on bracket_add_url.py to submit new bracket by url" />
+    <option name="LAST_COMMIT_MESSAGE" value="added dropdown in bracket_history.py to redirect to bracket_add_url.py or bracket_add_manual.py, finished redirect from bracket_history.py to bracket_view_embed.py to display corresponding embed for Challonge brackets, started work on bracket_add_url.py to submit new bracket by url" />
   </component>
 </project>
