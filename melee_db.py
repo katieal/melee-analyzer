@@ -13,11 +13,17 @@ password = "AmyFest1"
 db = MeleeAnalyzer(username, password)
 
 # import data into dataframe
-df = pd.DataFrame.from_records(data=db.read({}))
-df.drop(columns=['_id'],inplace=True)
-
 df_bracket = pd.DataFrame.from_records(data=db.read({}), index=['bracket_id'])
 df_bracket.drop(columns=['_id'],inplace=True)
+
+def refresh_data():
+    df = pd.DataFrame.from_records(data=db.read({}), index=['bracket_id'])
+    df.drop(columns=['_id'], inplace=True)
+    return df
+
+def add_tournament(data):
+    data["bracket_id"] = 312
+    db.create(data)
 
 def use_bracket_embed(bracket_id:int) -> bool:
     """
