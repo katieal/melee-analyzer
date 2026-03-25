@@ -4,7 +4,7 @@
     "name": "First PhoThai Tournament",
     "date": "2026-01-01",
     "location": "PhoThai",
-    "mode": "single_elim",
+    "format": "single_elim",
     "theme": "normal",
     "winner": "Amy",
     "matches": [
@@ -63,7 +63,7 @@
     "name": "AmyFest Tournament",
     "date": "2026-02-01",
     "location": "Amy's House",
-    "mode": "single_elim",
+    "format": "single_elim",
     "theme": "normal",
     "winner": "Jeff",
     "matches": [
@@ -90,7 +90,7 @@
     "name": "Tournament 1",
     "date": "2025-01-01",
     "location": "PhoThai",
-    "mode": "single_elim",
+    "format": "single_elim",
     "theme": "normal",
     "winner": "Amy",
     "matches": [
@@ -117,7 +117,7 @@
     "name": "Tournament 2",
     "date": "2025-02-01",
     "location": "PhoThai",
-    "mode": "single_elim",
+    "format": "single_elim",
     "theme": "normal",
     "winner": "Andrew",
     "matches": [

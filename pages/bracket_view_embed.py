@@ -4,7 +4,7 @@ from dash import Dash, html, Input, Output, State, callback, dcc, ALL, MATCH, Pa
 import dash_bootstrap_components as dbc
 import pandas as pd
 import json
-import melee_db as melee_db
+import melee_data
 from dash.exceptions import PreventUpdate
 
 dash.register_page(__name__)
@@ -56,7 +56,7 @@ def layout(bracket_id=None, **kwargs):
         return dbc.Container()
     else:
         # get bracket data from melee db
-        name, website, link = melee_db.get_bracket_link(bracket_id)
+        name, website, link = melee_data.get_bracket_link(bracket_id)
         return dbc.Container([
             get_header(name, website, link),
             html.Hr(),

@@ -5,7 +5,7 @@ import dash_ag_grid as dag
 import dash_bootstrap_components as dbc
 import pandas as pd
 import json
-import melee_db as melee_db
+import melee_data
 from dash.exceptions import PreventUpdate
 
 dash.register_page(__name__)
@@ -17,21 +17,6 @@ columnDefs = [
     { 'field': 'name' },
     { 'field': 'winner' }
 ]
-grid = dag.AgGrid(
-    id='past-bracket-data',
-    columnDefs=columnDefs,
-    rowData=melee_db.df_bracket.to_dict('records'),
-    columnSize='responsiveSizeToFit',
-    getRowId='params.data.bracket_id',
-    dashGridOptions= {
-        'pagination': True,
-        'paginationPageSizeSelector': False,
-        'paginationAutoPageSize': True,
-        #'rowSelection': {'mode': 'singleRow', 'enableClickSelection': False}
-    },
-    style={ 'height': 430 },
-    className="ag-theme-alpine"
-)
 
 # add tournament button
 add_btn = html.Div(
@@ -40,14 +25,13 @@ add_btn = html.Div(
     ],
     className='d-flex justify-content-end me-4 mb-2'
 )
-#
+# links to add by url or add manually pages
 add_bracket_dropdown = dbc.DropdownMenu(
     [
         dbc.DropdownMenuItem(
             "Add by URL",
             href='/bracket-add-url'
         ),
-        #dbc.DropdownMenuItem(divider=True),
         dbc.DropdownMenuItem(
             "Add Manually",
             href='/bracket-add-manual'
@@ -59,17 +43,38 @@ add_bracket_dropdown = dbc.DropdownMenu(
     align_end=True
 )
 
+def get_grid():
+    return dag.AgGrid(
+        id='past-bracket-data',
+        columnDefs=columnDefs,
+        rowData=melee_data.db.df_no_index.to_dict('records'),
+        columnSize='responsiveSizeToFit',
+        getRowId='params.data.bracket_id',
+        dashGridOptions= {
+            'pagination': True,
+            'paginationPageSizeSelector': False,
+            'paginationAutoPageSize': True,
+        },
+        style={ 'height': 430 },
+        className="ag-theme-alpine"
+    )
+
 # layout
-layout = dbc.Container([
-    dbc.Row(dbc.Col(html.Div("Past Tournaments", className='text-center h1 mt-5 mb-0'))),
-    html.Hr(),
-    dbc.Row(
-        dbc.Col(add_bracket_dropdown, width='auto', className='me-4 mb-2'),
-        justify='end'
-    ),
-    html.Div([dbc.Container([grid], className='dbc dbc-ag-grid')]),
-    dcc.Location(id='url_redirect', refresh='callback-nav')
-])
+def layout(**kwargs):
+    # refresh database
+    melee_data.db.refresh()
+
+    # build page
+    return dbc.Container([
+        dbc.Row(dbc.Col(html.Div("Past Tournaments", className='text-center h1 mt-5 mb-0'))),
+        html.Hr(),
+        dbc.Row(
+            dbc.Col(add_bracket_dropdown, width='auto', className='me-4 mb-2'),
+            justify='end'
+        ),
+        html.Div([dbc.Container([get_grid()], className='dbc dbc-ag-grid')]),
+        dcc.Location(id='url_redirect', refresh='callback-nav')
+    ])
 
 @callback(
     Output('url_redirect', 'href'),
@@ -78,7 +83,7 @@ layout = dbc.Container([
 )
 def navigate_cell_clicked(cell):
     if cell:
-        if melee_db.use_bracket_embed(cell["rowId"]):
+        if melee_data.use_bracket_embed(cell["rowId"]):
             # redirect to embed page if bracket data has a link
             return f"/bracket-view-embed?bracket_id={cell["rowId"]}"
         else:

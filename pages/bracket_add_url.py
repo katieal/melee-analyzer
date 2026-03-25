@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import json
 import re
-import melee_db as melee_db
+import melee_data
 from dash.exceptions import PreventUpdate
 
 dash.register_page(__name__)
@@ -17,18 +17,16 @@ def stringify_id(id_):
     return id_
 
 # TO do:
-# enable url box only after website is selected
-# add validation for theme checkbox
-# change "Mode" field to "Format"
-# refresh DF after add
+# input box style changes when using browser autocomplete?
 
 # ========= Input Components =========
 missing_feedback = dbc.FormFeedback("Field is required", type='invalid')
 max_url_length = 100
 max_input_length = 30
 input_patterns = {
-    'Start.gg': r'^https://www.start.gg/',
-    'Challonge': r'^https://challonge.com/'
+    'Start.gg': [r'^https://www.start.gg/'],
+    'Challonge': [r'^https://challonge.com/', r'^https://www.challonge.com/'],
+    'Other': [r'^https://']
 }
 
 def get_feedback(div_id):
@@ -43,7 +41,7 @@ bracket_type_input = html.Div(
     [
         dbc.Label("Source Website", html_for=stringify_id(type_id),size='lg', className='mb-1'),
         dbc.RadioItems(
-            options=["Start.gg", "Challonge"],
+            options=["Start.gg", "Challonge", "Other"],
             id=type_id,
             inline=True
         ),
@@ -61,12 +59,23 @@ url_input = html.Div(
             id='url-input',
             maxlength=max_url_length,
             inputmode='url',
-            placeholder="Enter bracket URL"
+            placeholder="Enter bracket URL",
+            disabled=True
         ),
-        dbc.FormText("Provide the URL for the bracket view page"),
+        dbc.FormText("Provide the URL for the bracket view page (must select source website first)", id='url-form-text'),
         dbc.FormFeedback(
             "Invalid value",
             type='invalid',
+            id='url-form-feedback'
+        ),
+        dbc.Popover(
+            [
+                dbc.PopoverBody("All URLs must start with \"https://\""),
+                dbc.PopoverBody("Start.gg URLs must start with \"https://www.start.gg/\""),
+                dbc.PopoverBody("Challonge URLs must start with \"https://challonge.com/\"")
+            ],
+            target='url-form-text',
+            trigger='hover focus'
         )
     ],
     className='mb-3'
@@ -147,14 +156,16 @@ mode_input = dbc.Row(
     ],
     className=margin
 )
-theme_id = {'type': 'checkbox-field', 'element': 'theme-checkbox'}
+#theme_id = {'type': 'checkbox-field', 'element': 'theme-checkbox'}
+theme_input_id = {'type': 'input-field', 'element': 'theme-input', 'key': 'theme'}
 theme_input = dbc.Row(
     [
-        dbc.Label("Tournament Theme", html_for=stringify_id(theme_id), size='lg', width=label_width),
+        dbc.Label("Tournament Theme", html_for='theme-checkbox', size='lg', width=label_width),
         dbc.Col(
             [
-                dbc.Checkbox(id=theme_id, label="Check if tournament has a special theme", value=False),
-                dbc.Input(type='text', id='theme-input', maxlength=max_input_length, placeholder="Enter theme", disabled=True),
+                dbc.Checkbox(id='theme-checkbox', label="Check if tournament has a special theme", value=False),
+                dbc.Input(type='text', id=theme_input_id, maxlength=max_input_length, placeholder="Enter theme", disabled=True),
+                missing_feedback
             ],
             width=input_width
         )
@@ -187,6 +198,15 @@ submit_button = html.Div(
     className='d-grid col-6 mx-auto my-3'
 )
 
+# invalid field alert box
+invalid_alert = dbc.Alert(
+    "Submission Failed: Missing or invalid fields!",
+    id='invalid-alert',
+    color='danger',
+    dismissable=True,
+    is_open=False
+)
+
 # ========= Final Layout =========
 layout = dbc.Container(
     [
@@ -206,23 +226,45 @@ layout = dbc.Container(
             ),
             justify='center'
         ),
-        dbc.Row(submit_button, className='mt-5'),
+        dbc.Row(
+            dbc.Col(invalid_alert, width=8),
+            justify='center',
+            className='mt-4'
+        ),
+        dbc.Row(submit_button, className='mt-4'),
         dcc.Location(id='url-redirect', refresh='callback-nav')
     ],
     fluid=True,
 )
 
+def update_url_error(is_empty):
+    """
+    Update the URL input field's form feedback to display the correct error message.
+    Will display 'Field is required' or 'Invalid format'
+    :param is_empty: Is the URL input field empty/null?
+    """
+    msg = "Field is required" if is_empty else "Invalid website format"
+
+    # set correct message for form feedback
+    set_props('url-form-feedback', {'children': msg})
+
+
 @callback(
-    Output( 'theme-input', 'disabled'),
-    Input({'type': 'input-field', 'element': 'theme-checkbox'}, 'value')
+    Output({'type': 'input-field', 'element': 'theme-input', 'key': 'theme'}, 'disabled'),
+    Output({'type': 'input-field', 'element': 'theme-input', 'key': 'theme'}, 'invalid', allow_duplicate=True),
+    Input('theme-checkbox', 'value'),
+    prevent_initial_call=True
 )
 def toggle_theme_input(is_checked):
     # enable/disable the custom theme input field based on if this box is checked
-    return not is_checked
+
+    # clear error message if box is unchecked
+    return not is_checked, False if not is_checked else dash.no_update
 
 # callback to detect valid URL
 @callback(
-    Output('url-input', 'invalid', allow_duplicate=True),
+    Output('url-input', 'invalid'),
+    Output('url-input', 'disabled'),
     inputs={
         'url': Input('url-input', 'value'),
         'website': Input({'type': 'alt-input-field', 'element': 'source-radio'}, 'value'),
@@ -230,19 +272,28 @@ def toggle_theme_input(is_checked):
     prevent_initial_call=True
 )
 def validate_url(url, website):
-    # pattern only applies after website is selected and url is entered
+    # url box is only enabled after website is selected
     if website is None or website == '':
         raise PreventUpdate
-    elif url is None or url == '':
-        raise PreventUpdate
     else:
-        pattern = re.compile(input_patterns[website])
-        if pattern.match(url):
-            # set invalid to false if url matches pattern
-            return False
+        if url is None or url == '':
+            # enable url input field
+            return dash.no_update, False
         else:
-            # set invalid to true if url doesn't match pattern
-            return True
+            # check url against website patterns
+            is_invalid = True
+            for pattern in input_patterns[website]:
+                comp = re.compile(pattern)
+                if comp.match(url):
+                    # break if url matches one of the patterns
+                    is_invalid = False
+                    break
+            # display correct error message text
+            if is_invalid:
+                update_url_error(False)
+            # input field is already enabled so send dash.no_update for 2nd arg
+            # set invalid to true if url does NOT match pattern, false if it DOES match
+            return is_invalid, dash.no_update
 
 
 # ========== Callbacks to clear missing input alert ==========
@@ -301,16 +352,21 @@ def clear_invalid_date(date, is_invalid):
     Output('url-redirect', 'href'),
     inputs={
         'n_clicks': Input('submit-button', 'n_clicks'),
-        'field_values': State({'type': 'input-field', 'element': ALL, 'key': ALL}, 'value'),
-        'field_ids': State({'type': 'input-field', 'element': ALL, 'key': ALL}, 'id'),
-        'url_value': State('url-input', 'value'),
-        'url_invalid': State('url-input', 'invalid'),
-        'radio_value': State({'type': 'alt-input-field', 'element': 'source-radio'}, 'value'),
-        'date_value': State({'type': 'alt-input-field', 'element': 'date-picker'}, 'date'),
+        'inputs': {
+            'values': State({'type': 'input-field', 'element': ALL, 'key': ALL}, 'value'),
+            'ids': State({'type': 'input-field', 'element': ALL, 'key': ALL}, 'id'),
+        },
+        'alt_inputs': {
+            'url_value': State('url-input', 'value'),
+            'url_invalid': State('url-input', 'invalid'),
+            'source-value': State({'type': 'alt-input-field', 'element': 'source-radio'}, 'value'),
+            'date_value': State({'type': 'alt-input-field', 'element': 'date-picker'}, 'date'),
+            'theme_checkbox': State('theme-checkbox', 'value'),
+        },
     },
     prevent_initial_call=True
 )
-def submit_form_pattern(n_clicks, field_values, field_ids, url_value, url_invalid, radio_value, date_value):
+def submit_form_pattern(n_clicks, inputs, alt_inputs):
     if n_clicks > 0:
         # track if form is ready to submit
         is_form_valid = True
@@ -319,7 +375,15 @@ def submit_form_pattern(n_clicks, field_values, field_ids, url_value, url_invali
 
         # Check for null values in input fields
         missing_fields = []
-        for i, val in enumerate(field_values):
+        for i, val in enumerate(inputs['values']):
+            # custom logic for theme field
+            if inputs['ids'][i]['key'] == 'theme':
+                # if box for custom theme is not checked, theme field isn't required
+                if not alt_inputs['theme_checkbox']:
+                    # if tournament doesn't have a custom theme
+                    if is_form_valid: data['theme'] = "N/A"
+                    continue
+
             if val is None or val == '':
                 # find all fields with empty values
                 missing_fields.append(i)
@@ -327,48 +391,51 @@ def submit_form_pattern(n_clicks, field_values, field_ids, url_value, url_invali
                 is_form_valid = False
             if is_form_valid:
                 # add to data dict if form is still valid
-                data[field_ids[i]["key"]] = val
+                data[inputs['ids'][i]["key"]] = val
         for index in missing_fields:
             # set invalid to true if field value is null
-            set_props(field_ids[index], {'invalid': True})
+            set_props(inputs['ids'][index], {'invalid': True})
 
         # check if url is valid
-        if not url_invalid:
-            if url_value is None or url_value == '':
+        if not alt_inputs['url_invalid']:
+            if alt_inputs['url_value'] is None or alt_inputs['url_value'] == '':
                 # flag that form has an invalid field
                 is_form_valid = False
                 set_props('url-input', {'invalid': True})
+                # show missing value error msg
+                update_url_error(True)
             elif is_form_valid:
                 # add to data dict if form is still valid
-                data["link"] = url_value
+                data["link"] = alt_inputs['url_value']
         else:
             # url does not match pattern
             is_form_valid = False
 
         # check radio button for empty value
-        if radio_value is None or radio_value == '':
+        if alt_inputs['source-value'] is None or alt_inputs['source-value'] == '':
             # flag that form has an invalid field
             is_form_valid = False
             set_props({'type': 'input-hidden', 'element': 'source-radio'}, {'invalid': True})
         elif is_form_valid:
-            data["website"] = radio_value
+            data["website"] = alt_inputs['source-value']
 
         # check date field for empty value
-        if date_value is None or date_value == '':
+        if alt_inputs['date_value'] is None or alt_inputs['date_value'] == '':
             # flag that form has an invalid field
             is_form_valid = False
             set_props({'type': 'input-hidden', 'element': 'date-picker'}, {'invalid': True})
         elif is_form_valid:
-            data["date"] = date_value
+            data["date"] = alt_inputs['date_value']
 
         if is_form_valid:
             print("Submission successful!")
-            melee_db.add_tournament(data)
+            melee_data.add_tournament(data)
             # submit data and display success screen
             return '/bracket-history'
         else:
             print("Submission failed!")
             # display error screen
+            set_props('invalid-alert', {'is_open': True})
             return dash.no_update
     else:
         raise PreventUpdate

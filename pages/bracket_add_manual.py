@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 import dash_daq as daq
 import pandas as pd
 import json
-import melee_db as melee_db
+import melee_data
 from dash.exceptions import PreventUpdate
 
 dash.register_page(__name__)

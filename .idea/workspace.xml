@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="added remaining fields to bracket_add_url.py, added callbacks to capture input data, added form feedback for input fields">
+    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="continued work on bracket_add_url.py: added max input lengths, added form feedback for alt inputs, added url validation for url input, started writing code to send data to mongodb on submit">
+      <change afterPath="$PROJECT_DIR$/melee_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/melee_data.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/melee_data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/melee_data2.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/melee_data2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/melee_data3.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/melee_data3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/melee_data4.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/melee_data4.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_crud.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/melee_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/melee_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/bracket_add_manual.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_add_manual.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/bracket_add_url.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_add_url.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/bracket_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_history.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/bracket_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/bracket_view_embed.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_view_embed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/testing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sample.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,7 +219,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774200183614</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="continued work on bracket_add_url.py: added max input lengths, added form feedback for alt inputs, added url validation for url input, started writing code to send data to mongodb on submit">
+      <option name="closed" value="true" />
+      <created>1774373190298</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1774373190299</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -270,6 +289,7 @@
     <MESSAGE value="added page to display embedded challonge bracket, added data to db with links instead of matches, started code to redirect based on data embed link" />
     <MESSAGE value="added dropdown in bracket_history.py to redirect to bracket_add_url.py or bracket_add_manual.py, finished redirect from bracket_history.py to bracket_view_embed.py to display corresponding embed for Challonge brackets, started work on bracket_add_url.py to submit new bracket by url" />
     <MESSAGE value="added remaining fields to bracket_add_url.py, added callbacks to capture input data, added form feedback for input fields" />
-    <option name="LAST_COMMIT_MESSAGE" value="added remaining fields to bracket_add_url.py, added callbacks to capture input data, added form feedback for input fields" />
+    <MESSAGE value="continued work on bracket_add_url.py: added max input lengths, added form feedback for alt inputs, added url validation for url input, started writing code to send data to mongodb on submit" />
+    <option name="LAST_COMMIT_MESSAGE" value="continued work on bracket_add_url.py: added max input lengths, added form feedback for alt inputs, added url validation for url input, started writing code to send data to mongodb on submit" />
   </component>
 </project>

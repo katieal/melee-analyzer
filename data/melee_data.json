@@ -4,7 +4,7 @@
     "name": "Big Better Tournament",
     "date": "2026-03-05",
     "location": "PhoThai",
-    "mode": "single_elim",
+    "format": "single_elim",
     "theme": "normal",
     "winner": "Jeff",
     "matches": [

@@ -4,7 +4,7 @@
     "name": "Rematch Tournament",
     "date": "2026-03-07",
     "location": "PhoThai",
-    "mode": "single_elim",
+    "format": "single_elim",
     "theme": "normal",
     "winner": "Amy",
     "matches": [
@@ -105,7 +105,7 @@
     "name": "Another One With Rematches",
     "date": "2026-03-07",
     "location": "AmyFest",
-    "mode": "single_elim",
+    "format": "single_elim",
     "theme": "normal",
     "winner": "Amy",
     "matches": [

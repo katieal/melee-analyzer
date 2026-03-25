@@ -4,11 +4,11 @@ from dash import Dash, html
 import dash_ag_grid as dag
 import dash_bootstrap_components as dbc
 import pandas as pd
-from melee_db import df
-from melee_db import TeamInfo
-from melee_db import MatchInfo
-from melee_db import MatchNode
-import melee_db as melee_db
+from melee_data import df
+from melee_data import TeamInfo
+from melee_data import MatchInfo
+from melee_data import MatchNode
+import melee_data
 
 dash.register_page(__name__)
 
@@ -239,7 +239,7 @@ def layout(bracket_id=None, **kwargs):
     if bracket_id is not None:
 
         # get data from melee db
-        name, match_data, match_sizes = melee_db.get_bracket_info(bracket_id)
+        name, match_data, match_sizes = melee_data.get_bracket_info(bracket_id)
 
         # construct final container
         return dbc.Container([
