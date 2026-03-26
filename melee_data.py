@@ -3,6 +3,7 @@ from pymongo import MongoClient
 import pandas as pd
 import typing
 from typing import TypedDict, NotRequired
+import uuid
 
 # Import CRUD Module
 import melee_db
@@ -11,41 +12,41 @@ import melee_db
 username = "admin"
 password = "AmyFest1"
 db = melee_db.MeleeDatabase(username, password)
-df = db.df
+
 
 def add_tournament(data):
-    data["bracket_id"] = 312
+    # generate a random uuid for new tournament
+    data["bracket_id"] = str(uuid.uuid4())
     db.create(data)
 
-def use_bracket_embed(bracket_id:int) -> bool:
+def use_bracket_embed(bracket_id:str) -> bool:
     """
     Check if a given bracket should be shown using the embed page.
     :param bracket_id: id of bracket to check
     :return: True if embed page should be displayed, False for manual bracket result view
     """
-    bracket_id = int(bracket_id)
-    data = df.loc[bracket_id]
+    data = db.df.loc[bracket_id]
 
-    # check for 'link' column
-    if 'link' in data.keys() and pandas.notna(data.get('link')):
-        # return true if link is found and isn't null
+    # check for 'url' column
+    if 'url' in data.keys() and pandas.notna(data.get('url')):
+        # return true if url is found and isn't null
         return True
     else:
-        # return false if entry doesn't have a link
+        # return false if entry doesn't have a url
         return False
 
 
-def get_bracket_link(bracket_id:int) -> tuple[str, str, str]:
+def get_bracket_url(bracket_id:str):
     """
-    Given a bracket id, return the name, website type, and external link to the results
+    Given a bracket id, return the name, website type, and external url to the results
     :param bracket_id: id of bracket to find
-    :return: tournament name, website used, link to bracket
+    :return: tournament name, website used, url to bracket
     """
-    bracket_id = int(bracket_id)
-    return df.loc[bracket_id, 'name'], "Challonge", df.loc[bracket_id, 'link']
+    #print("type: ", type(db.df.loc[bracket_id]))
+    return db.df.loc[bracket_id]
 
 
-def get_bracket_info(bracket_id: int) -> tuple[str, list[MatchNode], list[int]]:
+def get_bracket_info(bracket_id: str) -> tuple[str, list[MatchNode], list[int]]:
     """
     Given a bracket id, return its name, a list of MatchNode head nodes, and sizes.
      MatchNode list contains one node for each match in the final round of a bracket, where
@@ -53,10 +54,9 @@ def get_bracket_info(bracket_id: int) -> tuple[str, list[MatchNode], list[int]]:
     :param bracket_id: the bracket id
     :return: bracket name, MatchNode list, sizes list
     """
-    bracket_id = int(bracket_id)
 
     # get matches from the bracket (list of dicts)
-    matches = df.loc[bracket_id, 'matches']
+    matches = db.df.loc[bracket_id, 'matches']
 
     # find highest round number (round num is zero indexed)
     max_rounds = 0
@@ -70,7 +70,7 @@ def get_bracket_info(bracket_id: int) -> tuple[str, list[MatchNode], list[int]]:
     # count num of matches in each round
     match_size = get_match_size(match_data, max_rounds)
 
-    return df.loc[bracket_id, 'name'], match_data, match_size
+    return db.df.loc[bracket_id, 'name'], match_data, match_size
 
 
 def get_match_size(match_data:list[MatchNode], max_rounds:int) -> list[int]:
@@ -211,7 +211,7 @@ class MatchNode(object):
 
 # ============ JSON Data Structure Info ============
 # ----------- Tournament -----------
-#   'bracket_id': int
+#   'bracket_id': string
 #   'name': string
 #   'date': string
 #   'location': string
@@ -222,7 +222,7 @@ class MatchNode(object):
 #   'matches': list(MatchDict)
 #
 class TournamentInfo(TypedDict):
-    bracket_id: int
+    bracket_id: str
     name: str
     date: str
     location: str

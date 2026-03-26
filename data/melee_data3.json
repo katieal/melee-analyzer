@@ -1,6 +1,6 @@
 [
   {
-    "bracket_id": 200,
+    "bracket_id": "200",
     "name": "Rematch Tournament",
     "date": "2026-03-07",
     "location": "PhoThai",
@@ -101,7 +101,7 @@
     ]
   },
   {
-    "bracket_id": 201,
+    "bracket_id": "201",
     "name": "Another One With Rematches",
     "date": "2026-03-07",
     "location": "AmyFest",

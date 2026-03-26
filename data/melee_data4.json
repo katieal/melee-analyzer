@@ -1,42 +1,46 @@
 [
   {
-    "bracket_id": 303,
+    "bracket_id": "303",
     "name": "AmyFest 3",
     "date": "2025-06-13",
     "location": "AmyFest",
     "format": "double_elim",
     "theme": "normal",
     "winner": "Electroman",
-    "link": "https://challonge.com/ke7mjfir"
+    "website": "Challonge",
+    "url": "https://challonge.com/ke7mjfir"
   },
   {
-    "bracket_id": 304,
+    "bracket_id": "304",
     "name": "AmyFest 4",
     "date": "2025-07-09",
     "location": "AmyFest",
     "format": "double_elim",
     "theme": "normal",
     "winner": "Andrew",
-    "link": "https://challonge.com/jq8nge1g"
+    "website": "Challonge",
+    "url": "https://challonge.com/jq8nge1g"
   },
   {
-    "bracket_id": 305,
+    "bracket_id": "305",
     "name": "AmyFest 5",
     "date": "2025-09-04",
     "location": "AmyFest",
     "format": "double_elim",
     "theme": "normal",
     "winner": "Undetermined",
-    "link": "https://challonge.com/l9tsioax"
+    "website": "Challonge",
+    "url": "https://challonge.com/l9tsioax"
   },
   {
-    "bracket_id": 306,
+    "bracket_id": "306",
     "name": "AmyFest 6",
     "date": "2026-02-21",
     "location": "AmyFest",
     "format": "double_elim",
     "theme": "gamblin",
     "winner": "Kalvar",
-    "link": "https://challonge.com/vsgniuwn"
+    "website": "Challonge",
+    "url": "https://challonge.com/vsgniuwn"
   }
 ]

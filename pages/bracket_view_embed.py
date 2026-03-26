@@ -16,23 +16,23 @@ embed_bracket = html.Iframe(
 )
 
 
-def get_bracket_embed(website, link):
+def make_embed(website, url):
     """
     Return a html.Iframe with the embedded bracket
     :param website:
-    :param link:
+    :param url:
     :return:
     """
 
-    url = link if website == "Start.gg" else link + '/module'
+    link = url if website == "Start.gg" else url + '/module'
 
     return html.Iframe(
-        src=url,
+        src=link,
         title='Embedded View of Bracket from External Site',
         className='flex-fill'
     )
 
-def get_header(name, website, link):
+def make_header(name, website, url):
     return html.Div(
         [
             html.Div(f"{name} Results", className='text-center h1 mb-0'),
@@ -41,7 +41,7 @@ def get_header(name, website, link):
                     f"View on {website}",
                     html.I(className='ms-2 fa-solid fa-angles-right')
                 ],
-               href=link,
+               href=url,
                external_link=True,
                target='_blank',
                className='position-absolute end-0 align-self-center mb-0'
@@ -50,22 +50,130 @@ def get_header(name, website, link):
         className='d-flex flex-row justify-content-center position-relative mt-5 mb-0'
     )
 
+cards = dbc.CardGroup(
+    [
+        dbc.Card(
+            dbc.CardBody([
+                html.H5("Date", className='card-title text-center'),
+                html.Div("MM/DD/YYYY", className='card-text text-center')
+            ]),
+            color='primary'
+        ),
+        dbc.Card(
+            dbc.CardBody([
+                html.H5("Time", className='card-title text-center'),
+                html.Div("00:00 PM", className='card-text text-center')
+            ]),
+            color='primary'
+        ),
+        dbc.Card(
+            dbc.CardBody([
+                html.H5("Location", className='card-title text-center'),
+                html.Div("PhoThai", className='card-text text-center')
+            ]),
+            #color='primary'
+        )
+    ],
+    className='w-75'
+)
+
+card_1 = dbc.Card(
+    dbc.CardBody(
+        [
+            html.H5("Date", className='card-title text-center'),
+            html.P("MM/DD/YYYY", className='text-center mb-1')
+        ],
+    ),
+    color='primary',
+    #className = 'border rounded-3'
+)
+
+card_2 = dbc.Card(
+    dbc.CardBody(
+        [
+            html.H5("Location", className='card-title text-center'),
+            html.P("AmyFest", className='text-center mb-1')
+        ]
+    ),
+    color='primary',
+)
+
+card_3 = dbc.Card(
+    dbc.CardBody(
+        [
+            html.H5("Format", className='card-title text-center'),
+            html.P("Double Elimination", className='text-center mb-1')
+        ]
+    ),
+    color='primary',
+)
+
+card_4 = dbc.Card(
+    dbc.CardBody(
+        [
+            html.H3("Winner:     eemee    ", className='card-title text-center mb-1 '),
+            #html.P("eemee", className='text-center mb-1')
+        ]
+    ),
+    color='primary',
+)
+
+
+def make_info_view():
+    # date, location, format, theme, winner
+    data = html.Div(
+        [
+            dbc.Row(
+                [
+                    dbc.Col(card_1, width=3),
+                    dbc.Col(card_2, width=3),
+                    dbc.Col(card_3, width=3)
+                ],
+                justify='center',
+                className='my-3'
+            ),
+            dbc.Row(
+                dbc.Col(
+                    [
+                        card_4
+                    ],
+                    width=5
+                ),
+                justify='center',
+                className='mb-3'
+            )
+        ]
+    )
+    return data
+
 
 def layout(bracket_id=None, **kwargs):
     if bracket_id is None:
         return dbc.Container()
     else:
         # get bracket data from melee db
-        name, website, link = melee_data.get_bracket_link(bracket_id)
+        data = melee_data.get_bracket_url(bracket_id)
         return dbc.Container([
-            get_header(name, website, link),
+            make_header(data['name'], data['website'], data['url']),
             html.Hr(),
             html.Br(),
             dbc.Row(
                 [
                     dbc.Col(
+
+                           [ make_info_view()],
+                        width=9,
+                        className='bg-info'
+                    )
+                ],
+                justify='center'
+            ),
+            html.Hr(),
+            dbc.Row(
+                [
+                    dbc.Col(
                         [
-                            get_bracket_embed(website, link),
+                            make_embed(data['website'], data['url']),
                         ],
                         width=12,
                         className='d-flex vh-100'

@@ -16,8 +16,6 @@ def stringify_id(id_):
         return json.dumps(id_, sort_keys=True, separators=(",", ":"))
     return id_
 
-# TO do:
-# input box style changes when using browser autocomplete?
 
 # ========= Input Components =========
 missing_feedback = dbc.FormFeedback("Field is required", type='invalid')
@@ -132,14 +130,14 @@ location_input = dbc.Row(
     ],
     className=margin
 )
-mode_id = {'type': 'input-field', 'element': 'mode-select', 'key': 'mode'}
-mode_input = dbc.Row(
+format_id = {'type': 'input-field', 'element': 'format-select', 'key': 'format'}
+format_input = dbc.Row(
     [
-        dbc.Label("Tournament Mode", html_for=stringify_id(mode_id), size='lg', width=label_width),
+        dbc.Label("Tournament Format", html_for=stringify_id(format_id), size='lg', width=label_width),
         dbc.Col(
             [
                 dbc.Select(
-                    id=mode_id,
+                    id=format_id,
                     options=[
                         {'label': "Single Elimination", 'value': "single_elim"},
                         {'label': "Double Elimination", 'value': "double_elim"},
@@ -147,7 +145,7 @@ mode_input = dbc.Row(
                     ],
                     # placeholder text in this field doesn't have the same muted appearance as the placeholders
                     # in input fields which looks weird so omitting it for now
-                    # placeholder="Select tournament mode"
+                    # placeholder="Select tournament format"
                 ),
                 missing_feedback
             ],
@@ -190,11 +188,11 @@ winner_input = dbc.Row(
 # URL input form
 bracket_url_form = dbc.Form([bracket_type_input, url_input])
 # Tournament details input form
-bracket_info_form = dbc.Form([name_input, date_input, location_input, mode_input, theme_input, winner_input])
+bracket_info_form = dbc.Form([name_input, date_input, location_input, format_input, theme_input, winner_input])
 
 # submit button
 submit_button = html.Div(
-    dbc.Button("Submit", id='submit-button', size='lg', color='secondary'),
+    dbc.Button("Submit", id='submit-button', size='lg', color='secondary', n_clicks=0),
     className='d-grid col-6 mx-auto my-3'
 )
 
@@ -204,7 +202,7 @@ invalid_alert = dbc.Alert(
     id='invalid-alert',
     color='danger',
     dismissable=True,
-    is_open=False
+    is_open=False,
 )
 
 # ========= Final Layout =========
@@ -350,6 +348,7 @@ def clear_invalid_date(date, is_invalid):
 # ========== Form submission callback ==========
 @callback(
     Output('url-redirect', 'href'),
+    Output('data-store', 'data'),
     inputs={
         'n_clicks': Input('submit-button', 'n_clicks'),
         'inputs': {
@@ -366,7 +365,7 @@ def clear_invalid_date(date, is_invalid):
     },
     prevent_initial_call=True
 )
-def submit_form_pattern(n_clicks, inputs, alt_inputs):
+def submit_form(n_clicks, inputs, alt_inputs):
     if n_clicks > 0:
         # track if form is ready to submit
         is_form_valid = True
@@ -406,7 +405,7 @@ def submit_form_pattern(n_clicks, inputs, alt_inputs):
                 update_url_error(True)
             elif is_form_valid:
                 # add to data dict if form is still valid
-                data["link"] = alt_inputs['url_value']
+                data["url"] = alt_inputs['url_value']
         else:
             # url does not match pattern
             is_form_valid = False
@@ -427,15 +426,16 @@ def submit_form_pattern(n_clicks, inputs, alt_inputs):
         elif is_form_valid:
             data["date"] = alt_inputs['date_value']
 
+        # Submit data and redirect if form is valid
         if is_form_valid:
             print("Submission successful!")
-            melee_data.add_tournament(data)
             # submit data and display success screen
-            return '/bracket-history'
+            melee_data.add_tournament(data)
+            return '/bracket-history', {"success_modal": True}
         else:
             print("Submission failed!")
             # display error screen
             set_props('invalid-alert', {'is_open': True})
-            return dash.no_update
+            return dash.no_update, dash.no_update
     else:
         raise PreventUpdate

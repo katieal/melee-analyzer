@@ -4,7 +4,6 @@ from dash import Dash, html
 import dash_ag_grid as dag
 import dash_bootstrap_components as dbc
 import pandas as pd
-from melee_data import df
 from melee_data import TeamInfo
 from melee_data import MatchInfo
 from melee_data import MatchNode

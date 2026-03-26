@@ -1,6 +1,6 @@
 [
   {
-    "bracket_id": 0,
+    "bracket_id": "0",
     "name": "First PhoThai Tournament",
     "date": "2026-01-01",
     "location": "PhoThai",
@@ -59,7 +59,7 @@
     ]
   },
   {
-    "bracket_id": 13,
+    "bracket_id": "13",
     "name": "AmyFest Tournament",
     "date": "2026-02-01",
     "location": "Amy's House",
@@ -86,7 +86,7 @@
     ]
   },
   {
-    "bracket_id": 1,
+    "bracket_id": "1",
     "name": "Tournament 1",
     "date": "2025-01-01",
     "location": "PhoThai",
@@ -113,7 +113,7 @@
     ]
   },
   {
-    "bracket_id": 2,
+    "bracket_id": "2",
     "name": "Tournament 2",
     "date": "2025-02-01",
     "location": "PhoThai",
