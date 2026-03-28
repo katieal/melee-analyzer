@@ -17,36 +17,41 @@ test_button = dbc.Button(
     n_clicks=0,
 )
 
-success_modal = dbc.Modal(
-    [
-        dbc.ModalHeader(
-            "Tournament added!",
-            class_name='bg-secondary border rounded-3'
-        ),
-    ],
-    #id='success-modal',
-    size='sm',
-    is_open=False,
-    backdrop_class_name='bg-transparent'
+img_path = 'assets/amyfest7.png'
+
+test_img = html.Img(
+    src=img_path,
+    alt="Tournament profile image",
+    style={
+        'width': '100%',
+        'height': '100%',
+        'objectFit': 'contain'
+    }
 )
 
 layout = dbc.Container([
     dbc.Row(dbc.Col(html.Div("Testing", className='text-center h1 mt-5 mb-0'))),
-    success_modal,
     html.Hr(),
     html.Br(),
     dbc.Row(
         [
             dbc.Col(
                 [
+                    test_img
+                ],
+                width=2,
+                className='border border-2 vh-100'
+            ),
+            dbc.Col(
+                [
                     test_button
                 ],
-                width='auto',
-                #className='d-flex vh-100'
+                width=10,
+                className='border border-2'
             )
         ],
         align='center',
-    ),
+    )
 ])
 
 """

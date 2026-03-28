@@ -4,6 +4,13 @@ date: March 28 2025
 double elim
 winner: Bonfire10
 
+PhoThai Melee #134
+https://www.start.gg/tournament/pho-tai-melee-134/event/melee-singles/brackets/2210582/3211219
+Feb 20, 2026
+28 Railroad Square, Nashua, NH, 03064
+double elim
+Winner: Goodie
+
 
 ISSUES:
 input box style changes when using browser autocomplete?
@@ -12,3 +19,10 @@ to do:
 display extra info in embed page
 start.gg display page
 tournament edit
+stub file https://typing.python.org/en/latest/guides/writing_stubs.html#
+field for singles/doubles?
+
+
+Ideas:
+put the actual location with location?
+add img to tournament display - dash mantine components website won't load?

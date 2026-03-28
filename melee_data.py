@@ -1,8 +1,11 @@
+from unittest import case
+
 import pandas
 from pymongo import MongoClient
 import pandas as pd
 import typing
 from typing import TypedDict, NotRequired
+from enum import Enum
 import uuid
 
 # Import CRUD Module
@@ -13,6 +16,16 @@ username = "admin"
 password = "AmyFest1"
 db = melee_db.MeleeDatabase(username, password)
 
+def get_format_string(format_type:str):
+    match format_type.upper():
+        case FormatType.SINGLE_ELIM.name:
+            return "Single Elimination"
+        case FormatType.DOUBLE_ELIM.name:
+            return "Double Elimination"
+        case FormatType.ROUND_ROBIN.name:
+            return "Round Robin"
+        case _:
+            return "N/A"
 
 def add_tournament(data):
     # generate a random uuid for new tournament
@@ -215,10 +228,11 @@ class MatchNode(object):
 #   'name': string
 #   'date': string
 #   'location': string
-#   'format': string
+#   'format': string [single_elim, double_elim, robin]
 #   'theme': string
 #   'winner': string(PlayerName)
 #   'link': string
+#   'website': string [Start.gg, Challonge, Other]
 #   'matches': list(MatchDict)
 #
 class TournamentInfo(TypedDict):
@@ -231,6 +245,12 @@ class TournamentInfo(TypedDict):
     winner: str
     link: NotRequired[str]
     matches: NotRequired[list[MatchInfo]]
+
+class FormatType(Enum):
+    SINGLE_ELIM = 1
+    DOUBLE_ELIM = 2
+    ROUND_ROBIN = 3
+
 # ----------- MatchInfo -----------
 #   'bracket': string [Main/Upper/Lower/Winner's/Loser's]
 #   'round': int
