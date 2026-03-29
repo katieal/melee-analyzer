@@ -83,11 +83,12 @@ def layout(**kwargs):
 )
 def navigate_cell_clicked(cell):
     if cell:
-        if melee_data.use_bracket_embed(cell["rowId"]):
+        return f"/bracket-view?bracket_id={cell["rowId"]}"
+        #if melee_data.use_bracket_embed(cell["rowId"]):
             # redirect to embed page if bracket data has a link
-            return f"/bracket-view-embed?bracket_id={cell["rowId"]}"
-        else:
+            #return f"/bracket-view-embed?bracket_id={cell["rowId"]}"
+        #else:
             # otherwise, redirect to manual bracket view
-            return f"/bracket-view?bracket_id={cell["rowId"]}"
+        #    return f"/bracket-view?bracket_id={cell["rowId"]}"
     else:
         raise PreventUpdate

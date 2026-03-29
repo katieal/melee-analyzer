@@ -7,6 +7,7 @@ import typing
 from typing import TypedDict, NotRequired
 from enum import Enum
 import uuid
+import datetime
 
 # Import CRUD Module
 import melee_db
@@ -49,23 +50,61 @@ def use_bracket_embed(bracket_id:str) -> bool:
         return False
 
 
-def get_bracket_url(bracket_id:str):
-    """
-    Given a bracket id, return the name, website type, and external url to the results
-    :param bracket_id: id of bracket to find
-    :return: tournament name, website used, url to bracket
-    """
-    #print("type: ", type(db.df.loc[bracket_id]))
-    return db.df.loc[bracket_id]
+def get_bracket_info(bracket_id:str):
+    # get bracket data
+    data = db.df.loc[bracket_id]
+    # remove Nan values
+    data.dropna(inplace=True)
+
+    # determine if custom match data should be displayed
+    # if field isn't present in data, default to true if custom match data is present, otherwise false
+    show_custom = data['show_custom'] if (check_key('show_custom', data)) else (True if (check_key('matches', data)) else False)
+
+    date = datetime.date.fromisoformat(data['date'])
+
+    bracket_info = {
+        "name": data['name'],
+        "date": datetime.datetime.strftime(date, '%B %d, %Y'),
+        "location": data['location'],
+        "format": get_format_string(data['format']),
+        "theme": data['theme'],
+        "winner": data['winner'],
+        "website": data['website'] if check_key('website', data) else None,
+        "url": data['url'] if check_key('url', data) else None,
+        "show_custom": show_custom
+    }
+
+    # get data on matches if present
+    if check_key('matches', data):
+        bracket_info['match_data'], bracket_info['match_sizes'] = get_match_info(bracket_id)
+    else:
+        bracket_info['match_data'] = None
+        bracket_info['match_sizes'] = None
+
+    return bracket_info
 
 
-def get_bracket_info(bracket_id: str) -> tuple[str, list[MatchNode], list[int]]:
+def check_key(key, data) -> bool:
     """
-    Given a bracket id, return its name, a list of MatchNode head nodes, and sizes.
+    Check for a given key in a given dataset
+    :return: True if key is present and value is not Nan/None, False otherwise
+    """
+
+    if not key in data.keys():
+        return False
+    else:
+        if type(data[key]) is str:
+            return data[key] != ""
+        return data[key] is not None
+
+
+def get_match_info(bracket_id: str) -> tuple[list[MatchNode], list[int]]:
+    """
+    Given a bracket id, return a list of MatchNode head nodes and sizes.
      MatchNode list contains one node for each match in the final round of a bracket, where
      each node is the head node for a linked list.
     :param bracket_id: the bracket id
-    :return: bracket name, MatchNode list, sizes list
+    :return: MatchNode list, sizes list
     """
 
     # get matches from the bracket (list of dicts)
@@ -83,7 +122,7 @@ def get_bracket_info(bracket_id: str) -> tuple[str, list[MatchNode], list[int]]:
     # count num of matches in each round
     match_size = get_match_size(match_data, max_rounds)
 
-    return db.df.loc[bracket_id, 'name'], match_data, match_size
+    return match_data, match_size
 
 
 def get_match_size(match_data:list[MatchNode], max_rounds:int) -> list[int]:
@@ -231,7 +270,7 @@ class MatchNode(object):
 #   'format': string [single_elim, double_elim, robin]
 #   'theme': string
 #   'winner': string(PlayerName)
-#   'link': string
+#   'url': string
 #   'website': string [Start.gg, Challonge, Other]
 #   'matches': list(MatchDict)
 #
@@ -243,7 +282,7 @@ class TournamentInfo(TypedDict):
     format: str
     theme: str
     winner: str
-    link: NotRequired[str]
+    url: NotRequired[str]
     matches: NotRequired[list[MatchInfo]]
 
 class FormatType(Enum):

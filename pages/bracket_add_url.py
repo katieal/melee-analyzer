@@ -154,7 +154,7 @@ format_input = dbc.Row(
     ],
     className=margin
 )
-#theme_id = {'type': 'checkbox-field', 'element': 'theme-checkbox'}
+#theme_id = {'type': 'checkbox-field', 'element': 'theme-checkbox'} change to a button that adds a field instead
 theme_input_id = {'type': 'input-field', 'element': 'theme-input', 'key': 'theme'}
 theme_input = dbc.Row(
     [
@@ -168,6 +168,13 @@ theme_input = dbc.Row(
             width=input_width
         )
     ],
+    className=margin
+)
+theme_input1 = dbc.Row(
+    [
+
+    ],
+    id='theme-input-container',
     className=margin
 )
 winner_id = {'type': 'input-field', 'element': 'winner-input', 'key': 'winner'}
@@ -269,7 +276,7 @@ def toggle_theme_input(is_checked):
     },
     prevent_initial_call=True
 )
-def validate_url(url, website):
+def validate_url(url, website): # could do this with a pattern matching callback to allow for adding/deleting field
     # url box is only enabled after website is selected
     if website is None or website == '':
         raise PreventUpdate
