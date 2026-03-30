@@ -7,7 +7,7 @@ import dash_bootstrap_components as dbc
 # initialize dash app
 dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"
 app = Dash(__name__, external_stylesheets=[dbc.themes.VAPOR, dbc.icons.FONT_AWESOME, dbc_css], use_pages=True)
-
+app.config.suppress_callback_exceptions = True
 # ======================
 # ===== App Layout =====
 # ======================

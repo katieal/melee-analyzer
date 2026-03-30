@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="completed extra display info and start.gg/other website view in bracket_view_embed.py">
-      <change afterPath="$PROJECT_DIR$/bracket_view_builder.py" afterDir="false" />
+    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="combined embed and custom bracket views into bracket_view.py with helper script bracket_view_builder.py, began modifying bracket add page to use buttons to add optional fields and combine url and manual pages">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melee_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/melee_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/bracket_add_url.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_add_url.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/bracket_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_history.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/bracket_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/bracket_view_embed.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/testing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -245,7 +241,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774718542451</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="combined embed and custom bracket views into bracket_view.py with helper script bracket_view_builder.py, began modifying bracket add page to use buttons to add optional fields and combine url and manual pages">
+      <option name="closed" value="true" />
+      <created>1774805408313</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1774805408313</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -311,6 +315,7 @@
     <MESSAGE value="refactored melee_db.py and melee_data.py names for clarity, moved pandas import to melee_db.py, refactored bracket_history.py to refresh data on page load, renamed &quot;mode&quot; data field to &quot;format&quot;&#10;in bracket_add_url.py: added additional url input patterns and a popover format hint, added validation for theme field, added failed submission alert" />
     <MESSAGE value="refactored bracket_id field from int type to string, added uuid generation for new tournaments,&#10;added tournament submission success modal to app.py, renamed &quot;link&quot; field to &quot;url&quot;, added &quot;website&quot; field, began adding additional display info to bracket_view_embed.py" />
     <MESSAGE value="completed extra display info and start.gg/other website view in bracket_view_embed.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="completed extra display info and start.gg/other website view in bracket_view_embed.py" />
+    <MESSAGE value="combined embed and custom bracket views into bracket_view.py with helper script bracket_view_builder.py, began modifying bracket add page to use buttons to add optional fields and combine url and manual pages" />
+    <option name="LAST_COMMIT_MESSAGE" value="combined embed and custom bracket views into bracket_view.py with helper script bracket_view_builder.py, began modifying bracket add page to use buttons to add optional fields and combine url and manual pages" />
   </component>
 </project>

@@ -47,33 +47,17 @@ name_input = dbc.Row(
     className=margin
 )
 
-btn = dbc.Button(
+add_theme_button = dbc.Button(
     "Add Theme",
     id='add-theme-btn',
+    n_clicks=0
 )
-
-btn_row = dbc.Row(
-    [
-        dbc.Col(dbc.Input(disabled=True, className='me-2'), width=8),
-        dbc.Col(dbc.Button("Add Theme"), width=4)
-    ]
-)
-
-btn_stack = dbc.Stack(
-    [
-        dbc.Input(disabled=True),
-        dbc.Button("Add Theme")
-    ],
-    direction='horizontal',
-    gap=2
-)
-
 theme_input = dbc.Row(
     [
         dbc.Label("Tournament Theme", size='lg', width=label_width),
         dbc.Col(
             [
-
+                add_theme_button
             ],
             id='theme-input-container',
             width=input_width
@@ -82,18 +66,7 @@ theme_input = dbc.Row(
     className=margin
 )
 
-theme_btn_row = dbc.Row(
-    [
-        dbc.Label('', size='lg', width=label_width),
-        dbc.Col(
-            btn,
-            width=input_width
-        )
-    ],
-    className=margin
-)
-
-bracket_info_form = dbc.Form([name_input, theme_input, theme_btn_row])
+bracket_info_form = dbc.Form([name_input, theme_input])
 
 layout = dbc.Container([
     dbc.Row(dbc.Col(html.Div("Testing", className='text-center h1 mt-5 mb-0'))),
@@ -131,7 +104,8 @@ def get_field(index, class_name):
                     'type': 'theme-remove-button',
                     'index': index
                 },
-                color='danger'
+                color='danger',
+                n_clicks=0
             )
         ],
         id={
@@ -146,14 +120,17 @@ def get_field(index, class_name):
 @callback(
     Output('theme-input-container', 'children', allow_duplicate=True),
     Input('add-theme-btn', 'n_clicks'),
-    State('theme-input-container', 'children'),
+
     prevent_initial_call=True,
 )
-def add_theme(add_clicks, children):
+def add_theme(add_clicks):
     if add_clicks > 0:
         patched_children = Patch()
-        cn = 'mt-2' if len(children) >= 1 else ''
-        patched_children.append(get_field(add_clicks, cn))
+        #cn = 'mt-2' if len(children) >= 1 else ''
+        # delete add theme button
+        del patched_children[0]
+        # add theme input field
+        patched_children.append(get_field(add_clicks, ''))
         return patched_children
     else:
         raise PreventUpdate
@@ -162,18 +139,15 @@ def add_theme(add_clicks, children):
 @callback(
     Output('theme-input-container', 'children', allow_duplicate=True),
     Input({'type': 'theme-remove-button', 'index': ALL}, 'n_clicks'),
-    State({'type': 'theme-input-container', 'index': ALL}, 'children'), # NOT WORKING
     prevent_initial_call=True
 )
-def del_theme(clicks, children):
-    #elif ctx.triggered_id.type == 'theme-remove-button':
-        btn_index = ctx.triggered_id.index
-        index = 0
-
-        for i, x in enumerate(children):
-            if x['id']['index'] == btn_index:
-                index = i
-
+def del_theme(clicks):
+    if clicks[0] > 0:
         patched_children = Patch()
-        del patched_children[index]
+        # delete input field
+        del patched_children[0]
+        # insert add theme button
+        patched_children.append(add_theme_button)
         return patched_children
+    else:
+        raise PreventUpdate

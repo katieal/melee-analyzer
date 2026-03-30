@@ -14,6 +14,7 @@ Winner: Goodie
 
 ISSUES:
 input box style changes when using browser autocomplete?
+form feedback text doesn't display on tournament theme input
 
 to do:
 tournament edit
