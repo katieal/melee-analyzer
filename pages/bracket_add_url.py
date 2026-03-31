@@ -5,6 +5,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import json
 import re
+import dash_daq as daq
 import melee_data
 from dash.exceptions import PreventUpdate
 
@@ -144,7 +145,7 @@ theme_input_field = html.Div([
 theme_id = {'type': 'dynamic-input', 'element': 'theme'}
 theme_input = dbc.Row(
     [
-        dbc.Label("Tournament Theme", html_for=stringify_id(theme_id), size='lg', width=label_width),
+        dbc.Label("Tournament Theme", size='lg', width=label_width),
         dbc.Col(
             [
                 add_theme_button
@@ -231,16 +232,15 @@ web_input_header = html.Div(
     ],
     className='d-flex flex-row justify-content-center position-relative '
 )
-web_input_field = dbc.Col(
-    [
-        web_input_header,
-        website_input,
-        url_input
-    ],
-    width=11,
-    className='p-4 border border-2 rounded-3'
-)
-
+#web_input_field = dbc.Col(
+#    [
+#        web_input_header,
+#        website_input,
+#        url_input
+#    ],
+#    width=11,
+#    className='p-4 border border-2 rounded-3'
+#)
 add_web_button = html.Div([
     dbc.Button(
         [
@@ -262,21 +262,81 @@ web_input = dbc.Row(
     className=margin
 )
 
-match_display_option = html.Div(
+# =========================================
+# ======== Match Data Input Fields ========
+# =========================================
+num_input = daq.NumericInput(
+    value=0,
+    min=0,
+    max=9,
+    style={
+
+    },
+    className='dbc'
+)
+player = dbc.ListGroup(
+    [
+        dbc.ListGroupItem([
+            dbc.Input(placeholder="Player Name", type='text', className='bg-transparent')
+        ]),
+        dbc.ListGroupItem([
+            dbc.Input(placeholder=0,
+                      type='number',
+                      max=9,
+                      min=0,
+                      className='bg-transparent',
+                      style={
+                          'width': '56px'
+                      }
+                      )
+        ], class_name='')
+    ],
+    horizontal=True,
+    className='mb-3'
+)
+player2 = dbc.ListGroup(
+    [
+        dbc.ListGroupItem([dbc.Input(placeholder="Player Name", type='text', className='bg-transparent')]),
+        dbc.ListGroupItem([num_input])
+    ],
+    horizontal=True,
+)
+
+match_info_input = html.Div(
+    [
+        player,
+        player2
+    ]
+)
+round_info_container = html.Div(
+    [
+        dbc.Accordion(
+            [
+                dbc.AccordionItem(
+                    ["Sample Text", match_info_input],
+                    title="Round 1"
+                )
+            ],
+            id='round-info-accordion',
+            always_open=True
+        )
+    ]
+)
+bracket_display_option = html.Div(
     [
         dbc.Switch(
-            id='match-display-switch',
+            id='bracket-display-switch',
             label="Always display manual data",
             value=False
         )
     ]
 )
-match_input_header = html.Div(
+bracket_input_header = html.Div(
     [
-        html.Div("Add Match Data Manually", className='text-center h4'),
+        html.Div("Add Bracket Data Manually", className='text-center h4'),
         dbc.Button(
             [html.I(className='fa-solid fa-minus')],
-            id={'type': 'dynamic-delete', 'element': 'match'},
+            id={'type': 'dynamic-delete', 'element': 'bracket'},
             color='danger',
             n_clicks=0,
             className='position-absolute end-0 align-self-center'
@@ -284,39 +344,51 @@ match_input_header = html.Div(
     ],
     className='d-flex flex-row justify-content-center position-relative'
 )
-match_input_field = dbc.Col(
-    [
-        match_input_header,
-        match_display_option
-    ],
-    width=11,
-    className='p-4 border border-2 rounded-3'
-)
+#bracket_input_field = dbc.Col(
+#    [
+#        bracket_input_header,
+#        bracket_display_option,
+#        round_info_container
+#    ],
+#    width=11,
+#    className='p-4 border border-2 rounded-3'
+#)
 add_manual_button = html.Div([
     dbc.Button(
         [
             html.I(className='fa-solid fa-plus me-3'),
-            "Add Match Information Manually"
+            "Add Bracket Information Manually"
         ],
-        id={'type': 'dynamic-add', 'element': 'match'},
+        id={'type': 'dynamic-add', 'element': 'bracket'},
         color='info',
         n_clicks=0
     )],
     className='d-grid col-6 mx-auto'
 )
-manual_match_input = dbc.Row(
+manual_bracket_input = dbc.Row(
     [
         add_manual_button
     ],
-    id={'type': 'dynamic-input', 'element': 'match'},
+    id={'type': 'dynamic-input', 'element': 'bracket'},
     justify='center',
     className=margin
 )
 
 # Tournament details input form
 tournament_info_form = dbc.Form([name_input, date_input, location_input, format_input, theme_input, winner_input])
-# Match info input form
-match_info_form = dbc.Form([web_input, manual_match_input])
+# Bracket info input form
+# wrap in a col to decrease width?
+web_form = dbc.Form(
+    [web_input_header, website_input, url_input],
+    className='p-4 border border-2 rounded-3')
+manual_bracket_form = dbc.Form(
+    [
+        bracket_input_header,
+        bracket_display_option,
+        round_info_container
+    ],
+    className='p-4 border border-2 rounded-3')
+
 
 dynamic_fields = {
     "theme": {
@@ -324,11 +396,11 @@ dynamic_fields = {
         "add_button": add_theme_button
     },
     "website": {
-        "input": web_input_field,
+        "input": web_form,
         "add_button": add_web_button
     },
-    "match": {
-        "input": match_input_field,
+    "bracket": {
+        "input": manual_bracket_form,
         "add_button": add_manual_button
     }
 }
@@ -367,12 +439,13 @@ layout = dbc.Container(
             justify='center',
             className='mb-3'
         ),
-        # match data
+        # bracket data
         dbc.Row(
             dbc.Col(
                 [
-                    html.Div("Match Information", className='text-center h3 mt-3 mb-3'),
-                    match_info_form
+                    html.Div("Bracket Information", className='text-center h3 mt-3 mb-3'),
+                    web_input,
+                    manual_bracket_input
                 ],
                 width=10,
                 className='px-5 border border-3 rounded-3'
