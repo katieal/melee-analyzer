@@ -24,6 +24,9 @@ finish manual bracket add - just use inputgroups, don't think about connection l
 polish manual bracket view
 combine url and manual add pages, add display custom option
 
+Extras:
+https://getbootstrap.com/docs/5.0/customize/sass/
+
 
 Ideas:
 put the actual location with location?

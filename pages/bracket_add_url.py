@@ -218,7 +218,6 @@ url_input = html.Div(
     id='url-input-container',
     className='opacity-50'
 )
-
 web_input_header = html.Div(
     [
         html.Div("Add by Website URL", className='text-center h4'),
@@ -232,15 +231,6 @@ web_input_header = html.Div(
     ],
     className='d-flex flex-row justify-content-center position-relative '
 )
-#web_input_field = dbc.Col(
-#    [
-#        web_input_header,
-#        website_input,
-#        url_input
-#    ],
-#    width=11,
-#    className='p-4 border border-2 rounded-3'
-#)
 add_web_button = html.Div([
     dbc.Button(
         [
@@ -265,62 +255,140 @@ web_input = dbc.Row(
 # =========================================
 # ======== Match Data Input Fields ========
 # =========================================
-num_input = daq.NumericInput(
-    value=0,
-    min=0,
-    max=9,
-    style={
+max_name_length = 20
 
-    },
-    className='dbc'
-)
-player = dbc.ListGroup(
+player1 = dbc.Stack(
     [
-        dbc.ListGroupItem([
-            dbc.Input(placeholder="Player Name", type='text', className='bg-transparent')
-        ]),
-        dbc.ListGroupItem([
-            dbc.Input(placeholder=0,
-                      type='number',
-                      max=9,
-                      min=0,
-                      className='bg-transparent',
-                      style={
-                          'width': '56px'
-                      }
-                      )
-        ], class_name='')
+        dbc.Input(placeholder="Player 1 Name", type='text', size='lg', maxlength=max_name_length,
+                  className='my-1 bg-transparent'),
+        html.Div(className='vr bg-info',
+                 style={'width': '4px'}),
+        dbc.Input(
+            placeholder=0,
+            type='number',
+            max=9,
+            min=0,
+            size='lg',
+            className='my-1 pe-0 bg-transparent text-center',
+            style={'width': '62px'}
+        )
     ],
-    horizontal=True,
-    className='mb-3'
+    direction='horizontal'
 )
-player2 = dbc.ListGroup(
+player2 = dbc.Stack(
     [
-        dbc.ListGroupItem([dbc.Input(placeholder="Player Name", type='text', className='bg-transparent')]),
-        dbc.ListGroupItem([num_input])
+        dbc.Input(
+            placeholder=0,
+            type='number',
+            max=9,
+            min=0,
+            size='lg',
+            className='my-1 pe-0 bg-transparent text-center',
+            style={'width': '62px'}
+        ),
+        html.Div(className='vr bg-info',
+                 style={'width': '4px'}),
+        dbc.Input(placeholder="Player 2 Name", type='text', size='lg', maxlength=max_name_length,
+                  className='my-1 bg-transparent')
     ],
-    horizontal=True,
+    direction='horizontal'
+)
+match_divider = dbc.Row(
+    dbc.Col(
+        [html.Hr(className='border border-1 border-primary')],
+        width=10
+    ),
+    justify='center'
+)
+match_row = html.Div([
+    dbc.Row(
+        [
+            dbc.Col(player1, width=4, className='pe-0 border border-info border-2 rounded-3'),
+            dbc.Col(html.H3("VS", className='mb-0'), width=1, className='p-0 text-center align-self-center'),
+            dbc.Col(player2, width=4, className='ps-0 border border-info border-2 rounded-3'),
+            dbc.Col(
+                dbc.Button(
+                    [html.I(className='fa-solid fa-minus')],
+                    id={'type': 'dynamic-delete', 'element': 'website'},
+                    color='danger',
+                    n_clicks=0,
+
+                ),
+                className='position-absolute end-0 align-self-center'
+            )
+        ],
+        justify='center',
+        className='position-relative'
+    ),
+    match_divider
+])
+
+def get_match_row(round_index, index):
+    content = html.Div([
+        dbc.Row(
+            [
+                dbc.Col(player1, width=4, className='pe-0 border border-info border-2 rounded-3'),
+                dbc.Col(html.H3("VS", className='mb-0'), width=1, className='p-0 text-center align-self-center'),
+                dbc.Col(player2, width=4, className='ps-0 border border-info border-2 rounded-3'),
+                dbc.Col(
+                    dbc.Button(
+                        [html.I(className='fa-solid fa-minus')],
+                        id={'type': 'match-delete', 'round': round_index, 'element': index},
+                        color='danger',
+                        n_clicks=0,
+
+                    ),
+                    className='position-absolute end-0 align-self-center'
+                )
+            ],
+            justify='center',
+            className='position-relative'
+        ),
+        match_divider],
+        id=f'match-{round_index}-{index}',
+    )
+    return content
+
+add_match_button = html.Div(
+    [
+        dbc.Button(
+            [
+                html.I(className='fa-solid fa-circle-plus fa-2xl')
+            ],
+            id='add-match-button',
+            size='lg',
+            n_clicks=0,
+            className='bg-transparent border border-0'
+        )
+    ],
+    className='d-flex justify-content-center custom__style'
 )
 
-match_info_input = html.Div(
-    [
-        player,
-        player2
-    ]
+match_info_input = dbc.Row(
+    dbc.Col(
+        [
+            add_match_button,
+        ],
+        id='match-info-container'
+    ),
+    justify='center',
+    className='mt-3'
 )
+
 round_info_container = html.Div(
     [
         dbc.Accordion(
             [
                 dbc.AccordionItem(
-                    ["Sample Text", match_info_input],
+                    [match_info_input, ],
                     title="Round 1"
                 )
             ],
             id='round-info-accordion',
             always_open=True
         )
-    ]
+    ],
+    className='px-5'
 )
 bracket_display_option = html.Div(
     [
@@ -462,6 +530,37 @@ layout = dbc.Container(
     ],
     fluid=True,
 )
+
+
+@callback(
+    Output('match-info-container', 'children', allow_duplicate=True),
+    Input('add-match-button', 'n_clicks'),
+    prevent_initial_call=True
+)
+def add_match(n_clicks):
+    if n_clicks > 0:
+        patched_children = Patch()
+        patched_children.insert(-2, get_match_row(1, n_clicks))
+        return patched_children
+    else:
+        raise PreventUpdate
+
+
+@callback(
+    Output('match-info-container', 'children', allow_duplicate=True),
+    Input({'type': 'indexed-delete', 'element': ALL}, 'n_clicks'),
+    prevent_initial_call=True
+)
+def delete_match(n_clicks):
+
+    round_num = ctx.triggered_id.round
+    element = ctx.triggered_id.element
+
+    patched_children = Patch()
+    del patched_children[f'match-{round_num}-{element}']
+    return patched_children
+
+
 
 # =========== Add/Delete Dynamic Fields ===========
 @callback(
