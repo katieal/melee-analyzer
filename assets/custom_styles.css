@@ -16,8 +16,13 @@ Combinators
     (~) - subsequent sibling
 */
 
-/* Hopefully the numeric input */
+/* Hopefully the numeric input
 
-.custom__style .button { /* :hover or :active */
+.custom__style .button { :hover or :active
     color: #f50505;
+}
+*/
+
+@keyframes addButtonAnimation {
+
 }

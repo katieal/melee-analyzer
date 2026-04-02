@@ -172,7 +172,7 @@ winner_input = dbc.Row(
 )
 
 # =============================================
-# ========= Match Info Fields =========
+# ========= Bracket Info Fields =========
 # =============================================
 type_id = {'type': 'alt-input-field', 'element': 'source-radio'}
 website_input = html.Div(
@@ -257,138 +257,19 @@ web_input = dbc.Row(
 # =========================================
 max_name_length = 20
 
-player1 = dbc.Stack(
+# ==== Add Manual Bracket Section ====
+bracket_input_header = html.Div(
     [
-        dbc.Input(placeholder="Player 1 Name", type='text', size='lg', maxlength=max_name_length,
-                  className='my-1 bg-transparent'),
-        html.Div(className='vr bg-info',
-                 style={'width': '4px'}),
-        dbc.Input(
-            placeholder=0,
-            type='number',
-            max=9,
-            min=0,
-            size='lg',
-            className='my-1 pe-0 bg-transparent text-center',
-            style={'width': '62px'}
-        )
-    ],
-    direction='horizontal'
-)
-player2 = dbc.Stack(
-    [
-        dbc.Input(
-            placeholder=0,
-            type='number',
-            max=9,
-            min=0,
-            size='lg',
-            className='my-1 pe-0 bg-transparent text-center',
-            style={'width': '62px'}
-        ),
-        html.Div(className='vr bg-info',
-                 style={'width': '4px'}),
-        dbc.Input(placeholder="Player 2 Name", type='text', size='lg', maxlength=max_name_length,
-                  className='my-1 bg-transparent')
-    ],
-    direction='horizontal'
-)
-match_divider = dbc.Row(
-    dbc.Col(
-        [html.Hr(className='border border-1 border-primary')],
-        width=10
-    ),
-    justify='center'
-)
-match_row = html.Div([
-    dbc.Row(
-        [
-            dbc.Col(player1, width=4, className='pe-0 border border-info border-2 rounded-3'),
-            dbc.Col(html.H3("VS", className='mb-0'), width=1, className='p-0 text-center align-self-center'),
-            dbc.Col(player2, width=4, className='ps-0 border border-info border-2 rounded-3'),
-            dbc.Col(
-                dbc.Button(
-                    [html.I(className='fa-solid fa-minus')],
-                    id={'type': 'dynamic-delete', 'element': 'website'},
-                    color='danger',
-                    n_clicks=0,
-
-                ),
-                className='position-absolute end-0 align-self-center'
-            )
-        ],
-        justify='center',
-        className='position-relative'
-    ),
-    match_divider
-])
-
-def get_match_row(round_index, index):
-    content = html.Div([
-        dbc.Row(
-            [
-                dbc.Col(player1, width=4, className='pe-0 border border-info border-2 rounded-3'),
-                dbc.Col(html.H3("VS", className='mb-0'), width=1, className='p-0 text-center align-self-center'),
-                dbc.Col(player2, width=4, className='ps-0 border border-info border-2 rounded-3'),
-                dbc.Col(
-                    dbc.Button(
-                        [html.I(className='fa-solid fa-minus')],
-                        id={'type': 'match-delete', 'round': round_index, 'element': index},
-                        color='danger',
-                        n_clicks=0,
-
-                    ),
-                    className='position-absolute end-0 align-self-center'
-                )
-            ],
-            justify='center',
-            className='position-relative'
-        ),
-        match_divider],
-        id=f'match-{round_index}-{index}',
-    )
-    return content
-
-add_match_button = html.Div(
-    [
+        html.Div("Add Bracket Data Manually", className='text-center h4'),
         dbc.Button(
-            [
-                html.I(className='fa-solid fa-circle-plus fa-2xl')
-            ],
-            id='add-match-button',
-            size='lg',
+            [html.I(className='fa-solid fa-minus me-3'), "Remove Section"],
+            id={'type': 'dynamic-delete', 'element': 'bracket'},
+            color='danger',
             n_clicks=0,
-            className='bg-transparent border border-0'
+            className='position-absolute end-0 align-self-center'
         )
     ],
-    className='d-flex justify-content-center custom__style'
-)
-
-match_info_input = dbc.Row(
-    dbc.Col(
-        [
-            add_match_button,
-        ],
-        id='match-info-container'
-    ),
-    justify='center',
-    className='mt-3'
-)
-
-round_info_container = html.Div(
-    [
-        dbc.Accordion(
-            [
-                dbc.AccordionItem(
-                    [match_info_input, ],
-                    title="Round 1"
-                )
-            ],
-            id='round-info-accordion',
-            always_open=True
-        )
-    ],
-    className='px-5'
+    className='d-flex flex-row justify-content-center position-relative'
 )
 bracket_display_option = html.Div(
     [
@@ -399,28 +280,6 @@ bracket_display_option = html.Div(
         )
     ]
 )
-bracket_input_header = html.Div(
-    [
-        html.Div("Add Bracket Data Manually", className='text-center h4'),
-        dbc.Button(
-            [html.I(className='fa-solid fa-minus')],
-            id={'type': 'dynamic-delete', 'element': 'bracket'},
-            color='danger',
-            n_clicks=0,
-            className='position-absolute end-0 align-self-center'
-        )
-    ],
-    className='d-flex flex-row justify-content-center position-relative'
-)
-#bracket_input_field = dbc.Col(
-#    [
-#        bracket_input_header,
-#        bracket_display_option,
-#        round_info_container
-#    ],
-#    width=11,
-#    className='p-4 border border-2 rounded-3'
-#)
 add_manual_button = html.Div([
     dbc.Button(
         [
@@ -433,13 +292,160 @@ add_manual_button = html.Div([
     )],
     className='d-grid col-6 mx-auto'
 )
-manual_bracket_input = dbc.Row(
+manual_bracket_input = dbc.Row( # input for entire bracket data section
     [
         add_manual_button
     ],
     id={'type': 'dynamic-input', 'element': 'bracket'},
     justify='center',
     className=margin
+)
+
+# ====================
+# BRACKET BUILDER
+# ====================
+
+# Match data
+def make_add_match_button(round_index):
+    return html.Div(
+        [
+            dbc.Button(
+                [
+                    html.I(className='fa-solid fa-circle-plus fa-2xl')
+                ],
+                id={'type': 'add-match-button', 'round': round_index},
+                size='lg',
+                n_clicks=0,
+                className='bg-transparent border border-0',
+                style={
+                    'boxShadow': 'none'
+                }
+            )
+        ],
+        className='d-flex justify-content-center'
+    )
+
+
+def get_player_input(round_index, match_index, player_num):
+    """
+    Get input fields for a single player name and score
+    :param round_index: Round number
+    :param match_index: Match index
+    :param player_num: 1 = score is right of name, 2 = score is left of name
+    :return: dbc.Stack
+    """
+    player_name_input = dbc.Input(
+        id={'type': 'player-name', 'round': round_index, 'match': match_index, 'player': player_num},
+        placeholder=f"Player {player_num} Name",
+        type='text',
+        #size='lg',
+        maxlength=max_name_length,
+        className='my-1 bg-transparent'
+    )
+    score_input = dbc.Input(
+        id={'type': 'player-score', 'round': round_index, 'match': match_index, 'player': player_num},
+        placeholder=0,
+        type='number',
+        max=9,
+        min=0,
+        #size='lg',
+        className='my-1 pe-0 bg-transparent text-center',
+        style={'width': '62px'}
+    )
+
+    stack = dbc.Stack(
+        [
+            player_name_input if player_num == 1 else score_input,
+            html.Div(className='vr bg-info', style={'width': '4px'}),
+            score_input if player_num == 1 else player_name_input
+        ],
+        direction='horizontal'
+    )
+    return stack
+
+
+def get_match_row(round_index, match_index):
+    content = html.Div(
+        [
+            html.Div(
+                [
+                    html.Div(get_player_input(round_index, match_index, 1),
+                            className='d-grid col-4 pe-0 border border-info border-2 rounded-3'),
+                    html.Div(html.H3("VS", className='mb-0'),  className='d-grid col-1 p-0 text-center align-self-center'),
+                    html.Div(get_player_input(round_index, match_index, 2),
+                            className='d-grid col-4 ps-0 border border-info border-2 rounded-3'),
+                    dbc.Button(
+                        [html.I(className='fa-solid fa-minus')],
+                        id={'type': 'delete-match', 'round': round_index, 'element': match_index},
+                        color='danger',
+                        n_clicks=0,
+                        className='position-absolute end-0 align-self-center'
+                    ),
+                ],
+                className='d-flex flex-row justify-content-center position-relative'
+            ),
+            # divider
+            dbc.Row(
+                dbc.Col(
+                    [html.Hr(className='border border-1 border-primary')],
+                    width=10
+                ),
+                justify='center'
+            )
+        ],
+    )
+    return content
+
+# ---- Round Data ----
+def make_round_accordion_item(round_index, round_number):
+    content = dbc.AccordionItem(
+        [
+            dbc.Row(
+                dbc.Col(
+                    [],
+                    id={'type': 'match-container', 'round': round_index}  # was match-info-container, matches add btn in callback
+                ),
+                justify='center',
+                className='mt-3'
+            ),
+            make_add_match_button(round_index),
+        ],
+        id={'type': 'round-accordion-item', 'round': round_index}, # allow adding/deleting rounds
+        title= html.Div(
+            [
+                f'Round {round_number}',
+                dbc.Button("Test btn", class_name='ms-auto')
+            ],
+            className='d-flex w-100 border border-secondary border-1'
+        ),
+        class_name='border border-1'
+    )
+    return content
+
+
+bracket_data_accordion = html.Div(
+    [
+        dbc.Accordion(
+            [
+                make_round_accordion_item(0, 1)
+            ],
+            id='bracket-accordion', # called by add/delete round btn
+            always_open=True,
+        ),
+        html.Div(
+            dbc.Button(
+                [
+                    html.I(className='fa-solid fa-plus me-3'),
+                    "Add Round"
+                ],
+                id='add-round-button',
+                n_clicks=0,
+                class_name=''
+            ),
+            className='d-grid col-3 mx-auto my-2 ',
+        )
+    ],
+    className='px-5'
 )
 
 # Tournament details input form
@@ -453,7 +459,7 @@ manual_bracket_form = dbc.Form(
     [
         bracket_input_header,
         bracket_display_option,
-        round_info_container
+        bracket_data_accordion
     ],
     className='p-4 border border-2 rounded-3')
 
@@ -493,7 +499,6 @@ layout = dbc.Container(
     [
         dbc.Row(dbc.Col(html.Div("Add a New Tournament by URL", className='text-center h1 mt-5 mb-0'))),
         html.Hr(),
-        #dbc.Row(dbc.Col(bracket_url_form, width=8), justify='center'),
         # info
         dbc.Row(
             dbc.Col(
@@ -533,33 +538,54 @@ layout = dbc.Container(
 
 
 @callback(
-    Output('match-info-container', 'children', allow_duplicate=True),
-    Input('add-match-button', 'n_clicks'),
+    Output('bracket-accordion', 'children'),
+    Input('add-round-button', 'n_clicks'),
+    prevent_initial_call=True
+)
+def add_round(n_clicks):
+    if n_clicks > 0:
+        patched_children = Patch()
+        patched_children.append(make_round_accordion_item(n_clicks, 1)) # calculate round num
+        return patched_children
+    else:
+        return PreventUpdate
+
+
+@callback(
+    Output({'type': 'match-container', 'round': MATCH} , 'children', allow_duplicate=True),
+    Input({'type': 'add-match-button', 'round': MATCH}, 'n_clicks'),
     prevent_initial_call=True
 )
 def add_match(n_clicks):
     if n_clicks > 0:
         patched_children = Patch()
-        patched_children.insert(-2, get_match_row(1, n_clicks))
+        round_index = ctx.triggered_id.round
+        patched_children.append(get_match_row(round_index, n_clicks))
         return patched_children
     else:
         raise PreventUpdate
 
 
 @callback(
-    Output('match-info-container', 'children', allow_duplicate=True),
-    Input({'type': 'indexed-delete', 'element': ALL}, 'n_clicks'),
+    Output({'type': 'match-container', 'round': MATCH}, 'children', allow_duplicate=True),
+    Input({'type': 'delete-match', 'round': MATCH, 'element': ALL}, 'n_clicks'),
     prevent_initial_call=True
 )
 def delete_match(n_clicks):
+    # get index of triggered button
+    index = 0
+    for i, button in enumerate(ctx.inputs_list[0]):
+        if button['id'] == ctx.triggered_id:
+            index = i
+            break
 
-    round_num = ctx.triggered_id.round
-    element = ctx.triggered_id.element
-
-    patched_children = Patch()
-    del patched_children[f'match-{round_num}-{element}']
-    return patched_children
-
+    # check if button was actually clicked
+    if n_clicks[index] > 0:
+        patched_children = Patch()
+        del patched_children[index]
+        return patched_children
+    else:
+        raise PreventUpdate
 
 
 # =========== Add/Delete Dynamic Fields ===========
