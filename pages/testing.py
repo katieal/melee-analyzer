@@ -20,31 +20,24 @@ test_button = dbc.Button(
     n_clicks=0,
 )
 
-test_input = html.Div(
-    daq.NumericInput(
-        id='num-input',
-        value=0,
-        label={'style': {'marginBottom': '0px'}}
-    )
-)
-
-test_custom = html.Div(
+modal = html.Div(
     [
-        daq.NumericInput(
-            id='custom-num-input',
-            value=0,
-
-        )
-    ],
+        dbc.Button("Open modal", id="open1", n_clicks=0),
+        dbc.Modal(
+            [
+                dbc.ModalHeader(dbc.ModalTitle("Header")),
+                dbc.ModalBody("This is the content of the modal"),
+                dbc.ModalFooter(
+                    dbc.Button("Close", id="closer1", className="ms-auto", n_clicks=0)
+                ),
+            ],
+            id="modal1",
+            is_open=False,
+        ),
+    ]
 )
 
-custom_btn = html.Div(
-    html.Button(
-        "Test button",
 
-    ),
-    className='custom__style'
-)
 
 layout = dbc.Container([
     dbc.Row(dbc.Col(html.Div("Testing", className='text-center h1 mt-5 mb-0'))),
@@ -54,9 +47,8 @@ layout = dbc.Container([
         dbc.Col(
             [
                 html.Div("Tournament Information", className='text-center h3 mt-3 mb-3'),
-                test_input,
-                test_custom,
-                custom_btn
+                modal
+
             ],
             width=8,
             className='px-5 border border-3 rounded-3'
@@ -64,3 +56,32 @@ layout = dbc.Container([
         justify='center'
     ),
 ])
+
+"""
+@callback(
+    Output("modal", "is_open", allow_duplicate=True),
+    [Input("open", "n_clicks")],
+    [State("modal", "is_open")],
+    prevent_initial_call=True
+)
+def toggle_modal(n1, is_open):
+
+    if n1:
+        print("open passed: ", not is_open)
+        return not is_open
+    print("open not passed: ", is_open)
+    return is_open
+
+@callback(
+    Output("modal", "is_open", allow_duplicate=True),
+    [Input("closer", "n_clicks")],
+    [State("modal", "is_open")],
+    prevent_initial_call=True
+)
+def toggle_2(n2, is_open):
+    if n2:
+        print("close passed: ", not is_open)
+        return not is_open
+    print("close not passed: ", is_open)
+    return is_open
+"""

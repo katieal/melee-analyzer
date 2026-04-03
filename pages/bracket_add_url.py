@@ -376,7 +376,7 @@ def get_match_row(round_index, match_index):
                             className='d-grid col-4 ps-0 border border-info border-2 rounded-3'),
                     dbc.Button(
                         [html.I(className='fa-solid fa-minus')],
-                        id={'type': 'delete-match', 'round': round_index, 'element': match_index},
+                        id={'type': 'delete-match-button', 'round': round_index, 'element': match_index},
                         color='danger',
                         n_clicks=0,
                         className='position-absolute end-0 align-self-center'
@@ -397,27 +397,84 @@ def get_match_row(round_index, match_index):
     return content
 
 # ---- Round Data ----
+def make_delete_round_modal(round_index):
+    content = dbc.Modal(
+        [
+            dbc.ModalHeader(dbc.ModalTitle("Confirm Deletion"), close_button=True),
+            dbc.ModalBody("Are you sure you want to delete this round? This action will also delete all matches associated with this round. This action cannot be undone."),
+            dbc.ModalFooter(
+                [
+                    dbc.Button(
+                        "Confirm",
+                        id={'type': 'modal-confirm', 'element': 'round'},
+                        n_clicks=0,
+                    ),
+                    dbc.Button(
+                        "Cancel",
+                        n_clicks=0,
+                    )
+                ]
+            )
+        ],
+        id='delete-confirm-modal',
+        centered=True,
+        is_open=False
+    )
+
+
+def make_delete_round_button(round_index):
+    btn = dbc.Button(
+        [html.I(className='fa-solid fa-minus me-2'), "Delete Round"],
+        id={'type': 'delete-round-button', 'round': round_index},
+        color='danger',
+        size='sm',
+        n_clicks=0,
+        className='ms-auto'
+    )
+    return html.Div(
+        [
+
+            dbc.Collapse(
+                dcc.ConfirmDialogProvider(
+                    btn,
+                    id={'type': 'delete-round-confirm', 'round': round_index},
+                    message="Are you sure????"
+                ),
+                id={'type': 'round-info-collapse', 'round': round_index},
+                is_open=False,
+                #dimension='width'
+                className='me-2'
+            ),
+            dbc.Button(
+                html.I(className='fa-solid fa-angle-down'),
+                id={'type': 'round-collapse-button', 'round': round_index},
+                size='sm',
+                style={
+                    'width': '30px'
+                }
+                #className='fa-solid fa-ellipsis'
+            ),
+        ],
+        className='d-flex justify-content-end'
+    )
+
+
 def make_round_accordion_item(round_index, round_number):
     content = dbc.AccordionItem(
         [
+            make_delete_round_button(round_index),
             dbc.Row(
                 dbc.Col(
                     [],
-                    id={'type': 'match-container', 'round': round_index}  # was match-info-container, matches add btn in callback
+                    id={'type': 'match-container', 'round': round_index}  # add/delete matches
                 ),
                 justify='center',
                 className='mt-3'
             ),
             make_add_match_button(round_index),
         ],
-        id={'type': 'round-accordion-item', 'round': round_index}, # allow adding/deleting rounds
-        title= html.Div(
-            [
-                f'Round {round_number}',
-                dbc.Button("Test btn", class_name='ms-auto')
-            ],
-            className='d-flex w-100 border border-secondary border-1'
-        ),
+        id={'type': 'round-accordion-item', 'round': round_index}, # add/delete rounds
+        title= html.Div(f'Round {round_number}', className='fs-5'),
         class_name='border border-1'
     )
     return content
@@ -494,9 +551,36 @@ invalid_alert = dbc.Alert(
     is_open=False,
 )
 
+confirm_modal = dbc.Modal(
+    [
+        dbc.ModalHeader(dbc.ModalTitle(id='confirm-modal-title'), close_button=True),
+        dbc.ModalBody(id='confirm-modal-body'),
+        dbc.ModalFooter(
+            [
+                dbc.Button(
+                    "Confirm",
+                    id='confirm-modal-yes-button',
+                    n_clicks=0
+                ),
+                dbc.Button(
+                    "Cancel",
+                    id='confirm-modal-no-button',
+                    color='danger',
+                    n_clicks=0
+                )
+            ],
+            id='confirm-modal-footer'),
+    ],
+    id='confirm-modal',
+    centered=True,
+    is_open=False
+)
+
+
 # ========= Final Layout =========
 layout = dbc.Container(
     [
+        # title
         dbc.Row(dbc.Col(html.Div("Add a New Tournament by URL", className='text-center h1 mt-5 mb-0'))),
         html.Hr(),
         # info
@@ -531,6 +615,8 @@ layout = dbc.Container(
             className='mt-4'
         ),
         dbc.Row(submit_button, className='mt-4'),
+        # confirm modal
+        confirm_modal,
         dcc.Location(id='url-redirect', refresh='callback-nav')
     ],
     fluid=True,
@@ -538,14 +624,121 @@ layout = dbc.Container(
 
 
 @callback(
-    Output('bracket-accordion', 'children'),
-    Input('add-round-button', 'n_clicks'),
+    Output('bracket-accordion', 'children', allow_duplicate=True),
+    Input({'type': 'delete-round-confirm', 'round': ALL}, 'submit_n_clicks'),
     prevent_initial_call=True
 )
-def add_round(n_clicks):
+def delete_round(submit_n_clicks):
+    if not submit_n_clicks:
+        raise PreventUpdate
+    else:
+        # get index of triggered button
+        index = 0
+        for i, button in enumerate(ctx.inputs_list[0]):
+            if button['id'] == ctx.triggered_id:
+                index = i
+                break
+
+        if submit_n_clicks[index]:
+            patched_children = Patch()
+            del patched_children[index]
+            return patched_children
+        else:
+            raise PreventUpdate
+
+
+"""
+@callback(
+    Output('confirm-modal', 'is_open', allow_duplicate=True),
+    inputs={
+        'delete_clicks': Input({'type': 'delete-round-button', 'round': ALL}, 'n_clicks'),
+        'confirm_clicks': Input('confirm-modal-yes-button', 'n_clicks'),
+        'is_open': State('confirm-modal', 'is_open')
+    },
+    prevent_initial_call=True
+)
+def confirm_delete_round(delete_clicks, confirm_clicks, is_open):
+
+    btn_clicked = ctx.triggered_id.type if type(ctx.triggered_id) == dict else ctx.triggered_id
+
+    # open confirm modal
+    if btn_clicked == 'delete-round-button':
+        # get index of triggered button
+        index = 0
+        for i, button in enumerate(ctx.inputs_list[0]):
+            if button['id'] == ctx.triggered_id:
+                index = i
+                break
+
+        # check clicks for triggered button
+        if delete_clicks[index] > 0:
+            print("open passed: ", not is_open)
+
+            title = "Confirm Deletion"
+            body = ("Are you sure you want to delete this round? All matches associated with this round will "
+                    "also be deleted. This action cannot be undone.")
+
+            # set modal props
+            set_props('confirm-modal-title', {'children': title})
+            set_props('confirm-modal-body', {'children': body})
+
+            return not is_open
+
+        else:
+            raise PreventUpdate
+
+    elif btn_clicked == 'confirm-modal-yes-button':
+
+        # delete associated row
+
+    else:
+        print("open not passed: ", is_open)
+        raise PreventUpdate
+
+
+@callback(
+    Output('confirm-modal', 'is_open', allow_duplicate=True),
+    Input('confirm-modal-no-button', 'n_clicks'),
+    State('confirm-modal', 'is_open'),
+    prevent_initial_call=True
+)
+def close_confirm_modal(n_clicks, is_open):
+    if n_clicks:
+        print("close passed: ", not is_open)
+        return not is_open
+    else:
+        print("close not passed: ", is_open)
+        raise PreventUpdate
+"""
+
+
+@callback(
+    Output({'type': 'round-info-collapse', 'round': MATCH}, 'is_open'),
+    Output({'type': 'round-collapse-button', 'round': MATCH}, 'children'),
+    Input({'type': 'round-collapse-button', 'round': MATCH}, 'n_clicks'),
+    State({'type': 'round-info-collapse', 'round': MATCH}, 'is_open'),
+    prevent_initial_call=True
+)
+def toggle_round_collapse(n_clicks, is_open):
+    if n_clicks:
+        closed = html.I(className='fa-solid fa-angle-down')
+        opened = html.I(className='fa-solid fa-angle-left')
+
+        return not is_open, closed if is_open else opened
+    else:
+        raise PreventUpdate
+
+
+@callback(
+    Output('bracket-accordion', 'children', allow_duplicate=True),
+    Input('add-round-button', 'n_clicks'),
+    State('bracket-accordion', 'children'),
+    prevent_initial_call=True
+)
+def add_round(n_clicks, items):
     if n_clicks > 0:
         patched_children = Patch()
-        patched_children.append(make_round_accordion_item(n_clicks, 1)) # calculate round num
+        patched_children.append(make_round_accordion_item(n_clicks, len(items) + 1)) # calculate round num
         return patched_children
     else:
         return PreventUpdate
@@ -568,7 +761,7 @@ def add_match(n_clicks):
 
 @callback(
     Output({'type': 'match-container', 'round': MATCH}, 'children', allow_duplicate=True),
-    Input({'type': 'delete-match', 'round': MATCH, 'element': ALL}, 'n_clicks'),
+    Input({'type': 'delete-match-button', 'round': MATCH, 'element': ALL}, 'n_clicks'),
     prevent_initial_call=True
 )
 def delete_match(n_clicks):

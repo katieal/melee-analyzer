@@ -23,6 +23,9 @@ field for singles/doubles?
 finish manual bracket add - just use inputgroups, don't think about connection lines
 polish manual bracket view
 combine url and manual add pages, add display custom option
+button aria-label text for screen readers
+input field aria-describedby ???????
+add aria roles https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles
 
 Extras:
 https://getbootstrap.com/docs/5.0/customize/sass/
