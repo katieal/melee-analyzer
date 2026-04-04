@@ -1,0 +1,195 @@
+
+confirm_modal = dbc.Modal(
+    [
+        dbc.ModalHeader(dbc.ModalTitle("Confirm Deletion"), close_button=False),
+        dbc.ModalBody(id='confirm-modal-body'),
+        dbc.ModalBody("All matches associated with this round will also be deleted. This action cannot be undone."),
+        dbc.ModalFooter(
+            [
+                dbc.Button(
+                    "Confirm",
+                    id='confirm-modal-yes-button',
+                    n_clicks=0
+                ),
+                dbc.Button(
+                    "Cancel",
+                    id='confirm-modal-no-button',
+                    color='danger',
+                    n_clicks=0
+                )
+            ],
+            id='confirm-modal-footer'),
+    ],
+    id='confirm-modal',
+    centered=True,
+    backdrop='static',
+    keyboard=False,
+    is_open=False
+)
+
+
+
+# General Notes
+# =======================
+
+@callback(
+    Output('confirm-modal', 'is_open', allow_duplicate=True),
+    inputs={
+        'delete_clicks': Input({'type': 'delete-round-button', 'round': ALL}, 'n_clicks'),
+        'confirm_clicks': Input('confirm-modal-yes-button', 'n_clicks'),
+        'is_open': State('confirm-modal', 'is_open')
+    },
+    prevent_initial_call=True
+)
+def confirm_delete_round(delete_clicks, confirm_clicks, is_open):
+
+    btn_clicked = ctx.triggered_id.type if type(ctx.triggered_id) == dict else ctx.triggered_id
+
+    # open confirm modal
+    if btn_clicked == 'delete-round-button':
+        # get index of triggered button
+        index = 0
+        for i, button in enumerate(ctx.inputs_list[0]):
+            if button['id'] == ctx.triggered_id:
+                index = i
+                break
+
+        # check clicks for triggered button
+        if delete_clicks[index] > 0:
+            print("open passed: ", not is_open)
+
+            title = "Confirm Deletion"
+            body = ("Are you sure you want to delete this round? All matches associated with this round will "
+                    "also be deleted. This action cannot be undone.")
+
+            # set modal props
+            set_props('confirm-modal-title', {'children': title})
+            set_props('confirm-modal-body', {'children': body})
+
+            return not is_open
+
+        else:
+            raise PreventUpdate
+
+    elif btn_clicked == 'confirm-modal-yes-button':
+
+        # delete associated row
+
+    else:
+        print("open not passed: ", is_open)
+        raise PreventUpdate
+
+
+@callback(
+    Output('confirm-modal', 'is_open', allow_duplicate=True),
+    Input('confirm-modal-no-button', 'n_clicks'),
+    State('confirm-modal', 'is_open'),
+    prevent_initial_call=True
+)
+def close_confirm_modal(n_clicks, is_open):
+    if n_clicks:
+        print("close passed: ", not is_open)
+        return not is_open
+    else:
+        print("close not passed: ", is_open)
+        raise PreventUpdate
+
+
+# Option 1: Use MATCH
+@callback(
+Output({'type': 'delete-round-button', 'round': MATCH}, 'disabled'),
+    inputs={
+        'delete_clicks': Input({'type': 'delete-round-button', 'round': MATCH}, 'n_clicks'),
+        'yes_clicks': Input('confirm-modal-yes-button', 'n_clicks'),
+        'no_clicks': Input('confirm-modal-no-button', 'n_clicks'),
+        'delete_states': State({'type': 'delete-round-button', 'round': ALL}, 'n_clicks'),
+        'open_state': State('confirm-modal', 'is_open'),
+    },
+    #Input({'type': 'delete-round-button', 'round': MATCH}, 'n_clicks'),
+    #Input('confirm-modal-no-button', 'n_clicks'),
+    #State({'type': 'delete-round-button', 'round': ALL}, 'n_clicks'),
+    #State('confirm-modal', 'is_open'),
+    prevent_initial_call=True
+)
+def toggle_confirm_modal(delete_clicks, yes_clicks, no_clicks, delete_states, open_state):
+
+    btn_clicked = ctx.triggered_id if type(ctx.triggered_id) == str else ctx.triggered_id.type
+
+    if btn_clicked == 'delete-round-button':
+        # get index of triggered button
+        if delete_clicks > 0:
+            # get index of triggered button
+            index = 0
+            for i, button in enumerate(ctx.states_list[0]):
+                if button['id'] == ctx.triggered_id:
+                    index = i
+                    break
+
+            # set modal message and open modal
+            msg = f"Are you sure you wish to delete round {index + 1}?"
+            set_props('confirm-modal-body', {'children': msg})
+            set_props('confirm-modal', {'is_open': not open_state})
+            # store index of clicked button
+            set_props('form-store', {'data': {'selected_round': index}})
+            return False
+    elif btn_clicked == 'confirm-modal-no-button':
+        if no_clicks > 0:
+            print("close passed: ", not open_state)
+            # close modal and clear data store
+            set_props('confirm-modal', {'is_open': not open_state})
+            set_props('form-store', {'data': False})
+            return False
+    elif btn_clicked == 'confirm-modal-yes-button':
+        if yes_clicks > 0:
+            print("deleting round!")
+
+    raise PreventUpdate
+
+# =======================
+# Option 2: use a click store
+@callback(
+    output={
+        'is_open': Output('confirm-modal', 'is_open'),
+        'form_store': Output('form-store', 'data'),
+        'click_store': Output('button-click-store', 'data')
+    },
+    inputs={
+        'delete_clicks': Input({'type': 'delete-round-button', 'round': ALL}, 'n_clicks'),
+        'close_clicks': Input('confirm-modal-no-button', 'n_clicks'),
+        'open_state': State('confirm-modal', 'is_open'),
+        'click_store_state': State('button-click-store', 'data'),
+    },
+    prevent_initial_call=True
+)
+def confirm_round_delete(delete_clicks, close_clicks, open_state, click_store_state):
+    print("delete: ", type(delete_clicks))
+    print("store: ", type(click_store_state))
+    print("triggered: ", ctx.triggered)
+    # get type of triggered button
+    btn_clicked = ctx.triggered_id if type(ctx.triggered_id) == str else ctx.triggered_id.type
+
+    if btn_clicked == 'delete-round-button':
+        # get index of triggered button
+        index = 0
+        for i, button in enumerate(ctx.inputs_list[0]):
+            if button['id'] == ctx.triggered_id:
+                index = i
+                break
+
+        # check clicks for triggered button
+        if delete_clicks[index] > 0:
+            print("open passed: ", not open_state)
+
+            # set modal message
+            msg = f"Are you sure you wish to delete round {index+1}?"
+            set_props('confirm-modal-body', {'children': msg})
+            # open modal and store index of clicked button
+            return {'is_open': not open_state, 'form_store': {'round-delete': index}, 'click_store': False}
+    elif btn_clicked == 'confirm-modal-no-button':
+        if close_clicks > 0:
+            print("close passed: ", not open_state)
+            # close modal and clear data store
+            return {'is_open': not open_state, 'form_store': False, 'click_store': False}
+
+    print("not passed: ", open_state)
+    raise PreventUpdate

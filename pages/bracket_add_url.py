@@ -258,7 +258,7 @@ web_input = dbc.Row(
 max_name_length = 20
 
 # ==== Add Manual Bracket Section ====
-bracket_input_header = html.Div(
+manual_input_header = html.Div(
     [
         html.Div("Add Bracket Data Manually", className='text-center h4'),
         dbc.Button(
@@ -271,7 +271,7 @@ bracket_input_header = html.Div(
     ],
     className='d-flex flex-row justify-content-center position-relative'
 )
-bracket_display_option = html.Div(
+manual_display_option = html.Div(
     [
         dbc.Switch(
             id='bracket-display-switch',
@@ -397,31 +397,6 @@ def get_match_row(round_index, match_index):
     return content
 
 # ---- Round Data ----
-def make_delete_round_modal(round_index):
-    content = dbc.Modal(
-        [
-            dbc.ModalHeader(dbc.ModalTitle("Confirm Deletion"), close_button=True),
-            dbc.ModalBody("Are you sure you want to delete this round? This action will also delete all matches associated with this round. This action cannot be undone."),
-            dbc.ModalFooter(
-                [
-                    dbc.Button(
-                        "Confirm",
-                        id={'type': 'modal-confirm', 'element': 'round'},
-                        n_clicks=0,
-                    ),
-                    dbc.Button(
-                        "Cancel",
-                        n_clicks=0,
-                    )
-                ]
-            )
-        ],
-        id='delete-confirm-modal',
-        centered=True,
-        is_open=False
-    )
-
-
 def make_delete_round_button(round_index):
     btn = dbc.Button(
         [html.I(className='fa-solid fa-minus me-2'), "Delete Round"],
@@ -431,14 +406,16 @@ def make_delete_round_button(round_index):
         n_clicks=0,
         className='ms-auto'
     )
+    msg = ("Are you sure you wish to delete this round? All matches associated "
+           "with this round will also be deleted. This action cannot be undone.")
+
     return html.Div(
         [
-
             dbc.Collapse(
                 dcc.ConfirmDialogProvider(
                     btn,
                     id={'type': 'delete-round-confirm', 'round': round_index},
-                    message="Are you sure????"
+                    message=msg
                 ),
                 id={'type': 'round-info-collapse', 'round': round_index},
                 is_open=False,
@@ -459,7 +436,7 @@ def make_delete_round_button(round_index):
     )
 
 
-def make_round_accordion_item(round_index, round_number):
+def make_round_accordion_item(round_index, round_number=None):
     content = dbc.AccordionItem(
         [
             make_delete_round_button(round_index),
@@ -473,11 +450,36 @@ def make_round_accordion_item(round_index, round_number):
             ),
             make_add_match_button(round_index),
         ],
-        id={'type': 'round-accordion-item', 'round': round_index}, # add/delete rounds
-        title= html.Div(f'Round {round_number}', className='fs-5'),
+        id={'type': 'round-accordion-item', 'round': round_index}, # update round num
+        title= html.Div(f'Round {round_number}', className='fs-5') if round_number else '',
         class_name='border border-1'
     )
     return content
+
+
+add_bracket_section = html.Div(
+    [
+        html.Div(
+            [
+                dbc.Button(
+                    [
+                        html.I(className='fa-solid fa-plus me-3'),
+                        "New Bracket"
+                    ],
+                    id='add-bracket-button',
+                    n_clicks=0
+                )
+            ],
+            className='d-flex w-75 justify-content-center py-4',
+            style={
+                'border': 'dashed',
+                'border-radius': '50rem',
+                'border-color': 'var(--bs-border-color)'
+            }
+        )
+    ],
+    className='d-flex justify-content-center'
+)
 
 
 bracket_data_accordion = html.Div(
@@ -505,6 +507,36 @@ bracket_data_accordion = html.Div(
     className='px-5'
 )
 
+bracket_type_select = html.Div(
+    [
+        dbc.Label("Select Bracket Type"),
+        dbc.Select(
+            id='bracket-type-select',
+            options=[
+                {'label': 'Main', 'value': 'Main'},
+                {'label': 'Upper Bracket', 'value': 'Upper'},
+                {'label': 'Lower Bracket', 'value': 'Lower'},
+                {'label': 'Winner\'s Bracket', 'value': 'Winner\'s'},
+                {'label': 'Loser\'s Bracket', 'value': 'Loser\'s'}
+            ]
+        )
+    ]
+)
+
+bracket_input_container = html.Div(
+    [
+        bracket_type_select,
+        bracket_data_accordion
+    ]
+)
+
+manual_input_container = html.Div(
+    [
+        bracket_input_container,
+        add_bracket_section,
+    ]
+)
+
 # Tournament details input form
 tournament_info_form = dbc.Form([name_input, date_input, location_input, format_input, theme_input, winner_input])
 # Bracket info input form
@@ -514,9 +546,9 @@ web_form = dbc.Form(
     className='p-4 border border-2 rounded-3')
 manual_bracket_form = dbc.Form(
     [
-        bracket_input_header,
-        bracket_display_option,
-        bracket_data_accordion
+        manual_input_header,
+        manual_display_option,
+        manual_input_container
     ],
     className='p-4 border border-2 rounded-3')
 
@@ -550,32 +582,6 @@ invalid_alert = dbc.Alert(
     dismissable=True,
     is_open=False,
 )
-
-confirm_modal = dbc.Modal(
-    [
-        dbc.ModalHeader(dbc.ModalTitle(id='confirm-modal-title'), close_button=True),
-        dbc.ModalBody(id='confirm-modal-body'),
-        dbc.ModalFooter(
-            [
-                dbc.Button(
-                    "Confirm",
-                    id='confirm-modal-yes-button',
-                    n_clicks=0
-                ),
-                dbc.Button(
-                    "Cancel",
-                    id='confirm-modal-no-button',
-                    color='danger',
-                    n_clicks=0
-                )
-            ],
-            id='confirm-modal-footer'),
-    ],
-    id='confirm-modal',
-    centered=True,
-    is_open=False
-)
-
 
 # ========= Final Layout =========
 layout = dbc.Container(
@@ -615,101 +621,10 @@ layout = dbc.Container(
             className='mt-4'
         ),
         dbc.Row(submit_button, className='mt-4'),
-        # confirm modal
-        confirm_modal,
         dcc.Location(id='url-redirect', refresh='callback-nav')
     ],
     fluid=True,
 )
-
-
-@callback(
-    Output('bracket-accordion', 'children', allow_duplicate=True),
-    Input({'type': 'delete-round-confirm', 'round': ALL}, 'submit_n_clicks'),
-    prevent_initial_call=True
-)
-def delete_round(submit_n_clicks):
-    if not submit_n_clicks:
-        raise PreventUpdate
-    else:
-        # get index of triggered button
-        index = 0
-        for i, button in enumerate(ctx.inputs_list[0]):
-            if button['id'] == ctx.triggered_id:
-                index = i
-                break
-
-        if submit_n_clicks[index]:
-            patched_children = Patch()
-            del patched_children[index]
-            return patched_children
-        else:
-            raise PreventUpdate
-
-
-"""
-@callback(
-    Output('confirm-modal', 'is_open', allow_duplicate=True),
-    inputs={
-        'delete_clicks': Input({'type': 'delete-round-button', 'round': ALL}, 'n_clicks'),
-        'confirm_clicks': Input('confirm-modal-yes-button', 'n_clicks'),
-        'is_open': State('confirm-modal', 'is_open')
-    },
-    prevent_initial_call=True
-)
-def confirm_delete_round(delete_clicks, confirm_clicks, is_open):
-
-    btn_clicked = ctx.triggered_id.type if type(ctx.triggered_id) == dict else ctx.triggered_id
-
-    # open confirm modal
-    if btn_clicked == 'delete-round-button':
-        # get index of triggered button
-        index = 0
-        for i, button in enumerate(ctx.inputs_list[0]):
-            if button['id'] == ctx.triggered_id:
-                index = i
-                break
-
-        # check clicks for triggered button
-        if delete_clicks[index] > 0:
-            print("open passed: ", not is_open)
-
-            title = "Confirm Deletion"
-            body = ("Are you sure you want to delete this round? All matches associated with this round will "
-                    "also be deleted. This action cannot be undone.")
-
-            # set modal props
-            set_props('confirm-modal-title', {'children': title})
-            set_props('confirm-modal-body', {'children': body})
-
-            return not is_open
-
-        else:
-            raise PreventUpdate
-
-    elif btn_clicked == 'confirm-modal-yes-button':
-
-        # delete associated row
-
-    else:
-        print("open not passed: ", is_open)
-        raise PreventUpdate
-
-
-@callback(
-    Output('confirm-modal', 'is_open', allow_duplicate=True),
-    Input('confirm-modal-no-button', 'n_clicks'),
-    State('confirm-modal', 'is_open'),
-    prevent_initial_call=True
-)
-def close_confirm_modal(n_clicks, is_open):
-    if n_clicks:
-        print("close passed: ", not is_open)
-        return not is_open
-    else:
-        print("close not passed: ", is_open)
-        raise PreventUpdate
-"""
 
 
 @callback(
@@ -732,16 +647,52 @@ def toggle_round_collapse(n_clicks, is_open):
 @callback(
     Output('bracket-accordion', 'children', allow_duplicate=True),
     Input('add-round-button', 'n_clicks'),
-    State('bracket-accordion', 'children'),
     prevent_initial_call=True
 )
-def add_round(n_clicks, items):
+def add_round(n_clicks):
     if n_clicks > 0:
         patched_children = Patch()
-        patched_children.append(make_round_accordion_item(n_clicks, len(items) + 1)) # calculate round num
+        patched_children.append(make_round_accordion_item(n_clicks))
         return patched_children
     else:
         return PreventUpdate
+
+
+@callback(
+    Output('bracket-accordion', 'children', allow_duplicate=True),
+    Input({'type': 'delete-round-confirm', 'round': ALL}, 'submit_n_clicks'),
+    prevent_initial_call=True
+)
+def delete_round(submit_n_clicks):
+    if not submit_n_clicks:
+        raise PreventUpdate
+    else:
+        # get index of triggered button
+        index = 0
+        for i, button in enumerate(ctx.inputs_list[0]):
+            if button['id'] == ctx.triggered_id:
+                index = i
+                break
+
+        # ensure corresponding button was clicked
+        if submit_n_clicks[index]:
+            # remove row at index
+            patched_children = Patch()
+            del patched_children[index]
+            return patched_children
+        else:
+            raise PreventUpdate
+
+
+@callback(
+    Output({'type': 'round-accordion-item', 'round': ALL}, 'title'),
+    Input('bracket-accordion', 'children'),
+    prevent_initial_call=True
+)
+def update_round_numbers(items):
+    # generate list of updated round number titles
+    titles_list = [html.Div(f'Round {i + 1}', className='fs-5') for i in range(len(items))]
+    return titles_list
 
 
 @callback(
@@ -750,6 +701,7 @@ def add_round(n_clicks, items):
     prevent_initial_call=True
 )
 def add_match(n_clicks):
+    print("add match triggered")
     if n_clicks > 0:
         patched_children = Patch()
         round_index = ctx.triggered_id.round
