@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="in bracket_add_url.py: added round delete buttons, finished function with confirm dialog for adding/deleting match rounds, added match round number calculation">
-      <change afterPath="$PROJECT_DIR$/data/custom_confirm_modal_notes" afterDir="false" />
+    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="in bracket_add_url.py: added separate function to calculate/update round number in accordion item title, added bracket type selector, began building layout to add brackets of different types, added notes on custom modals for future use in implementing a custom confirm message">
+      <change afterPath="$PROJECT_DIR$/layouts/add_tournament.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/layouts/constants.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/data_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/bracket_add_url.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_add_url.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/testing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -287,7 +290,15 @@
       <option name="project" value="LOCAL" />
       <updated>1775238158445</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="in bracket_add_url.py: added separate function to calculate/update round number in accordion item title, added bracket type selector, began building layout to add brackets of different types, added notes on custom modals for future use in implementing a custom confirm message">
+      <option name="closed" value="true" />
+      <created>1775323523856</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1775323523856</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -334,7 +345,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="initial commit" />
     <MESSAGE value="project name correction" />
     <MESSAGE value="worked on bracket view page, added a grid system for displaying connector lines" />
     <MESSAGE value="finished flexible grid system with matches and connecting lines" />
@@ -359,6 +369,7 @@
     <MESSAGE value="continued building manual bracket input in bracket_add_url.py" />
     <MESSAGE value="continued building manual bracket input in bracket_add_url.py - completed add/delete functions for individual matches, completed add function for rounds, started delete function for rounds" />
     <MESSAGE value="in bracket_add_url.py: added round delete buttons, finished function with confirm dialog for adding/deleting match rounds, added match round number calculation" />
-    <option name="LAST_COMMIT_MESSAGE" value="in bracket_add_url.py: added round delete buttons, finished function with confirm dialog for adding/deleting match rounds, added match round number calculation" />
+    <MESSAGE value="in bracket_add_url.py: added separate function to calculate/update round number in accordion item title, added bracket type selector, began building layout to add brackets of different types, added notes on custom modals for future use in implementing a custom confirm message" />
+    <option name="LAST_COMMIT_MESSAGE" value="in bracket_add_url.py: added separate function to calculate/update round number in accordion item title, added bracket type selector, began building layout to add brackets of different types, added notes on custom modals for future use in implementing a custom confirm message" />
   </component>
 </project>
