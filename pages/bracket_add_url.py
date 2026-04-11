@@ -27,24 +27,28 @@ invalid_alert = dbc.Alert(
     is_open=False,
 )
 
+tab_content = {}
+
 # ========= Final Layout =========
-layout = dbc.Container(
-    [
-        # title
-        dbc.Row(dbc.Col(html.Div("Add a New Tournament by URL", className='text-center h1 mt-5 mb-0'))),
-        html.Hr(),
-        # input
-        get_tournament_input_layout(),
-        dbc.Row(
-            dbc.Col(invalid_alert, width=8),
-            justify='center',
-            className='mt-4'
-        ),
-        dbc.Row(submit_button, className='mt-4'),
-        dcc.Location(id='url-redirect', refresh='callback-nav')
-    ],
-    fluid=True,
-)
+def layout(**kwargs):
+
+    return dbc.Container(
+        [
+            # title
+            dbc.Row(dbc.Col(html.Div("Add a New Tournament by URL", className='text-center h1 mt-5 mb-0'))),
+            html.Hr(),
+            # input
+            get_tournament_input_layout(),
+            dbc.Row(
+                dbc.Col(invalid_alert, width=8),
+                justify='center',
+                className='mt-4'
+            ),
+            dbc.Row(submit_button, className='mt-4'),
+            dcc.Location(id='url-redirect', refresh='callback-nav')
+        ],
+        fluid=True,
+    )
 
 
 # =========== Add/Delete Dynamic Fields ===========
@@ -151,11 +155,16 @@ def validate_url(url, website):
 # Navigation
 # ===============
 @callback(
-    Output('card-content', 'children'),
+    #Output('card-content', 'children'),
     Input('card-tabs', 'active_tab'),
 )
 def update_tab(active_tab):
-    return TAB_CONTENT[active_tab]
+    if active_tab == 'website-tab':
+        set_props({'type': 'card-content', 'element': 'website-tab'}, {'class_name': ''}),
+        set_props({'type': 'card-content', 'element': 'manual-tab'}, {'class_name': 'd-none'}),
+    elif active_tab == 'manual-tab':
+        set_props({'type': 'card-content', 'element': 'website-tab'}, {'class_name': 'd-none'}),
+        set_props({'type': 'card-content', 'element': 'manual-tab'}, {'class_name': ''}),
 
 @callback(
     Output({'type': 'round-info-collapse', 'round': MATCH}, 'is_open'),
@@ -176,6 +185,31 @@ def toggle_round_collapse(n_clicks, is_open):
 # ===============
 # Manual Bracket Builder
 # ===============
+# Update round numbers
+@callback(
+    Output({'type': 'round-accordion-item', 'round': ALL}, 'title'),
+    Input('bracket-accordion', 'children'),
+    prevent_initial_call=True
+)
+def update_round_numbers(items):
+    # generate list of updated round number titles
+    titles_list = [html.Div(f'Round {i + 1}', className='fs-5') for i in range(len(items))]
+    return titles_list
+
+# Add/delete bracket
+@callback(
+    Output('bracket-input-container', 'children'),
+    Input('add-bracket-button', 'n_clicks'),
+    prevent_initial_call=True
+)
+def add_bracket(n_clicks):
+    if n_clicks > 0:
+        return make_bracket_accordion(n_clicks)
+    else:
+        raise PreventUpdate
+
+
+# Add/delete Round
 @callback(
     Output('bracket-accordion', 'children', allow_duplicate=True),
     Input('add-round-button', 'n_clicks'),
@@ -215,18 +249,7 @@ def delete_round(submit_n_clicks):
         else:
             raise PreventUpdate
 
-
-@callback(
-    Output({'type': 'round-accordion-item', 'round': ALL}, 'title'),
-    Input('bracket-accordion', 'children'),
-    prevent_initial_call=True
-)
-def update_round_numbers(items):
-    # generate list of updated round number titles
-    titles_list = [html.Div(f'Round {i + 1}', className='fs-5') for i in range(len(items))]
-    return titles_list
-
-
+# Add/delete Match
 @callback(
     Output({'type': 'match-container', 'round': MATCH} , 'children', allow_duplicate=True),
     Input({'type': 'add-match-button', 'round': MATCH}, 'n_clicks'),

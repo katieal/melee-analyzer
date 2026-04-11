@@ -5,6 +5,7 @@ import dash_bootstrap_components as dbc
 
 from utils.data_utils import stringify_id
 import layouts.constants as constants
+from layouts.constants import ElementType as EleType
 
 # constants
 label_width = 3
@@ -13,18 +14,20 @@ margin = 'mb-4'
 
 missing_feedback = dbc.FormFeedback("Field is required", type='invalid')
 
+# utility method
+def get_id(element_type: constants.ElementType, name:str):
+    return constants.APP_IDS['add_tournament'][str(element_type)][name]
 
 # =============================================
 # ========= Tournament Info Fields =========
 # =============================================
 # Name
-name_id = {'type': 'input-field', 'element': 'name-input', 'key': 'name'}
 name_input = dbc.Row(
     [
-        dbc.Label("Tournament Name", html_for=stringify_id(name_id), size='lg', width=label_width),
+        dbc.Label("Tournament Name", html_for=stringify_id(get_id(EleType.INPUT, 'name')), size='lg', width=label_width),
         dbc.Col(
             [
-                dbc.Input(type='text', id=name_id, maxlength=constants.MAX_INPUT_LENGTH, placeholder="Enter tournament name"),
+                dbc.Input(type='text', id=get_id(EleType.INPUT, 'name'), maxlength=constants.MAX_INPUT_LENGTH, placeholder="Enter tournament name"),
                 missing_feedback
             ],
             width=input_width
@@ -34,13 +37,12 @@ name_input = dbc.Row(
 )
 
 # Date
-date_id = {'type': 'alt-input-field', 'element': 'date-picker'}
 date_input = dbc.Row(
     [
-        dbc.Label("Date", html_for=stringify_id(date_id), size='lg', width=label_width),
+        dbc.Label("Date", html_for=stringify_id(get_id(EleType.INPUT, 'date')), size='lg', width=label_width),
         dbc.Col([
             dcc.DatePickerSingle(
-                id=date_id,
+                id=get_id(EleType.INPUT, 'date'),
                 month_format='MMMM YYYY',
                 display_format='MMMM DD, Y',
                 clearable=True
@@ -56,13 +58,12 @@ date_input = dbc.Row(
 )
 
 # Location
-location_id = {'type': 'input-field', 'element': 'location-input', 'key': 'location'}
 location_input = dbc.Row(
     [
-        dbc.Label("Location", html_for=stringify_id(location_id), size='lg', width=label_width),
+        dbc.Label("Location", html_for=stringify_id(get_id(EleType.INPUT,'location')), size='lg', width=label_width),
         dbc.Col(
             [
-                dbc.Input(type='text', id=location_id, maxlength=constants.MAX_INPUT_LENGTH, placeholder="Enter location"),
+                dbc.Input(type='text', id=get_id(EleType.INPUT, 'location'), maxlength=constants.MAX_INPUT_LENGTH, placeholder="Enter location"),
                 missing_feedback
             ],
             width=input_width
@@ -72,14 +73,13 @@ location_input = dbc.Row(
 )
 
 # Format
-format_id = {'type': 'input-field', 'element': 'format-select', 'key': 'format'}
 format_input = dbc.Row(
     [
-        dbc.Label("Tournament Format", html_for=stringify_id(format_id), size='lg', width=label_width),
+        dbc.Label("Tournament Format", html_for=stringify_id(get_id(EleType.INPUT,'format')), size='lg', width=label_width),
         dbc.Col(
             [
                 dbc.Select(
-                    id=format_id,
+                    id=get_id(EleType.INPUT,'format'),
                     options=[
                         {'label': "Single Elimination", 'value': "single_elim"},
                         {'label': "Double Elimination", 'value': "double_elim"},
@@ -103,31 +103,26 @@ add_theme_button = dbc.Button(
         html.I(className='fa-solid fa-plus me-3'),
         "Add Theme"
     ],
-    id={'type': 'dynamic-add', 'element': 'theme'},
+    id=get_id(EleType.BUTTON,'add_theme'),
     n_clicks=0
 )
 theme_input_field = html.Div([
     dbc.InputGroup([
         dbc.Input(
             type='text',
-            id={
-                'type': 'input-field',
-                'element': 'theme-input',
-                'key': 'theme'
-            },
+            id=get_id(EleType.INPUT, 'theme'),
             maxlength=constants.MAX_INPUT_LENGTH,
             placeholder="Enter theme",
         ),
         dbc.Button(
             [html.I(className='fa-solid fa-minus')],
-            id={'type': 'dynamic-delete', 'element': 'theme'},
+            id=get_id(EleType.BUTTON,'delete_theme'),
             color='danger',
             n_clicks=0
         )
     ]),
     missing_feedback
 ])
-theme_id = {'type': 'dynamic-input', 'element': 'theme'}
 theme_input = dbc.Row(
     [
         dbc.Label("Tournament Theme", size='lg', width=label_width),
@@ -135,7 +130,7 @@ theme_input = dbc.Row(
             [
                 add_theme_button
             ],
-            id=theme_id,
+            id=get_id(EleType.CONTAINER, 'theme'),
             width=input_width
         )
     ],
@@ -143,13 +138,12 @@ theme_input = dbc.Row(
 )
 
 # Winner
-winner_id = {'type': 'input-field', 'element': 'winner-input', 'key': 'winner'}
 winner_input = dbc.Row(
     [
-        dbc.Label("Winner", html_for=stringify_id(winner_id), size='lg', width=label_width),
+        dbc.Label("Winner", html_for=stringify_id(get_id(EleType.INPUT, 'winner')), size='lg', width=label_width),
         dbc.Col(
             [
-                dbc.Input(type='text', id=winner_id, maxlength=constants.MAX_INPUT_LENGTH, placeholder="Enter name of tournament winner"),
+                dbc.Input(type='text', id=get_id(EleType.INPUT, 'winner'), maxlength=constants.MAX_INPUT_LENGTH, placeholder="Enter name of tournament winner"),
                 missing_feedback
             ],
             width=input_width
@@ -159,8 +153,8 @@ winner_input = dbc.Row(
 )
 
 # Form
-tournament_info_form = dbc.Form([name_input, date_input, location_input, format_input, theme_input, winner_input])
-
+#tournament_info_form = dbc.Form([name_input, date_input, location_input, format_input, theme_input, winner_input])
+tournament_info_section = html.Div([name_input, date_input, location_input, format_input, theme_input, winner_input])
 
 
 # ========================
@@ -172,9 +166,10 @@ web_input_header = html.Div(
     [
         html.Div("Add by Website URL", className='text-center h4'),
         dbc.Button(
-            [html.I(className='fa-solid fa-minus')],
-            id={'type': 'dynamic-delete', 'element': 'website'},
+            [html.I(className='fa-solid fa-minus me-3'), "Remove Section"],
+            id=get_id(EleType.BUTTON, 'delete_website'),
             color='danger',
+            size='sm',
             n_clicks=0,
             className='position-absolute end-0 align-self-center'
         )
@@ -189,7 +184,7 @@ add_web_button = html.Div([
             html.I(className='fa-solid fa-plus me-3'),
             "Add by Website URL"
         ],
-        id={'type': 'dynamic-add', 'element': 'website'},
+        id=get_id(EleType.BUTTON, 'add_website'),
         color='info',
         n_clicks=0
     )],
@@ -242,8 +237,9 @@ url_input = html.Div(
     className='opacity-50'
 )
 
-# ---- Form ----
-web_form = dbc.Form([web_input_header, website_input, url_input])
+# ---- Section ----
+#web_form = dbc.Form([web_input_header, website_input, url_input])
+web_section = html.Div([web_input_header, website_input, url_input])
 # Container
 web_input_container = dbc.Row(
     [
@@ -257,7 +253,9 @@ web_input_container = dbc.Row(
 website_content = dbc.Card(
     dbc.CardBody(
         web_input_container
-    )
+    ),
+    id={'type': 'card-content', 'element': 'website-tab'},
+    class_name=''
 )
 
 # =========================================
@@ -269,9 +267,10 @@ manual_input_header = html.Div(
         html.Div("Add Bracket Data Manually", className='text-center h4'),
         dbc.Button(
             [html.I(className='fa-solid fa-minus me-3'), "Remove Section"],
-            id={'type': 'dynamic-delete', 'element': 'bracket'},
+            id=get_id(EleType.BUTTON, 'delete_manual'),
             color='danger',
             n_clicks=0,
+            size='sm',
             className='position-absolute end-0 align-self-center'
         )
     ],
@@ -285,34 +284,11 @@ add_manual_button = html.Div([
             html.I(className='fa-solid fa-plus me-3'),
             "Add Bracket Information Manually"
         ],
-        id={'type': 'dynamic-add', 'element': 'bracket'},
+        id=get_id(EleType.BUTTON, 'add_manual'),
         color='info',
         n_clicks=0
     )],
     className='d-grid col-6 mx-auto'
-)
-add_bracket_section = html.Div(
-    [
-        html.Div(
-            [
-                dbc.Button(
-                    [
-                        html.I(className='fa-solid fa-plus me-3'),
-                        "New Bracket"
-                    ],
-                    id='add-bracket-button',
-                    n_clicks=0
-                )
-            ],
-            className='d-flex w-75 justify-content-center py-4',
-            style={
-                'border': 'dashed',
-                'border-radius': '50rem',
-                'border-color': 'var(--bs-border-color)'
-            }
-        )
-    ],
-    className='d-flex justify-content-center'
 )
 
 # ----- Input Fields -----
@@ -325,26 +301,7 @@ manual_display_option = html.Div(
         )
     ]
 )
-
-# ---- Form ----
-manual_bracket_form = dbc.Form([manual_input_header, manual_display_option, add_bracket_section])
-# Container
-manual_input_container = dbc.Row( # input for entire bracket data section
-    [
-        add_manual_button
-    ],
-    id={'type': 'dynamic-input', 'element': 'bracket'},
-    justify='center',
-    className=margin
-)
-# Card Body Content
-manual_content = dbc.Card(
-    dbc.CardBody(
-        manual_input_container
-    )
-)
-
-
+bracket_input_container = html.Div(id='bracket-input-container')
 add_bracket_section = html.Div(
     [
         html.Div(
@@ -366,11 +323,36 @@ add_bracket_section = html.Div(
             }
         )
     ],
-    className='d-flex justify-content-center'
+    className='d-flex justify-content-center mt-3'
 )
 
+# ---- Section ----
+#manual_bracket_form = dbc.Form([manual_input_header, manual_display_option, add_bracket_section])
+manual_bracket_section = html.Div([manual_input_header, manual_display_option, bracket_input_container, add_bracket_section])
+# Container
+manual_input_container = dbc.Row( # input for entire bracket data section
+    [
+        add_manual_button
+    ],
+    id={'type': 'dynamic-input', 'element': 'bracket'},
+    justify='center',
+    className=margin
+)
+# Card Body Content
+manual_content = dbc.Card(
+    dbc.CardBody(
+        manual_input_container,
+    ),
+    id={'type': 'card-content', 'element': 'manual-tab'},
+    class_name='d-none'
+)
 
-# Match data
+# ========================
+# ----- Website Input ----
+# ========================
+
+
+# Dynamic Field Creators
 def make_add_match_button(round_index):
     return html.Div(
         [
@@ -389,7 +371,6 @@ def make_add_match_button(round_index):
         ],
         className='d-flex justify-content-center'
     )
-
 
 def get_player_input(round_index, match_index, player_num):
     """
@@ -427,7 +408,6 @@ def get_player_input(round_index, match_index, player_num):
         direction='horizontal'
     )
     return stack
-
 
 def get_match_row(round_index, match_index):
     content = html.Div(
@@ -521,7 +501,7 @@ def make_round_accordion_item(round_index, round_number=None):
     )
     return content
 
-bracket_data_accordion = html.Div(
+bracket_accordion = html.Div(
     [
         dbc.Accordion(
             [
@@ -545,6 +525,14 @@ bracket_data_accordion = html.Div(
     ],
     className='px-5'
 )
+
+def make_bracket_accordion(index):
+    return dbc.Card(
+        [
+            dbc.CardHeader("header"),
+            dbc.CardBody(bracket_accordion)
+        ]
+    )
 
 bracket_type_select = html.Div(
     [
@@ -591,14 +579,18 @@ card_tabs = dbc.Card(
                 active_tab='website-tab',
             )
         ),
-        dbc.CardBody(html.P(id='card-content'))
+        dbc.CardBody(
+            html.P(
+                [
+                    website_content,
+                    manual_content
+                ],
+                id='card-content'
+            )
+        )
     ]
 )
 
-def get_card_tabs_dcc():
-    children = [
-        dcc.Tab("")
-    ]
 
 DYNAMIC_FIELDS = {
     "theme": {
@@ -606,31 +598,31 @@ DYNAMIC_FIELDS = {
         "add_button": add_theme_button
     },
     "website": {
-        "input": web_form,
+        #"input": web_form,
+        "input": web_section,
         "add_button": add_web_button
     },
     "bracket": {
-        "input": manual_bracket_form,
+        #"input": manual_bracket_form,
+        "input": manual_bracket_section,
         "add_button": add_manual_button
     }
-}
-TAB_CONTENT = {
-    "website-tab": website_content,
-    "manual-tab": manual_content
 }
 
 
 # ===========================
 # ========= Layout ==========
 # ===========================
+
 # Layout
 def get_tournament_input_layout():
-    children = html.Div([
+    children = dbc.Form([
         dbc.Row(
             dbc.Col(
                 [
                     html.Div("Tournament Information", className='text-center h3 mt-3 mb-3'),
-                    tournament_info_form
+                    #tournament_info_form
+                    tournament_info_section
                 ],
                 width=8,
                 className='px-5 border border-3 rounded-3'

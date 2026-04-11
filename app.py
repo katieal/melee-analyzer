@@ -3,6 +3,7 @@ import dash
 from dash import Dash, html, callback, Input, Output, State, dcc
 import dash_ag_grid as dag
 import dash_bootstrap_components as dbc
+from layouts.constants import APP_IDS
 
 # initialize dash app
 dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"
@@ -20,7 +21,7 @@ success_modal = dbc.Modal(
             class_name='bg-secondary border rounded-3'
         ),
     ],
-    id='success-modal',
+    id=APP_IDS['success_modal'],
     size='sm',
     is_open=False,
     backdrop_class_name='bg-transparent'
