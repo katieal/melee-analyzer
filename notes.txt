@@ -12,25 +12,37 @@ double elim
 Winner: Goodie
 
 
-ISSUES:
+----- ISSUES -----
 input box style changes when using browser autocomplete?
 form feedback text doesn't display on tournament theme input
 
-to do:
-tournament edit
-stub file https://typing.python.org/en/latest/guides/writing_stubs.html#
-field for singles/doubles?
+
+----- To Do ------
+READ https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms
+
+tournament edit page
+
+-Add Tournament Page
+hide delete buttons in collapses
 finish manual bracket add - just use inputgroups, don't think about connection lines
 polish manual bracket view
 combine url and manual add pages, add display custom option
+
+-General
+change bracket_id to tournament_id
+stub file https://typing.python.org/en/latest/guides/writing_stubs.html#
+
+-Accessability
 button aria-label text for screen readers
 input field aria-describedby ???????
 add aria roles https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles
 
-Extras:
+
+----- Extras -----
 https://getbootstrap.com/docs/5.0/customize/sass/
 
 
-Ideas:
+----- Ideas -----
 put the actual location with location?
 add img to tournament display - dash mantine components website won't load?
+field for singles/doubles?

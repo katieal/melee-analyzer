@@ -9,6 +9,8 @@ from dash.exceptions import PreventUpdate
 
 from layouts.add_tournament import *
 from layouts.add_tournament import get_tournament_input_layout
+import layouts.constants as constants
+from layouts.constants import ElementType as EleType
 
 dash.register_page(__name__)
 
@@ -27,7 +29,9 @@ invalid_alert = dbc.Alert(
     is_open=False,
 )
 
-tab_content = {}
+# utility method
+def get_id(element_type: constants.ElementType, name:str):
+    return constants.APP_IDS['add_tournament'][str(element_type)][name]
 
 # ========= Final Layout =========
 def layout(**kwargs):
@@ -97,7 +101,7 @@ def delete_dynamic_field(n_clicks):
 @callback(
     Output('url-input', 'disabled'),
     Output('url-input-container', 'className'),
-    Input({'type': 'alt-input-field', 'element': 'source-radio'}, 'value'),
+    Input(get_id(EleType.INPUT, 'website'), 'value'),
     prevent_initial_call=True
 )
 def enable_url_input(web_value):
@@ -125,7 +129,7 @@ def update_url_error(is_empty):
     Output('url-input', 'invalid'),
     inputs={
         'url': Input('url-input', 'value'),
-        'website': State({'type': 'alt-input-field', 'element': 'source-radio'}, 'value'),
+        'website': Input(get_id(EleType.INPUT, 'website'), 'value'),
     },
     prevent_initial_call=True
 )
@@ -134,7 +138,7 @@ def validate_url(url, website):
     Validate URL based on currently selected website and defined URL patterns
     """
     # url box is only enabled after website is selected
-    if website is None or website == '':
+    if website is None or website == '' or url is None or url == '':
         raise PreventUpdate
     else:
         # check url against website patterns
@@ -167,10 +171,10 @@ def update_tab(active_tab):
         set_props({'type': 'card-content', 'element': 'manual-tab'}, {'class_name': ''}),
 
 @callback(
-    Output({'type': 'round-info-collapse', 'round': MATCH}, 'is_open'),
-    Output({'type': 'round-collapse-button', 'round': MATCH}, 'children'),
-    Input({'type': 'round-collapse-button', 'round': MATCH}, 'n_clicks'),
-    State({'type': 'round-info-collapse', 'round': MATCH}, 'is_open'),
+    Output({'type': 'round-info-collapse', 'bracket': MATCH, 'round': MATCH}, 'is_open'),
+    Output({'type': 'round-collapse-button', 'bracket': MATCH, 'round': MATCH}, 'children'),
+    Input({'type': 'round-collapse-button', 'bracket': MATCH, 'round': MATCH}, 'n_clicks'),
+    State({'type': 'round-info-collapse', 'bracket': MATCH, 'round': MATCH}, 'is_open'),
     prevent_initial_call=True
 )
 def toggle_round_collapse(n_clicks, is_open):
@@ -182,13 +186,26 @@ def toggle_round_collapse(n_clicks, is_open):
     else:
         raise PreventUpdate
 
-# ===============
+# ========================
 # Manual Bracket Builder
-# ===============
+# ========================
+# Add Bracket
+@callback(
+    Output(get_id(EleType.BUTTON, 'add_bracket'), 'disabled'),
+    Input(get_id(EleType.INPUT, 'bracket_type'), 'value'),
+    prevent_initial_call=True
+)
+def enable_add_bracket_button(bracket_type):
+    if bracket_type is None or bracket_type == '':
+        raise PreventUpdate
+    else:
+        # enable add bracket button after a type has been selected
+        return False
+
 # Update round numbers
 @callback(
-    Output({'type': 'round-accordion-item', 'round': ALL}, 'title'),
-    Input('bracket-accordion', 'children'),
+    Output({'type': 'round-accordion-item', 'bracket': MATCH, 'round': ALL}, 'title'),
+    Input({'type': 'bracket-accordion', 'bracket': MATCH}, 'children'),
     prevent_initial_call=True
 )
 def update_round_numbers(items):
@@ -198,35 +215,63 @@ def update_round_numbers(items):
 
 # Add/delete bracket
 @callback(
-    Output('bracket-input-container', 'children'),
+    Output('bracket-input-container', 'children', allow_duplicate=True),
     Input('add-bracket-button', 'n_clicks'),
+    State(get_id(EleType.INPUT, 'bracket_type'), 'value'),
     prevent_initial_call=True
 )
-def add_bracket(n_clicks):
+def add_bracket(n_clicks, bracket_type):
     if n_clicks > 0:
-        return make_bracket_accordion(n_clicks)
+        patched_children = Patch()
+        patched_children.append(make_bracket_container(n_clicks, bracket_type))
+        return patched_children
     else:
         raise PreventUpdate
+
+@callback(
+    Output('bracket-input-container', 'children', allow_duplicate=True),
+    Input({'type': 'confirm-dialog', 'element': 'delete-bracket', 'bracket': ALL}, 'submit_n_clicks'),
+    prevent_initial_call=True
+)
+def delete_bracket(n_clicks):
+    if not n_clicks:
+        raise PreventUpdate
+    else:
+        # get index of triggered button
+        index = 0
+        for i, button in enumerate(ctx.inputs_list[0]):
+            if button['id'] == ctx.triggered_id:
+                index = i
+                break
+
+        # ensure corresponding button was clicked
+        if n_clicks[index]:
+            # remove bracket at index
+            patched_children = Patch()
+            del patched_children[index]
+            return patched_children
+        else:
+            raise PreventUpdate
 
 
 # Add/delete Round
 @callback(
-    Output('bracket-accordion', 'children', allow_duplicate=True),
-    Input('add-round-button', 'n_clicks'),
+    Output({'type': 'bracket-accordion', 'bracket': MATCH}, 'children', allow_duplicate=True),
+    Input({'type': 'add-round-button', 'bracket': MATCH}, 'n_clicks'),
     prevent_initial_call=True
 )
 def add_round(n_clicks):
     if n_clicks > 0:
         patched_children = Patch()
-        patched_children.append(make_round_accordion_item(n_clicks))
+        patched_children.append(make_round_accordion_item(ctx.triggered_id.bracket, n_clicks))
         return patched_children
     else:
         return PreventUpdate
 
 
 @callback(
-    Output('bracket-accordion', 'children', allow_duplicate=True),
-    Input({'type': 'delete-round-confirm', 'round': ALL}, 'submit_n_clicks'),
+    Output({'type': 'bracket-accordion', 'bracket': MATCH}, 'children', allow_duplicate=True),
+    Input({'type': 'confirm-dialog', 'element': 'delete-round', 'bracket': MATCH, 'round': ALL}, 'submit_n_clicks'),
     prevent_initial_call=True
 )
 def delete_round(submit_n_clicks):
@@ -251,24 +296,25 @@ def delete_round(submit_n_clicks):
 
 # Add/delete Match
 @callback(
-    Output({'type': 'match-container', 'round': MATCH} , 'children', allow_duplicate=True),
-    Input({'type': 'add-match-button', 'round': MATCH}, 'n_clicks'),
+    Output({'type': 'match-container', 'bracket': MATCH, 'round': MATCH} , 'children', allow_duplicate=True),
+    Input({'type': 'add-match-button', 'bracket': MATCH, 'round': MATCH}, 'n_clicks'),
     prevent_initial_call=True
 )
 def add_match(n_clicks):
-    print("add match triggered")
+    #print("add match triggered")
     if n_clicks > 0:
         patched_children = Patch()
+        bracket_index = ctx.triggered_id.bracket
         round_index = ctx.triggered_id.round
-        patched_children.append(get_match_row(round_index, n_clicks))
+        patched_children.append(get_match_row(bracket_index, round_index, n_clicks))
         return patched_children
     else:
         raise PreventUpdate
 
 
 @callback(
-    Output({'type': 'match-container', 'round': MATCH}, 'children', allow_duplicate=True),
-    Input({'type': 'delete-match-button', 'round': MATCH, 'element': ALL}, 'n_clicks'),
+    Output({'type': 'match-container', 'bracket': MATCH, 'round': MATCH}, 'children', allow_duplicate=True),
+    Input({'type': 'delete-match-button', 'bracket': MATCH, 'round': MATCH, 'element': ALL}, 'n_clicks'),
     prevent_initial_call=True
 )
 def delete_match(n_clicks):

@@ -27,8 +27,8 @@ APP_IDS = {
             'format': {'type': 'input-field', 'element': 'format-select', 'key': 'format'},
             'theme': {'type': 'input-field', 'element': 'theme-input', 'key': 'theme'},
             'winner': {'type': 'input-field', 'element': 'winner-input', 'key': 'winner'},
-            'website': '',
-            'website_hidden': '',
+            'website': {'type': 'input-field', 'element': 'website-select', 'key': 'website'},
+            'bracket_type': {'type': 'bracket-type-select', 'element': 'add-bracket'}
         },
 
         'button': {
@@ -38,6 +38,8 @@ APP_IDS = {
             'delete_website': {'type': 'dynamic-delete', 'element': 'website'},
             'add_manual': {'type': 'dynamic-add', 'element': 'bracket'},
             'delete_manual': {'type': 'dynamic-delete', 'element': 'bracket'},
+            'add_bracket': 'add-bracket-button',
+            'delete_bracket': 'delete-bracket-button', # unused currently?
         },
 
         'container': {
