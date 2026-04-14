@@ -55,6 +55,7 @@ app.layout = dbc.Container(
             id='footer',
             className='mx-5 p-4 bg-primary')
     ],
+    id='main-container',
     fluid=True,
     className='px-5'
 )

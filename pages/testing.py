@@ -1,6 +1,6 @@
 # Import Packages
 import dash
-from dash import Dash, html, Input, Output, State, callback, dcc, ALL, MATCH, Patch, ctx
+from dash import Dash, html, Input, Output, State, callback, dcc, ALL, MATCH, Patch, ctx, clientside_callback, ClientsideFunction
 import dash_bootstrap_components as dbc
 import pandas as pd
 from dash.exceptions import PreventUpdate
@@ -78,12 +78,12 @@ test_form = dbc.Form(
     class_name='needs-validation'
 )
 
-test_form_docs = html.Form(
+test_form_html = html.Form(
     [
         html.Div(
             [
                 dbc.Label("First name", html_for='validationCustom01'),
-                dbc.Input(type='text', id='validationCustom01', value="Mark", required=True),
+                dbc.Input(type='text', id='validationCustom01', value="Mark", name='first_name', required=True),
                 html.Div("Looks Good!", className='valid-feedback')
             ],
             className='col-md-4'
@@ -91,7 +91,7 @@ test_form_docs = html.Form(
         html.Div(
             [
                 dbc.Label("Last name", html_for='validationCustom02'),
-                dbc.Input(type='text', id='validationCustom02', value="Otto", required=True),
+                dbc.Input(type='text', id='validationCustom02', value="Otto", name='last_name', required=True),
                 dbc.FormFeedback("Looks Good!", type='valid')
             ],
             className='col-md-4'
@@ -99,7 +99,7 @@ test_form_docs = html.Form(
         html.Div(
             [
                 dbc.Label("Username", html_for='validationCustomUsername'),
-                dbc.Input(type='text', id='validationCustomUsername', required=True),
+                dbc.Input(type='text', id='validationCustomUsername', name='username', required=True),
                 dbc.FormFeedback("Please choose a username", type='invalid')
             ],
             className='col-md-4'
@@ -107,7 +107,7 @@ test_form_docs = html.Form(
         html.Div(
             [
                 dbc.Label("City", html_for='validationCustom03'),
-                dbc.Input(type='text', id='validationCustom03', required=True),
+                dbc.Input(type='text', id='validationCustom03', name='city', required=True),
                 dbc.FormFeedback("Please provide a valid city", type='invalid')
             ],
             className='col-md-6'
@@ -124,22 +124,61 @@ test_form_docs = html.Form(
             className='col-12'
         ),
         html.Div(
-            dbc.Button("Submit Form", type='submit'),
+            dbc.Button("Submit Form", id='html-form-submit', type='submit'),
             className='col-12'
         )
     ],
+    id='test-form-html',
+    noValidate=True,
+    name='test-html-form',
+    method='POST',
+
+
     className='row g-3 needs-validation',
-    noValidate=True
 )
 
+
+sample_js_output = html.Div(
+    [
+        dbc.Button(
+            "Click me!",
+            id='javascript-button',
+            n_clicks=0,
+        ),
+
+    ]
+)
 
 layout = dbc.Container(
     [
         # title
         dbc.Row(dbc.Col(html.Div("Testing", className='text-center h1 mt-5 mb-0'))),
-        test_form,
-        html.Hr(),
-        test_form_docs,
+
+        test_form_html,
+
+        html.Div(id='javascript-output')
     ],
     fluid=True,
+    id='testing-layout'
 )
+
+clientside_callback(
+    ClientsideFunction(
+        namespace='formValidation',
+        function_name='validate_form'
+    ),
+    Output('testing-layout', 'id'),
+    Input('testing-layout', 'id'),
+)
+
+
+
+
+#clientside_callback(
+#    ClientsideFunction(
+#        namespace='formValidation',
+#        function_name='test_validation_function'
+#    ),
+#    Output('javascript-output', 'children'),
+#    Input('javascript-button', 'n_clicks')
+#)

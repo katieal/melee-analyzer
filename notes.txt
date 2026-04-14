@@ -46,3 +46,23 @@ https://getbootstrap.com/docs/5.0/customize/sass/
 put the actual location with location?
 add img to tournament display - dash mantine components website won't load?
 field for singles/doubles?
+
+
+(() => {
+    'use strict'
+
+    // fetch forms to apply bootstrap validation to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // loop and prevent form submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
