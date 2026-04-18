@@ -1,9 +1,10 @@
 # Import Packages
 import dash
-from dash import Dash, html, Input, Output, State, callback, dcc, ALL, MATCH, Patch, ctx, set_props
+from dash import Dash, html, Input, Output, State, callback, dcc, ALL, MATCH, Patch, ctx, set_props, clientside_callback, ClientsideFunction
 import dash_bootstrap_components as dbc
 import pandas as pd
 import json
+import flask
 import re
 from dash.exceptions import PreventUpdate
 
@@ -14,20 +15,8 @@ from layouts.constants import ElementType as EleType
 
 dash.register_page(__name__)
 
-# submit button
-submit_button = html.Div(
-    dbc.Button("Submit", id='submit-button', size='lg', color='secondary', n_clicks=0),
-    className='d-grid col-6 mx-auto my-3'
-)
+app_ref = dash.get_app()
 
-# invalid field alert box
-invalid_alert = dbc.Alert(
-    "Submission Failed: Missing or invalid fields!",
-    id='invalid-alert',
-    color='danger',
-    dismissable=True,
-    is_open=False,
-)
 
 # utility method
 def get_id(element_type: constants.ElementType, name:str):
@@ -43,16 +32,22 @@ def layout(**kwargs):
             html.Hr(),
             # input
             get_tournament_input_layout(),
-            dbc.Row(
-                dbc.Col(invalid_alert, width=8),
-                justify='center',
-                className='mt-4'
-            ),
-            dbc.Row(submit_button, className='mt-4'),
+
             dcc.Location(id='url-redirect', refresh='callback-nav')
         ],
+        id='add-tournament-layout',
         fluid=True,
     )
+
+# called when page loads
+clientside_callback(
+    ClientsideFunction(
+        namespace='formValidation',
+        function_name='validate_form'
+    ),
+    Output('add-tournament-layout', 'id'),
+    Input('add-tournament-layout', 'id'),
+)
 
 
 # =========== Add/Delete Dynamic Fields ===========
@@ -332,6 +327,14 @@ def delete_match(n_clicks):
         return patched_children
     else:
         raise PreventUpdate
+
+
+# =========== Form Submission ===========
+@app_ref.server.route('/add-tournament/submit', methods=['POST'])
+def add_tournament():
+    print("adding tournament")
+
+    return flask.make_response({"status": "success"}, 200)
 
 """
 # ========== Callbacks to clear missing input alert ==========

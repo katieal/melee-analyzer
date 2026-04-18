@@ -1,7 +1,9 @@
 # Import Packages
 import dash
-from dash import Dash, html, Input, Output, State, callback, dcc, ALL, MATCH, Patch, ctx, clientside_callback, ClientsideFunction
+from dash import html, Input, Output, State, callback, dcc, ALL, MATCH, Patch, ctx, clientside_callback, ClientsideFunction, get_app
 import dash_bootstrap_components as dbc
+from flask import request
+import flask
 import pandas as pd
 from dash.exceptions import PreventUpdate
 import json
@@ -83,7 +85,7 @@ test_form_html = html.Form(
         html.Div(
             [
                 dbc.Label("First name", html_for='validationCustom01'),
-                dbc.Input(type='text', id='validationCustom01', value="Mark", name='first_name', required=True),
+                dbc.Input(type='text', id='validationCustom01', value="Mark", name='first_name', required=True, className='was-validated'),
                 html.Div("Looks Good!", className='valid-feedback')
             ],
             className='col-md-4'
@@ -131,8 +133,8 @@ test_form_html = html.Form(
     id='test-form-html',
     noValidate=True,
     name='test-html-form',
+    action='/testing/submit',
     method='POST',
-
 
     className='row g-3 needs-validation',
 )
@@ -162,23 +164,21 @@ layout = dbc.Container(
     id='testing-layout'
 )
 
-clientside_callback(
-    ClientsideFunction(
-        namespace='formValidation',
-        function_name='validate_form'
-    ),
-    Output('testing-layout', 'id'),
-    Input('testing-layout', 'id'),
-)
 
 
 
+myapp = dash.get_app()
 
-#clientside_callback(
-#    ClientsideFunction(
-#        namespace='formValidation',
-#        function_name='test_validation_function'
-#    ),
-#    Output('javascript-output', 'children'),
-#    Input('javascript-button', 'n_clicks')
-#)
+
+
+@myapp.server.route('/testing/submit', methods=['POST'])
+def submit_form():
+    print("submitting form")
+    datatype = request.content_type
+    print(datatype)
+    data = request.get_data()
+    print("type: ", type(data))
+    form_data = request.form
+    print(form_data)
+
+    return flask.make_response({"status": "success"}, 200)

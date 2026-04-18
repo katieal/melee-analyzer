@@ -42,6 +42,17 @@ def make_confirm_delete_button(dialog_id, confirm_message, button_text, button_c
         message=confirm_message,
     )
 
+def make_input(field_name: str, input_type, placeholder: str, required=True, disabled=False):
+    return dbc.Input(
+        id=get_id(EleType.INPUT, field_name),
+        name=field_name,
+        type=input_type,
+        maxlength=constants.MAX_INPUT_LENGTH if input_type != 'url' else constants.MAX_URL_LENGTH,
+        placeholder=placeholder,
+        required=required,
+        disabled=disabled,
+    )
+
 # =============================================
 # ========= Tournament Info Fields =========
 # =============================================
@@ -49,9 +60,11 @@ def make_confirm_delete_button(dialog_id, confirm_message, button_text, button_c
 name_input = dbc.Row(
     [
         dbc.Label("Tournament Name", html_for=stringify_id(get_id(EleType.INPUT, 'name')), size='lg', width=label_width),
+        #html.Label("Tournament Name", html_for=stringify_id(get_id(EleType.INPUT, 'name')),),
         dbc.Col(
             [
-                dbc.Input(type='text', id=get_id(EleType.INPUT, 'name'), maxlength=constants.MAX_INPUT_LENGTH, placeholder="Enter tournament name"),
+                #dbc.Input(type='text', id=get_id(EleType.INPUT, 'name'), maxlength=constants.MAX_INPUT_LENGTH, placeholder="Enter tournament name", required=True),
+                make_input('name', 'text', "Enter tournament name"),
                 missing_feedback
             ],
             width=input_width
@@ -87,7 +100,8 @@ location_input = dbc.Row(
         dbc.Label("Location", html_for=stringify_id(get_id(EleType.INPUT,'location')), size='lg', width=label_width),
         dbc.Col(
             [
-                dbc.Input(type='text', id=get_id(EleType.INPUT, 'location'), maxlength=constants.MAX_INPUT_LENGTH, placeholder="Enter location"),
+                #dbc.Input(type='text', id=get_id(EleType.INPUT, 'location'), maxlength=constants.MAX_INPUT_LENGTH, placeholder="Enter location", required=True),
+                make_input('location', 'text', "Enter location"),
                 missing_feedback
             ],
             width=input_width
@@ -104,11 +118,13 @@ format_input = dbc.Row(
             [
                 dbc.Select(
                     id=get_id(EleType.INPUT,'format'),
+                    name='format',
                     options=[
                         {'label': "Single Elimination", 'value': "single_elim"},
                         {'label': "Double Elimination", 'value': "double_elim"},
                         {'label': "Round Robin", 'value': "robin"},
                     ],
+                    required=True,
                     # placeholder text in this field doesn't have the same muted appearance as the placeholders
                     # in input fields which looks weird so omitting it for now
                     # placeholder="Select tournament format"
@@ -132,12 +148,8 @@ add_theme_button = dbc.Button(
 )
 theme_input_field = html.Div([
     dbc.InputGroup([
-        dbc.Input(
-            type='text',
-            id=get_id(EleType.INPUT, 'theme'),
-            maxlength=constants.MAX_INPUT_LENGTH,
-            placeholder="Enter theme",
-        ),
+        #dbc.Input( type='text',id=get_id(EleType.INPUT, 'theme'),maxlength=constants.MAX_INPUT_LENGTH, placeholder="Enter theme", required=True,),
+        make_input('theme', 'text', "Enter theme"),
         dbc.Button(
             [html.I(className='fa-solid fa-minus')],
             id=get_id(EleType.BUTTON,'delete_theme'),
@@ -167,7 +179,8 @@ winner_input = dbc.Row(
         dbc.Label("Winner", html_for=stringify_id(get_id(EleType.INPUT, 'winner')), size='lg', width=label_width),
         dbc.Col(
             [
-                dbc.Input(type='text', id=get_id(EleType.INPUT, 'winner'), maxlength=constants.MAX_INPUT_LENGTH, placeholder="Enter name of tournament winner"),
+                #dbc.Input(type='text', id=get_id(EleType.INPUT, 'winner'), maxlength=constants.MAX_INPUT_LENGTH, placeholder="Enter name of tournament winner", required=True),
+                make_input('winner', 'text', "Enter name of tournament winner"),
                 missing_feedback
             ],
             width=input_width
@@ -221,11 +234,13 @@ website_input = html.Div(
         dbc.Label("Source Website", html_for=stringify_id(get_id(EleType.INPUT, 'website')), size='lg', className='mb-1'),
         dbc.Select(
             id=get_id(EleType.INPUT, 'website'),
+            name='website',
             options=[
                 {'label': "Start.gg", "value": "Start.gg"},
                 {'label': "Challonge", "value": "Challonge"},
                 {'label': "Other", "value": "Other"}
             ],
+            required=True,
             #placeholder="Select Website"
         ),
         missing_feedback
@@ -235,14 +250,8 @@ website_input = html.Div(
 url_input = html.Div(
     [
         dbc.Label("Bracket URL", html_for='url-input', size='lg', className='mb-1'),
-        dbc.Input(
-            type='url',
-            id='url-input',
-            maxlength=constants.MAX_URL_LENGTH,
-            inputmode='url',
-            placeholder="Enter bracket URL",
-            disabled=True
-        ),
+        #dbc.Input(type='url', id='url-input',maxlength=constants.MAX_URL_LENGTH,inputmode='url', placeholder="Enter bracket URL",required=True,disabled=True ),
+        make_input('url', 'url', "Enter bracket URL", disabled=True),
         dbc.FormText("Provide the URL for the bracket view page (must select source website first)", id='url-form-text'),
         dbc.FormFeedback(
             "Invalid value",
@@ -646,6 +655,20 @@ DYNAMIC_FIELDS = {
     }
 }
 
+# invalid field alert box
+invalid_alert = dbc.Alert(
+    "Submission Failed: Missing or invalid fields!",
+    id='invalid-alert',
+    color='danger',
+    dismissable=True,
+    is_open=False,
+)
+
+# submit button
+submit_button = html.Div(
+    dbc.Button("Submit", id=get_id(EleType.BUTTON, 'submit'), size='lg', color='secondary', n_clicks=0),
+    className='d-grid col-6 mx-auto my-3'
+)
 
 # ===========================
 # ========= Layout ==========
@@ -653,7 +676,7 @@ DYNAMIC_FIELDS = {
 
 # Layout
 def get_tournament_input_layout():
-    children = dbc.Form([
+    children = [
         dbc.Row(
             dbc.Col(
                 [
@@ -677,6 +700,17 @@ def get_tournament_input_layout():
                 className='px-5 border border-3 rounded-3'
             ),
             justify='center'
-        )
-    ])
-    return children
+        ),
+        dbc.Row(
+            dbc.Col(invalid_alert, width=8),
+            justify='center',
+            className='mt-4'
+        ),
+        dbc.Row(submit_button, className='mt-4'),
+    ]
+    return html.Form(
+        children,
+        id=get_id(EleType.MISC, 'form'),
+        noValidate=True,
+        name='add-tournament-form',
+    )

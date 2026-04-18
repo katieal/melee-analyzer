@@ -14,7 +14,7 @@ INPUT_PATTERNS = {
 }
 
 
-APP_IDS = {
+APP_IDS = { # put these in a separate file?
     # app.py
     'success_modal': 'success-modal',
 
@@ -28,7 +28,8 @@ APP_IDS = {
             'theme': {'type': 'input-field', 'element': 'theme-input', 'key': 'theme'},
             'winner': {'type': 'input-field', 'element': 'winner-input', 'key': 'winner'},
             'website': {'type': 'input-field', 'element': 'website-select', 'key': 'website'},
-            'bracket_type': {'type': 'bracket-type-select', 'element': 'add-bracket'}
+            'bracket_type': {'type': 'bracket-type-select', 'element': 'add-bracket'},
+            'url': 'url-input'
         },
 
         'button': {
@@ -40,11 +41,16 @@ APP_IDS = {
             'delete_manual': {'type': 'dynamic-delete', 'element': 'bracket'},
             'add_bracket': 'add-bracket-button',
             'delete_bracket': 'delete-bracket-button', # unused currently?
+            'submit': 'submit-form-button'
         },
 
         'container': {
             'theme': {'type': 'dynamic-input', 'element': 'theme'}
         },
+
+        'misc': {
+            'form': 'add-tournament-form'
+        }
     }
 
 }
@@ -55,3 +61,4 @@ class ElementType(StrEnum):
     INPUT = auto()
     BUTTON = auto()
     CONTAINER = auto()
+    MISC = auto()

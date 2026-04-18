@@ -30,7 +30,7 @@ add_bracket_dropdown = dbc.DropdownMenu(
     [
         dbc.DropdownMenuItem(
             "Add by URL",
-            href='/bracket-add-url'
+            href='/add-tournament'
         ),
         dbc.DropdownMenuItem(
             "Add Manually",
