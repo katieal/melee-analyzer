@@ -4,12 +4,13 @@ from dash import Dash, html, Input, Output, State, callback, dcc, ALL, MATCH, Pa
 import dash_bootstrap_components as dbc
 import pandas as pd
 import json
+
 import flask
 import re
 from dash.exceptions import PreventUpdate
 
 from layouts.add_tournament import *
-from layouts.add_tournament import get_tournament_input_layout
+
 import layouts.constants as constants
 from layouts.constants import ElementType as EleType
 
@@ -31,23 +32,71 @@ def layout(**kwargs):
             dbc.Row(dbc.Col(html.Div("Add a New Tournament by URL", className='text-center h1 mt-5 mb-0'))),
             html.Hr(),
             # input
-            get_tournament_input_layout(),
-
+            html.Div(
+                get_info_layout(),
+                id='form-container'
+            ),
+            dcc.Store(id='form-store', data={}),
             dcc.Location(id='url-redirect', refresh='callback-nav')
         ],
         id='add-tournament-layout',
         fluid=True,
     )
 
+
 # called when page loads
 clientside_callback(
     ClientsideFunction(
         namespace='formValidation',
-        function_name='validate_form'
+        function_name='validate_info_form'
     ),
     Output('add-tournament-layout', 'id'),
     Input('add-tournament-layout', 'id'),
 )
+
+# =========== Form Submission ===========
+@app_ref.server.route('/add-tournament/submit-info', methods=['POST'])
+def submit_info():
+    print("submitting")
+    # set flat to true since form keys won't have multiple values
+    form_dict = flask.request.form.to_dict(flat=True)
+
+    # combine into a single date field
+    date = form_dict['year'] + '-' + form_dict['month'] + '-' + form_dict['day']
+    form_dict['date'] = date
+    del form_dict['month']
+    del form_dict['year']
+    del form_dict['day']
+
+    # store response
+    set_props('form-store', {'data': {'info': form_dict}})
+    # close alert if needed
+    set_props('invalid-form-alert', {'is_open': False})
+
+    # next page
+    set_props('form-container', {'children': get_website_layout()})
+    print("returning")
+    return flask.make_response({"status": "success"}, 200)
+
+
+# =========== Date Input ===========
+@callback(
+    Output(get_id(EleType.INPUT, 'day'), 'options'),
+    Output(get_id(EleType.INPUT, 'day'), 'value'),
+    Input(get_id(EleType.INPUT, 'month'), 'value'),
+    Input(get_id(EleType.INPUT, 'year'), 'value'),
+    State(get_id(EleType.INPUT, 'day'), 'value'),
+    prevent_initial_call=True
+)
+def update_day_options(month, year, selected_day):
+    z, days = calendar.monthrange(int(year), int(month))
+
+    # check if current selected day is a valid value for new month/year
+    if int(selected_day) > days:
+        # if invalid, clear day selection
+        return list(range(days + 1)), None
+    else:
+        return list(range(days + 1)), selected_day
 
 
 # =========== Add/Delete Dynamic Fields ===========
@@ -329,12 +378,9 @@ def delete_match(n_clicks):
         raise PreventUpdate
 
 
-# =========== Form Submission ===========
-@app_ref.server.route('/add-tournament/submit', methods=['POST'])
-def add_tournament():
-    print("adding tournament")
 
-    return flask.make_response({"status": "success"}, 200)
+
+
 
 """
 # ========== Callbacks to clear missing input alert ==========

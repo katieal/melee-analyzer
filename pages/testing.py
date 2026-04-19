@@ -4,6 +4,7 @@ from dash import html, Input, Output, State, callback, dcc, ALL, MATCH, Patch, c
 import dash_bootstrap_components as dbc
 from flask import request
 import flask
+import datetime as dt
 import pandas as pd
 from dash.exceptions import PreventUpdate
 import json
@@ -155,10 +156,9 @@ layout = dbc.Container(
     [
         # title
         dbc.Row(dbc.Col(html.Div("Testing", className='text-center h1 mt-5 mb-0'))),
-
         test_form_html,
 
-        html.Div(id='javascript-output')
+        html.Div( id='javascript-output')
     ],
     fluid=True,
     id='testing-layout'

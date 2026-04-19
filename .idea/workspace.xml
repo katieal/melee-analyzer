@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="built a sample form in testing.py - added validation using javascript and clientside callbacks, began working on getting form submission data">
+    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="finished form submission callback in testing.py, renamed bracket_add_url.py to add_tournament.py, began implementing changes in add_tournament.py - hooked javascript callback to form submit button and added required to input fields">
+      <change afterPath="$PROJECT_DIR$/layouts/add_tournament_forms/bracket_form.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/layouts/add_tournament_forms/info_form.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/layouts/add_tournament_forms/website_form.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/form_validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/form_validation.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/layouts/add_tournament.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/add_tournament.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/layouts/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/bracket_add_url.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/add_tournament.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/bracket_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bracket_history.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/add_tournament.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/add_tournament.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/testing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,22 +64,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "ai.playground.ignore.import.keys.banner.in.settings": "true",
-    "git-widget-placeholder": "add-bracket-page",
-    "ignore_missing_gitignore": "true",
-    "last_opened_file_path": "Z:/Resume Projects/Python Projects/MeleAnalyzer",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;ai.playground.ignore.import.keys.banner.in.settings&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;add-bracket-page&quot;,
+    &quot;ignore_missing_gitignore&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;Z:/Resume Projects/Python Projects/MeleAnalyzer&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="Z:\Resume Projects\Python Projects\MeleAnalyzer\data" />
@@ -99,7 +101,8 @@
       <option name="presentableId" value="Default" />
       <updated>1771519205450</updated>
       <workItem from="1776176615779" duration="10514000" />
-      <workItem from="1776519074587" duration="11957000" />
+      <workItem from="1776519074587" duration="12083000" />
+      <workItem from="1776605065110" duration="15876000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -349,7 +352,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776187266647</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="finished form submission callback in testing.py, renamed bracket_add_url.py to add_tournament.py, began implementing changes in add_tournament.py - hooked javascript callback to form submit button and added required to input fields">
+      <option name="closed" value="true" />
+      <created>1776531845442</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1776531845442</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -399,7 +410,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="began work to extract data for individual bracket view. successfully extracted list of matches, began to insert match data into separate list for viewing" />
     <MESSAGE value="finished code in melee_db to extract bracket info into linked list with MatchNode object. Changed json match data structure to include fields for team_1 and team_2. started work in bracket_view to display linked list" />
     <MESSAGE value="added type annotations for json data structures in melee_db, implemented ability to dynamically display brackets with data in bracket_view.py" />
     <MESSAGE value="refactored round_num to be zero indexed, fixed display for rematches and single connectors by adding a size calculation in melee_db.py and specifying element height in bracket_view.py" />
@@ -424,6 +434,7 @@
     <MESSAGE value="began moving element IDs in add_tournament.py to a dictionary in constants.py for centralized ID management, fixed persistence problem in bracket add tabs" />
     <MESSAGE value="in bracket_add_url.py: changed website radio to a select for easier validation, finished bracket builder - completed sections to add/delete brackets with confirmation and bracket type selector, tested and ensured all controls work as intended, began testing form submission/validation changes" />
     <MESSAGE value="built a sample form in testing.py - added validation using javascript and clientside callbacks, began working on getting form submission data" />
-    <option name="LAST_COMMIT_MESSAGE" value="built a sample form in testing.py - added validation using javascript and clientside callbacks, began working on getting form submission data" />
+    <MESSAGE value="finished form submission callback in testing.py, renamed bracket_add_url.py to add_tournament.py, began implementing changes in add_tournament.py - hooked javascript callback to form submit button and added required to input fields" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished form submission callback in testing.py, renamed bracket_add_url.py to add_tournament.py, began implementing changes in add_tournament.py - hooked javascript callback to form submit button and added required to input fields" />
   </component>
 </project>

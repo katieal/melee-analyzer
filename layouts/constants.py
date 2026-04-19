@@ -13,6 +13,20 @@ INPUT_PATTERNS = {
     'Other': [r'^https://']
 }
 
+MONTH_STR = {
+    "01": "January",
+    "02": "February",
+    "03": "March",
+    "04": "April",
+    "05": "May",
+    "06": "June",
+    "07": "July",
+    "08": "August",
+    "09": "September",
+    "10": "October",
+    "11": "November",
+    "12": "December"
+}
 
 APP_IDS = { # put these in a separate file?
     # app.py
@@ -22,7 +36,10 @@ APP_IDS = { # put these in a separate file?
     'add_tournament': {
         'input': {
             'name': {'type': 'input-field', 'element': 'name-input', 'key': 'name'},
-            'date': {'type': 'alt-input-field', 'element': 'date-picker'},
+            'month': 'month-select',
+            'day': 'day-select',
+            'year': 'year-select',
+            'date': 'date-picker',
             'location': {'type': 'input-field', 'element': 'location-input', 'key': 'location'},
             'format': {'type': 'input-field', 'element': 'format-select', 'key': 'format'},
             'theme': {'type': 'input-field', 'element': 'theme-input', 'key': 'theme'},
@@ -41,7 +58,9 @@ APP_IDS = { # put these in a separate file?
             'delete_manual': {'type': 'dynamic-delete', 'element': 'bracket'},
             'add_bracket': 'add-bracket-button',
             'delete_bracket': 'delete-bracket-button', # unused currently?
-            'submit': 'submit-form-button'
+            'submit_info': 'submit-form-info-button',
+            'submit_website': 'submit-website-button',
+            'submit_bracket': 'submit-bracket-button',
         },
 
         'container': {
@@ -49,7 +68,10 @@ APP_IDS = { # put these in a separate file?
         },
 
         'misc': {
-            'form': 'add-tournament-form'
+            'info_form': 'add-tournament-info-form',
+            'website_form': 'add-tournament-website-form',
+            'bracket_form': 'add-tournament-bracket-form',
+            'invalid_alert': 'invalid-form-alert',
         }
     }
 
