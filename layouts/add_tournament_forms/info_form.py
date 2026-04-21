@@ -251,3 +251,8 @@ winner_input = dbc.Row(
 # Form
 #tournament_info_form = dbc.Form([name_input, date_input, location_input, format_input, theme_input, winner_input])
 tournament_info_section = html.Div([name_input, date_input, location_input, format_input, theme_input, winner_input])
+
+def get_layout():
+    return html.Div(
+        [name_input, date_input, location_input, format_input, theme_input, winner_input],
+    )

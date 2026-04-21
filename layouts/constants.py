@@ -64,7 +64,7 @@ APP_IDS = { # put these in a separate file?
         },
 
         'container': {
-            'theme': {'type': 'dynamic-input', 'element': 'theme'}
+            'theme': {'type': 'dynamic-input', 'element': 'theme'},
         },
 
         'misc': {

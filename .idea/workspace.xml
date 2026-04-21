@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="finished form submission callback in testing.py, renamed bracket_add_url.py to add_tournament.py, began implementing changes in add_tournament.py - hooked javascript callback to form submit button and added required to input fields">
-      <change afterPath="$PROJECT_DIR$/layouts/add_tournament_forms/bracket_form.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/layouts/add_tournament_forms/info_form.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/layouts/add_tournament_forms/website_form.py" afterDir="false" />
+    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="changed dcc.datepicker into three selects for easier validation and value retrieval. separated info, website, and bracket input into separate forms, split add_tournament.py into three files, one for each form, and began reformatting page to display forms one at a time">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/form_validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/form_validation.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/layouts/add_tournament.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/add_tournament.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layouts/add_tournament_forms/bracket_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/add_tournament_forms/bracket_form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layouts/add_tournament_forms/info_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/add_tournament_forms/info_form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layouts/add_tournament_forms/website_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/add_tournament_forms/website_form.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/layouts/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/add_tournament.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/add_tournament.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/testing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +55,9 @@
     &quot;accountId&quot;: &quot;f5c13e21-5043-4154-900f-e10be89516c3&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -102,7 +104,8 @@
       <updated>1771519205450</updated>
       <workItem from="1776176615779" duration="10514000" />
       <workItem from="1776519074587" duration="12083000" />
-      <workItem from="1776605065110" duration="15876000" />
+      <workItem from="1776605065110" duration="16189000" />
+      <workItem from="1776779237850" duration="12639000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -360,7 +363,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776531845442</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="changed dcc.datepicker into three selects for easier validation and value retrieval. separated info, website, and bracket input into separate forms, split add_tournament.py into three files, one for each form, and began reformatting page to display forms one at a time">
+      <option name="closed" value="true" />
+      <created>1776621321000</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1776621321000</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -410,7 +421,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="finished code in melee_db to extract bracket info into linked list with MatchNode object. Changed json match data structure to include fields for team_1 and team_2. started work in bracket_view to display linked list" />
     <MESSAGE value="added type annotations for json data structures in melee_db, implemented ability to dynamically display brackets with data in bracket_view.py" />
     <MESSAGE value="refactored round_num to be zero indexed, fixed display for rematches and single connectors by adding a size calculation in melee_db.py and specifying element height in bracket_view.py" />
     <MESSAGE value="added a button on bracket_history.py to redirect to bracket_add.py. began work on page to add a new tournament, made initial layout using bracket_view.py for reference, began replacing elements with input" />
@@ -435,6 +445,7 @@
     <MESSAGE value="in bracket_add_url.py: changed website radio to a select for easier validation, finished bracket builder - completed sections to add/delete brackets with confirmation and bracket type selector, tested and ensured all controls work as intended, began testing form submission/validation changes" />
     <MESSAGE value="built a sample form in testing.py - added validation using javascript and clientside callbacks, began working on getting form submission data" />
     <MESSAGE value="finished form submission callback in testing.py, renamed bracket_add_url.py to add_tournament.py, began implementing changes in add_tournament.py - hooked javascript callback to form submit button and added required to input fields" />
-    <option name="LAST_COMMIT_MESSAGE" value="finished form submission callback in testing.py, renamed bracket_add_url.py to add_tournament.py, began implementing changes in add_tournament.py - hooked javascript callback to form submit button and added required to input fields" />
+    <MESSAGE value="changed dcc.datepicker into three selects for easier validation and value retrieval. separated info, website, and bracket input into separate forms, split add_tournament.py into three files, one for each form, and began reformatting page to display forms one at a time" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed dcc.datepicker into three selects for easier validation and value retrieval. separated info, website, and bracket input into separate forms, split add_tournament.py into three files, one for each form, and began reformatting page to display forms one at a time" />
   </component>
 </project>

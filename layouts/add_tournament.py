@@ -56,16 +56,16 @@ DYNAMIC_FIELDS = {
         "input": info_fields.theme_input_field,
         "add_button": info_fields.add_theme_button
     },
-    "website": {
-        #"input": web_form,
-        "input": website_fields.web_section,
-        "add_button": website_fields.add_web_button
-    },
-    "bracket": {
-        #"input": manual_bracket_form,
-        "input": bracket_fields.manual_bracket_section,
-        "add_button": bracket_fields.add_manual_button
-    }
+    #"website": {
+    #    #"input": web_form,
+    #    "input": website_fields.web_section,
+    #    "add_button": website_fields.add_web_button
+    #},
+    #"bracket": {
+    #    #"input": manual_bracket_form,
+    #    "input": bracket_fields.manual_bracket_section,
+    #    "add_button": bracket_fields.add_manual_button
+    #}
 }
 
 # invalid field alert box
@@ -130,11 +130,12 @@ def get_info_layout():
         id=get_id(EleType.MISC, 'info_form'),
         noValidate=True,
         name='tournament-info-form',
+        className=''
     )
 
 def get_website_layout():
     children = [
-        make_input_section("Add Website URL", website_fields.website_content),
+        make_input_section("Add Website URL", website_fields.web_section),
         invalid_alert,
         make_next_button(get_id(EleType.BUTTON, 'submit_website')),
     ]
@@ -143,6 +144,7 @@ def get_website_layout():
         id=get_id(EleType.MISC, 'website_form'),
         noValidate=True,
         name='website-form',
+        className='d-none'
     )
 
 def get_bracket_layout():
@@ -156,4 +158,5 @@ def get_bracket_layout():
         id=get_id(EleType.MISC, 'bracket_form'),
         noValidate=True,
         name='bracket-form',
+        className='d-none'
     )

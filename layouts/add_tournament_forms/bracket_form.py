@@ -160,6 +160,11 @@ manual_content = dbc.Card(
     class_name='d-none'
 )
 
+def get_layout():
+    return html.Div(
+        [manual_input_header, manual_display_option, bracket_input_container, add_bracket_section],
+    )
+
 # ========================
 # ----- Bracket Builder ----
 # ========================

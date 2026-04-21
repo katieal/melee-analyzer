@@ -127,3 +127,8 @@ website_content = dbc.Card(
     id={'type': 'card-content', 'element': 'website-tab'},
     class_name=''
 )
+
+def get_layout():
+    return html.Div(
+        [web_input_header, website_input, url_input],
+    )

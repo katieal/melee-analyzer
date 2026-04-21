@@ -12,6 +12,7 @@ from dash.exceptions import PreventUpdate
 from layouts.add_tournament import *
 
 import layouts.constants as constants
+from layouts.add_tournament_forms.bracket_form import make_bracket_container, make_round_accordion_item, get_match_row
 from layouts.constants import ElementType as EleType
 
 dash.register_page(__name__)
@@ -29,14 +30,25 @@ def layout(**kwargs):
     return dbc.Container(
         [
             # title
-            dbc.Row(dbc.Col(html.Div("Add a New Tournament by URL", className='text-center h1 mt-5 mb-0'))),
+            dcc.Store(id='form-store', data={"current_page": 1}),
+            dbc.Row(dbc.Col(html.Div("Add a New Tournament", className='text-center h1 mt-5 mb-0'))),
             html.Hr(),
             # input
             html.Div(
-                get_info_layout(),
+                [
+                    get_info_layout(),
+                    get_website_layout(),
+                    get_bracket_layout()
+                ],
                 id='form-container'
             ),
-            dcc.Store(id='form-store', data={}),
+            html.Hr(),
+            dbc.Button(
+                "Test",
+                id='data-test-button',
+                n_clicks=0,
+            ),
+            html.Div("Sample Text", id='test-output-div'),
             dcc.Location(id='url-redirect', refresh='callback-nav')
         ],
         id='add-tournament-layout',
@@ -54,13 +66,30 @@ clientside_callback(
     Input('add-tournament-layout', 'id'),
 )
 
-# =========== Form Submission ===========
-@app_ref.server.route('/add-tournament/submit-info', methods=['POST'])
-def submit_info():
-    print("submitting")
-    # set flat to true since form keys won't have multiple values
-    form_dict = flask.request.form.to_dict(flat=True)
+@callback(
+    Input('data-test-button', 'n_clicks'),
+    State('form-store', 'data'),
+    prevent_initial_call=True
+)
+def print_data(clicks, data):
+    print("--------------")
+    print("Stored Data: ")
+    print(data)
+    print("--------------")
 
+
+# =========== Form Submission ===========
+@callback(
+    Input('form-store', 'data'),
+    prevent_initial_call=True,
+)
+def store_updated(data):
+    print("updated")
+    print(data)
+    update_form_display(1, 2)
+
+
+def submit_form(form_dict):
     # combine into a single date field
     date = form_dict['year'] + '-' + form_dict['month'] + '-' + form_dict['day']
     form_dict['date'] = date
@@ -68,16 +97,42 @@ def submit_info():
     del form_dict['year']
     del form_dict['day']
 
-    # store response
-    set_props('form-store', {'data': {'info': form_dict}})
-    # close alert if needed
-    set_props('invalid-form-alert', {'is_open': False})
+# =========== Navigation ===========
+#@callback(
+    #Output('card-content', 'children'),
+#    Input('card-tabs', 'active_tab'),
+#)
+#def update_tab(active_tab):
+#    if active_tab == 'website-tab':
+#        set_props({'type': 'card-content', 'element': 'website-tab'}, {'class_name': ''}),
+#        set_props({'type': 'card-content', 'element': 'manual-tab'}, {'class_name': 'd-none'}),
+#    elif active_tab == 'manual-tab':
+#        set_props({'type': 'card-content', 'element': 'website-tab'}, {'class_name': 'd-none'}),
+#        set_props({'type': 'card-content', 'element': 'manual-tab'}, {'class_name': ''}),
+forms_dict = {
+    1: get_id(EleType.MISC, 'info_form'),
+    2: get_id(EleType.MISC, 'website_form'),
+    3: get_id(EleType.MISC, 'bracket_form')
+}
+def update_form_display(old_index:int, new_index:int):
+    set_props(forms_dict[old_index], {'className': 'd-none'})
+    set_props(forms_dict[new_index], {'className': ''})
 
-    # next page
-    set_props('form-container', {'children': get_website_layout()})
-    print("returning")
-    return flask.make_response({"status": "success"}, 200)
+@callback(
+    Output({'type': 'round-info-collapse', 'bracket': MATCH, 'round': MATCH}, 'is_open'),
+    Output({'type': 'round-collapse-button', 'bracket': MATCH, 'round': MATCH}, 'children'),
+    Input({'type': 'round-collapse-button', 'bracket': MATCH, 'round': MATCH}, 'n_clicks'),
+    State({'type': 'round-info-collapse', 'bracket': MATCH, 'round': MATCH}, 'is_open'),
+    prevent_initial_call=True
+)
+def toggle_round_collapse(n_clicks, is_open):
+    if n_clicks:
+        closed = html.I(className='fa-solid fa-angle-down')
+        opened = html.I(className='fa-solid fa-angle-left')
 
+        return not is_open, closed if is_open else opened
+    else:
+        raise PreventUpdate
 
 # =========== Date Input ===========
 @callback(
@@ -199,36 +254,7 @@ def validate_url(url, website):
         # set invalid to true if url does NOT match pattern, false if it DOES match
         return is_invalid
 
-# ===============
-# Navigation
-# ===============
-@callback(
-    #Output('card-content', 'children'),
-    Input('card-tabs', 'active_tab'),
-)
-def update_tab(active_tab):
-    if active_tab == 'website-tab':
-        set_props({'type': 'card-content', 'element': 'website-tab'}, {'class_name': ''}),
-        set_props({'type': 'card-content', 'element': 'manual-tab'}, {'class_name': 'd-none'}),
-    elif active_tab == 'manual-tab':
-        set_props({'type': 'card-content', 'element': 'website-tab'}, {'class_name': 'd-none'}),
-        set_props({'type': 'card-content', 'element': 'manual-tab'}, {'class_name': ''}),
 
-@callback(
-    Output({'type': 'round-info-collapse', 'bracket': MATCH, 'round': MATCH}, 'is_open'),
-    Output({'type': 'round-collapse-button', 'bracket': MATCH, 'round': MATCH}, 'children'),
-    Input({'type': 'round-collapse-button', 'bracket': MATCH, 'round': MATCH}, 'n_clicks'),
-    State({'type': 'round-info-collapse', 'bracket': MATCH, 'round': MATCH}, 'is_open'),
-    prevent_initial_call=True
-)
-def toggle_round_collapse(n_clicks, is_open):
-    if n_clicks:
-        closed = html.I(className='fa-solid fa-angle-down')
-        opened = html.I(className='fa-solid fa-angle-left')
-
-        return not is_open, closed if is_open else opened
-    else:
-        raise PreventUpdate
 
 # ========================
 # Manual Bracket Builder
