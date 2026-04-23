@@ -102,28 +102,64 @@ def make_input_section(title, content):
         className='mb-3'
     )
 
-def make_next_button(btn_id):
+def make_next_button():
+    return dbc.Button(
+        ["Next", html.I(className='fa-solid fa-right-long ms-3')],
+        type='submit',
+        size='lg',
+        color='secondary',
+        n_clicks=0,
+        class_name='ms-auto'
+    )
+     # 'd-grid col-3 ms-auto'
+
+def make_back_button(btn_id):
+    return dbc.Button(
+        [html.I(className='fa-solid fa-left-long me-3'), "Back"],
+        id=get_id(EleType.BUTTON, 'back'),
+        type='button',
+        size='lg',
+        color='secondary',
+        n_clicks=0,
+        #className='me-auto'
+    )
+
+def make_submit_button():
+    return dbc.Button(
+        ["Submit"],
+        id=get_id(EleType.BUTTON, 'submit'),
+        size='lg',
+        color='secondary',
+        n_clicks=0,
+        class_name='ms-auto'
+    )
+
+def make_nav_buttons(back_btn:bool, next_btn:bool, submit_btn:bool, back_btn_id=None):
+    children = []
+    if back_btn:
+        children.append(make_back_button(back_btn_id))
+    if next_btn:
+        children.append(make_next_button())
+    if submit_btn:
+        children.append(make_submit_button())
+
     return dbc.Row(
-        html.Div(
-            dbc.Button(
-                ["Next", html.I(className='fa-solid fa-right-long ms-3')],
-                id=btn_id,
-                size='lg',
-                color='secondary',
-                n_clicks=0
-            ),
-            className='d-grid col-3 ms-auto'
+        dbc.Col(
+            children,
+            width=8,
+            className='border border-1'
         ),
         justify='center',
         className='mt-4'
     )
+
 
 # Layout
 def get_info_layout():
     children = [
         make_input_section("Tournament Information", info_fields.tournament_info_section),
         invalid_alert,
-        make_next_button(get_id(EleType.BUTTON, 'submit_info')),
+        make_nav_buttons(False, True, False),
     ]
     return html.Form(
         children,
@@ -136,8 +172,9 @@ def get_info_layout():
 def get_website_layout():
     children = [
         make_input_section("Add Website URL", website_fields.web_section),
+        html.Div(className='mb-3'),
         invalid_alert,
-        make_next_button(get_id(EleType.BUTTON, 'submit_website')),
+        make_nav_buttons(True, True, False),
     ]
     return html.Form(
         children,
@@ -151,12 +188,22 @@ def get_bracket_layout():
     children = [
         make_input_section("Add Bracket Manually", bracket_fields.manual_content),
         invalid_alert,
-        make_next_button(get_id(EleType.BUTTON, 'submit_bracket')),
+        make_nav_buttons(True, True, False),
     ]
     return html.Form(
         children,
         id=get_id(EleType.MISC, 'bracket_form'),
         noValidate=True,
         name='bracket-form',
+        className='d-none'
+    )
+
+def get_submit_layout():
+    return html.Div(
+        [
+            html.Div("Submit form??"),
+            make_nav_buttons(True, False, True),
+        ],
+        id = get_id(EleType.MISC, 'submit_form'),
         className='d-none'
     )

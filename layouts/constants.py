@@ -58,6 +58,11 @@ APP_IDS = { # put these in a separate file?
             'delete_manual': {'type': 'dynamic-delete', 'element': 'bracket'},
             'add_bracket': 'add-bracket-button',
             'delete_bracket': 'delete-bracket-button', # unused currently?
+
+            'back': 'form-nav-back',
+            'submit': 'form-nav-submit',
+
+            # unused
             'submit_info': 'submit-form-info-button',
             'submit_website': 'submit-website-button',
             'submit_bracket': 'submit-bracket-button',
@@ -71,6 +76,7 @@ APP_IDS = { # put these in a separate file?
             'info_form': 'add-tournament-info-form',
             'website_form': 'add-tournament-website-form',
             'bracket_form': 'add-tournament-bracket-form',
+            'submit_form': 'add-tournament-submit-page',
             'invalid_alert': 'invalid-form-alert',
         }
     }

@@ -13,31 +13,69 @@ button.addEventListener("click", updateButton);
 window.dash_clientside = Object.assign({}, window.dash_clientside, {
     formValidation: {
         validate_info_form: function() {
-            const form = document.getElementById('add-tournament-info-form')
+            const infoForm = document.getElementById('add-tournament-info-form')
+            const websiteForm = document.getElementById('add-tournament-website-form')
+            const bracketForm = document.getElementById('add-tournament-bracket-form')
 
-            form.addEventListener('submit', event => {
+            // Listener for Info form
+            infoForm.addEventListener('submit', event => {
                 event.preventDefault()
                 // if form is not valid
-                if (!form.checkValidity()) {
+                if (!infoForm.checkValidity()) {
                     // show error fields
-                    form.classList.add('was-validated')
+                    infoForm.classList.add('was-validated')
                     // show form submission error alert
                     dash_clientside.set_props('invalid-form-alert', {is_open: true})
 
-                    event.preventDefault()
                     event.stopPropagation()
                     return dash_clientside.no_update;
                 }
-                else {
-                    // logic for valid form submissions goes here
-                    // make formdata object for form
-                    let formData = new FormData(form);
-                    //sendFormDataAsync(formData, '/add-tournament/api');
-                    storeFormData(formData)
-
-                    // return dash_clientside.no_update;
+                else { // if form submission is valid
+                    // make form data object for form
+                    let formData = new FormData(infoForm);
+                    // store data in dcc.store
+                    storeFormData('info', formData)
                 }
             }, false)
+
+            // Listener for Website form
+            websiteForm.addEventListener('submit', event => {
+                event.preventDefault()
+                // if form is not valid
+                if (!websiteForm.checkValidity()) {
+                    // show error fields
+                    websiteForm.classList.add('was-validated')
+                    // show form submission error alert
+                    dash_clientside.set_props('invalid-form-alert', {is_open: true})
+
+                    event.stopPropagation()
+                    return dash_clientside.no_update;
+                }
+                else { // if form submission is valid
+                    // store data in dcc.store
+                    storeFormData('website', new FormData(websiteForm));
+                }
+            }, false)
+
+            // Listener for Bracket form
+            bracketForm.addEventListener('submit', event => {
+                event.preventDefault()
+                // if form is not valid
+                if (!bracketForm.checkValidity()) {
+                    // show error fields
+                    bracketForm.classList.add('was-validated')
+                    // show form submission error alert
+                    dash_clientside.set_props('invalid-form-alert', {is_open: true})
+
+                    event.stopPropagation()
+                    return dash_clientside.no_update;
+                }
+                else { // if form submission is valid
+                    // store data in dcc.store
+                    storeFormData('bracket', new FormData(bracketForm));
+                }
+            }, false)
+
             return dash_clientside.no_update;
         },
         clear_validation: function(clicks) {
@@ -60,16 +98,26 @@ async function sendFormDataAsync(formData, url) {
     }
 }
 
-function storeFormData(formData) {
-    //console.log("storing data");
-    let data = {}
+function storeFormData(formName, formData) {
+    // build a dict with form data
+    const data = {}
+
     for (const entry of formData.entries()) {
         data[entry[0]] = entry[1]
     }
+    //data['completed_forms'][formName] = true
 
+    //const data = new Map();
+    //for (const entry of formData.entries()) {
+    //    data.set(entry[0], entry[1])
+    //}
+
+
+    //console.log(data)
+
+    // save new data to 'submitted_data' key in form store
     const patch = new dash_clientside.Patch;
-    patch.extend(['data'], JSON.stringify(data))
-
-    //console.log(JSON.stringify(data));
-    dash_clientside.set_props('form-store', {data: patch.build()})
+    //patch.merge(['submitted_data'], data);
+    patch.merge([], data);
+    dash_clientside.set_props('form-store', {data: patch.build()});
 }

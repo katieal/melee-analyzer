@@ -75,7 +75,7 @@ website_input = html.Div(
                 {'label': "Challonge", "value": "Challonge"},
                 {'label': "Other", "value": "Other"}
             ],
-            required=True,
+            #required=True,
             #placeholder="Select Website"
         ),
         missing_feedback
@@ -104,7 +104,7 @@ url_input = html.Div(
         )
     ],
     id='url-input-container',
-    className='opacity-50'
+    className='mb-3 opacity-50'
 )
 
 # ---- Section ----

@@ -30,7 +30,9 @@ def layout(**kwargs):
     return dbc.Container(
         [
             # title
-            dcc.Store(id='form-store', data={"current_page": 1}),
+            dcc.Store(id='form-store', data={}),
+            # using a separate store for this value for now so it doesn't trigger callback
+            dcc.Store(id='add-tournament-store', data={"current_index": 1}),
             dbc.Row(dbc.Col(html.Div("Add a New Tournament", className='text-center h1 mt-5 mb-0'))),
             html.Hr(),
             # input
@@ -48,7 +50,6 @@ def layout(**kwargs):
                 id='data-test-button',
                 n_clicks=0,
             ),
-            html.Div("Sample Text", id='test-output-div'),
             dcc.Location(id='url-redirect', refresh='callback-nav')
         ],
         id='add-tournament-layout',
@@ -69,70 +70,94 @@ clientside_callback(
 @callback(
     Input('data-test-button', 'n_clicks'),
     State('form-store', 'data'),
+    State('add-tournament-store', 'data'),
     prevent_initial_call=True
 )
-def print_data(clicks, data):
+def print_data(clicks, data, page_data):
     print("--------------")
+    print(f"Page: {page_data}")
     print("Stored Data: ")
     print(data)
     print("--------------")
 
 
-# =========== Form Submission ===========
-@callback(
-    Input('form-store', 'data'),
-    prevent_initial_call=True,
-)
-def store_updated(data):
-    print("updated")
-    print(data)
-    update_form_display(1, 2)
 
-
-def submit_form(form_dict):
-    # combine into a single date field
-    date = form_dict['year'] + '-' + form_dict['month'] + '-' + form_dict['day']
-    form_dict['date'] = date
-    del form_dict['month']
-    del form_dict['year']
-    del form_dict['day']
 
 # =========== Navigation ===========
-#@callback(
-    #Output('card-content', 'children'),
-#    Input('card-tabs', 'active_tab'),
-#)
-#def update_tab(active_tab):
-#    if active_tab == 'website-tab':
-#        set_props({'type': 'card-content', 'element': 'website-tab'}, {'class_name': ''}),
-#        set_props({'type': 'card-content', 'element': 'manual-tab'}, {'class_name': 'd-none'}),
-#    elif active_tab == 'manual-tab':
-#        set_props({'type': 'card-content', 'element': 'website-tab'}, {'class_name': 'd-none'}),
-#        set_props({'type': 'card-content', 'element': 'manual-tab'}, {'class_name': ''}),
 forms_dict = {
     1: get_id(EleType.MISC, 'info_form'),
     2: get_id(EleType.MISC, 'website_form'),
-    3: get_id(EleType.MISC, 'bracket_form')
+    3: get_id(EleType.MISC, 'bracket_form'),
+    4: get_id(EleType.MISC, 'submit_form'),
 }
+
 def update_form_display(old_index:int, new_index:int):
     set_props(forms_dict[old_index], {'className': 'd-none'})
     set_props(forms_dict[new_index], {'className': ''})
 
-@callback(
-    Output({'type': 'round-info-collapse', 'bracket': MATCH, 'round': MATCH}, 'is_open'),
-    Output({'type': 'round-collapse-button', 'bracket': MATCH, 'round': MATCH}, 'children'),
-    Input({'type': 'round-collapse-button', 'bracket': MATCH, 'round': MATCH}, 'n_clicks'),
-    State({'type': 'round-info-collapse', 'bracket': MATCH, 'round': MATCH}, 'is_open'),
-    prevent_initial_call=True
-)
-def toggle_round_collapse(n_clicks, is_open):
-    if n_clicks:
-        closed = html.I(className='fa-solid fa-angle-down')
-        opened = html.I(className='fa-solid fa-angle-left')
-
-        return not is_open, closed if is_open else opened
+def show_next_form(current_index:int):
+    if current_index < 4:
+        # increment stored index
+        patched_data = Patch()
+        patched_data['current_index'] += 1
+        set_props('add-tournament-store', {'data': patched_data})
+        # show next form
+        update_form_display(current_index, current_index + 1)
     else:
-        raise PreventUpdate
+        print("Error: Max page number reached!")
+
+def show_previous_form(current_index:int):
+    if current_index > 1:
+        # decrement stored index
+        patched_data = Patch()
+        patched_data['current_index'] -= 1
+        set_props('add-tournament-store', {'data': patched_data})
+        # show previous form
+        update_form_display(current_index, current_index - 1)
+    else:
+        print("Error: Min page number reached!")
+
+
+@callback(
+    Input(get_id(EleType.BUTTON, 'back'), 'n_clicks'),
+    State('add-tournament-store', 'data')
+)
+def back_button_pressed(n_clicks, data):
+    if n_clicks > 0:
+        show_previous_form(data['current_index'])
+
+
+# =========== Form Submission ===========
+@callback(
+    Input('form-store', 'data'),
+    State('add-tournament-store', 'data'),
+    prevent_initial_call=True,
+)
+def store_updated(form_data, page_data):
+    """
+    When submit(aka 'next') button is pressed, JS script saves form data to
+    the 'form-store' dcc.Store, which will trigger this callback
+    """
+    print("--------------")
+    print("updated")
+    # print(form_data)
+
+    # show next page
+    show_next_form(page_data['current_index'])
+
+
+@callback(
+    Input(get_id(EleType.BUTTON, 'submit'), 'n_clicks'),
+    State('form-store', 'data')
+)
+def submit_form(form_data):
+    # combine into a single date field
+    date = form_data['year'] + '-' + form_data['month'] + '-' + form_data['day']
+    form_data['date'] = date
+    del form_data['month']
+    del form_data['year']
+    del form_data['day']
+
 
 # =========== Date Input ===========
 @callback(
@@ -259,6 +284,21 @@ def validate_url(url, website):
 # ========================
 # Manual Bracket Builder
 # ========================
+@callback(
+    Output({'type': 'round-info-collapse', 'bracket': MATCH, 'round': MATCH}, 'is_open'),
+    Output({'type': 'round-collapse-button', 'bracket': MATCH, 'round': MATCH}, 'children'),
+    Input({'type': 'round-collapse-button', 'bracket': MATCH, 'round': MATCH}, 'n_clicks'),
+    State({'type': 'round-info-collapse', 'bracket': MATCH, 'round': MATCH}, 'is_open'),
+    prevent_initial_call=True
+)
+def toggle_round_collapse(n_clicks, is_open):
+    if n_clicks:
+        closed = html.I(className='fa-solid fa-angle-down')
+        opened = html.I(className='fa-solid fa-angle-left')
+
+        return not is_open, closed if is_open else opened
+    else:
+        raise PreventUpdate
 # Add Bracket
 @callback(
     Output(get_id(EleType.BUTTON, 'add_bracket'), 'disabled'),

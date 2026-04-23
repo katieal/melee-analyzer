@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="changed dcc.datepicker into three selects for easier validation and value retrieval. separated info, website, and bracket input into separate forms, split add_tournament.py into three files, one for each form, and began reformatting page to display forms one at a time">
+    <list default="true" id="936dca18-82a9-4f0c-b6e8-9b3346079efa" name="Changes" comment="completed basic logic for displaying form in three different parts, changed javascript to send form data to a dcc.store instead of HTTP endpoint">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/form_validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/form_validation.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/layouts/add_tournament.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/add_tournament.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/layouts/add_tournament_forms/bracket_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/add_tournament_forms/bracket_form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/layouts/add_tournament_forms/info_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/add_tournament_forms/info_form.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/layouts/add_tournament_forms/website_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/add_tournament_forms/website_form.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/layouts/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/add_tournament.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/add_tournament.py" afterDir="false" />
@@ -105,7 +103,8 @@
       <workItem from="1776176615779" duration="10514000" />
       <workItem from="1776519074587" duration="12083000" />
       <workItem from="1776605065110" duration="16189000" />
-      <workItem from="1776779237850" duration="12639000" />
+      <workItem from="1776779237850" duration="12954000" />
+      <workItem from="1776949433677" duration="10247000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -371,7 +370,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776621321000</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="completed basic logic for displaying form in three different parts, changed javascript to send form data to a dcc.store instead of HTTP endpoint">
+      <option name="closed" value="true" />
+      <created>1776792289556</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1776792289556</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -421,7 +428,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added type annotations for json data structures in melee_db, implemented ability to dynamically display brackets with data in bracket_view.py" />
     <MESSAGE value="refactored round_num to be zero indexed, fixed display for rematches and single connectors by adding a size calculation in melee_db.py and specifying element height in bracket_view.py" />
     <MESSAGE value="added a button on bracket_history.py to redirect to bracket_add.py. began work on page to add a new tournament, made initial layout using bracket_view.py for reference, began replacing elements with input" />
     <MESSAGE value="changed app layout container to fluid, enabled horizontal scrolling and added add/delete round functionality to bracket_add.py" />
@@ -446,6 +452,7 @@
     <MESSAGE value="built a sample form in testing.py - added validation using javascript and clientside callbacks, began working on getting form submission data" />
     <MESSAGE value="finished form submission callback in testing.py, renamed bracket_add_url.py to add_tournament.py, began implementing changes in add_tournament.py - hooked javascript callback to form submit button and added required to input fields" />
     <MESSAGE value="changed dcc.datepicker into three selects for easier validation and value retrieval. separated info, website, and bracket input into separate forms, split add_tournament.py into three files, one for each form, and began reformatting page to display forms one at a time" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed dcc.datepicker into three selects for easier validation and value retrieval. separated info, website, and bracket input into separate forms, split add_tournament.py into three files, one for each form, and began reformatting page to display forms one at a time" />
+    <MESSAGE value="completed basic logic for displaying form in three different parts, changed javascript to send form data to a dcc.store instead of HTTP endpoint" />
+    <option name="LAST_COMMIT_MESSAGE" value="completed basic logic for displaying form in three different parts, changed javascript to send form data to a dcc.store instead of HTTP endpoint" />
   </component>
 </project>
