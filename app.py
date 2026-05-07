@@ -88,4 +88,4 @@ def update_store(is_open):
     return dash.no_update
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, dev_tools_hot_reload=False)

@@ -11,6 +11,11 @@ Feb 20, 2026
 double elim
 Winner: Goodie
 
+----- Layout Notes -----
+Centered Col w/ Custom Size: d-grid col-6 mx-auto
+Bootstrap Color Variables:
+    style = {'border-color': 'var(--bs-border-color)'} or --bs-primary
+Border style: style = {'border-radius': 'top_right top_left bot_left bot_right'}
 
 ----- ISSUES -----
 input box style changes when using browser autocomplete?

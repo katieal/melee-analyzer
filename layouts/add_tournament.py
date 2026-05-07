@@ -84,6 +84,56 @@ invalid_alert = dbc.Row(
     className='mt-4'
 )
 
+bar_style={'height': '20px'}
+
+progress_bar = html.Div(
+    [
+        dbc.Progress(id='bar-1', value=100, color='secondary', style=bar_style),
+        dbc.Progress(id='bar-2', value=100, color='secondary', style=bar_style),
+        dbc.Progress(id='bar-3', value=100, color='secondary', style=bar_style),
+    ],
+    className='d-flex flex-row'
+)
+
+completed_icon = html.I(className='fa-solid fa-circle-check fa-2xl', style={'color': 'var(--bs-success)'})
+#alert_icon = html.I(className='fa-solid fa-circle-exclamation fa-xl')
+alert_icon = html.I(className='fa-regular fa-circle fa-2xl')
+
+
+def get_progress_bar():
+
+    #return dbc.Col(dbc.Progress(id='bar-1', value=50, color='secondary', style=bar_style), width=10)
+    # step 1: basic info
+    # step 2: link website
+    # step 3: bracket data
+    # step 4: submit
+
+    bar_1 = dbc.Progress(
+        id='bar-1',
+        value='100',
+        color='primary',
+        class_name='overflow-hidden',
+        style={
+            'height': '20px',
+            'border-radius': '50rem 0.15rem 0.15rem 50rem',
+        }
+    )
+
+
+    bar = html.Div(
+        [
+            dbc.Col(bar_1, width=3),
+            html.Div(completed_icon),
+            dbc.Col(dbc.Progress(id='bar-2', value=50, color='secondary', style=bar_style), width=3),
+            html.Div(alert_icon),
+            dbc.Col(dbc.Progress(id='bar-3', value=100, color='info', style=bar_style), width=3),
+            html.Div(alert_icon),
+        ],
+        className='d-flex flex-row justify-content-center align-items-center'
+    )
+
+    return html.Div(bar, className='d-grid col-10 mx-auto')
+
 # ===========================
 # ========= Layout ==========
 # ===========================
@@ -95,11 +145,12 @@ def make_input_section(title, content):
                 html.Div(title, className='text-center h3 mt-3 mb-3'),
                 content
             ],
-            width=8,
-            className='px-5 border border-3 rounded-3'
+            width=9,
+            #className='px-5 border border-3 rounded-3'
+            className='px-5 py-2 border border-2 rounded-3'
         ),
         justify='center',
-        className='mb-3'
+        className='mt-3 mb-3'
     )
 
 def make_next_button():
@@ -109,9 +160,8 @@ def make_next_button():
         size='lg',
         color='secondary',
         n_clicks=0,
-        class_name='ms-auto'
+        class_name='px-4 ms-auto'
     )
-     # 'd-grid col-3 ms-auto'
 
 def make_back_button(btn_id):
     return dbc.Button(
@@ -121,7 +171,7 @@ def make_back_button(btn_id):
         size='lg',
         color='secondary',
         n_clicks=0,
-        #className='me-auto'
+        className='px-4 me-auto'
     )
 
 def make_submit_button():
@@ -131,33 +181,53 @@ def make_submit_button():
         size='lg',
         color='secondary',
         n_clicks=0,
-        class_name='ms-auto'
+        class_name='px-4'
+        #class_name='mx-auto'
     )
 
 def make_nav_buttons(back_btn:bool, next_btn:bool, submit_btn:bool, back_btn_id=None):
     children = []
     if back_btn:
-        children.append(make_back_button(back_btn_id))
+        #children.append(make_back_button(back_btn_id))
+        children.append(
+            html.Div(
+                make_back_button(back_btn_id),
+                className='d-grid col-4'
+            )
+        )
     if next_btn:
-        children.append(make_next_button())
+        children.append(
+            html.Div(
+                make_next_button(),
+                className='d-grid col-4'
+            )
+        )
     if submit_btn:
         children.append(make_submit_button())
 
-    return dbc.Row(
-        dbc.Col(
-            children,
-            width=8,
-            className='border border-1'
-        ),
-        justify='center',
-        className='mt-4'
+
+    return html.Div(
+        [
+            html.Div(
+                make_back_button(back_btn_id) if back_btn else None,
+                className='d-grid col-3'
+            ),
+            html.Div(
+                [
+                    make_next_button() if next_btn else None,
+                    make_submit_button() if submit_btn else None,
+                ],
+                className='d-grid col-3'
+            )
+        ],
+        className='d-flex justify-content-center mt-3'
     )
 
 
 # Layout
 def get_info_layout():
     children = [
-        make_input_section("Tournament Information", info_fields.tournament_info_section),
+        make_input_section("Tournament Information", info_fields.get_layout()),
         invalid_alert,
         make_nav_buttons(False, True, False),
     ]

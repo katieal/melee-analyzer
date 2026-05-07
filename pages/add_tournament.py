@@ -9,7 +9,8 @@ import flask
 import re
 from dash.exceptions import PreventUpdate
 
-from layouts.add_tournament import *
+#from layouts.add_tournament import *
+import layouts.add_tournament as page_layout
 
 import layouts.constants as constants
 from layouts.add_tournament_forms.bracket_form import make_bracket_container, make_round_accordion_item, get_match_row
@@ -30,21 +31,22 @@ def layout(**kwargs):
     return dbc.Container(
         [
             # title
-            dcc.Store(id='form-store', data={}),
+            dcc.Store(id='form-store', data={'test_key': 'test_value', 'info': ''}),
             # using a separate store for this value for now so it doesn't trigger callback
             dcc.Store(id='add-tournament-store', data={"current_index": 1}),
             dbc.Row(dbc.Col(html.Div("Add a New Tournament", className='text-center h1 mt-5 mb-0'))),
             html.Hr(),
+            page_layout.get_progress_bar(),
             # input
             html.Div(
                 [
-                    get_info_layout(),
-                    get_website_layout(),
-                    get_bracket_layout()
+                    page_layout.get_info_layout(),
+                    page_layout.get_website_layout(),
+                    page_layout.get_bracket_layout()
                 ],
                 id='form-container'
             ),
-            html.Hr(),
+            #html.Hr(),
             dbc.Button(
                 "Test",
                 id='data-test-button',
@@ -73,13 +75,17 @@ clientside_callback(
     State('add-tournament-store', 'data'),
     prevent_initial_call=True
 )
-def print_data(clicks, data, page_data):
+def print_data(clicks, form_data, page_data):
     print("--------------")
     print(f"Page: {page_data}")
     print("Stored Data: ")
-    print(data)
+    print(form_data)
     print("--------------")
 
+    # passed all tests
+    #print("data test: ")
+    #print(f"test key: {form_data['test_key']}")
+    #print(f"name field: {form_data['info_form']['name']}")
 
 
 
@@ -169,7 +175,7 @@ def submit_form(form_data):
     prevent_initial_call=True
 )
 def update_day_options(month, year, selected_day):
-    z, days = calendar.monthrange(int(year), int(month))
+    z, days = page_layout.calendar.monthrange(int(year), int(month))
 
     # check if current selected day is a valid value for new month/year
     if int(selected_day) > days:
@@ -195,7 +201,7 @@ def add_dynamic_field(n_clicks):
         del patched_children[0]
         # insert input field
         element = ctx.triggered_id.element
-        patched_children.append(DYNAMIC_FIELDS[element]['input'])
+        patched_children.append(page_layout.DYNAMIC_FIELDS[element]['input'])
         return patched_children
     else:
         raise PreventUpdate
@@ -216,7 +222,7 @@ def delete_dynamic_field(n_clicks):
         del patched_children[0]
         # insert add field button
         element = ctx.triggered_id.element
-        patched_children.append(DYNAMIC_FIELDS[element]['add_button'])
+        patched_children.append(page_layout.DYNAMIC_FIELDS[element]['add_button'])
         return patched_children
     else:
         raise PreventUpdate

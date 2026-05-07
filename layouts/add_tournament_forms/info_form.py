@@ -13,6 +13,7 @@ from layouts.constants import ElementType as EleType
 label_width = 3
 input_width = 9
 margin = 'mb-4'
+input_size='md'
 
 missing_feedback = dbc.FormFeedback("Field is required", type='invalid')
 
@@ -33,6 +34,7 @@ def make_confirm_delete_button(dialog_id, confirm_message, button_text, button_c
     default_id.update(dialog_id)
     btn = dbc.Button(
         [html.I(className='fa-solid fa-minus me-2'), button_text],
+        type='button',
         color='danger',
         size='sm',
         n_clicks=0,
@@ -49,8 +51,10 @@ def make_input(field_name: str, input_type, placeholder: str, required=True, dis
         id=get_id(EleType.INPUT, field_name),
         name=field_name,
         type=input_type,
+        size=input_size,
         maxlength=constants.MAX_INPUT_LENGTH if input_type != 'url' else constants.MAX_URL_LENGTH,
         placeholder=placeholder,
+        autoComplete='off',
         required=required,
         disabled=disabled,
     )
@@ -86,6 +90,7 @@ def make_month_select():
             {'label': name, 'value': num} for i, (num, name) in enumerate(constants.MONTH_STR.items())
         ],
         value=str(month) if month > 10 else ('0' + str(month)),
+        size=input_size,
         required=True,
     )
 
@@ -98,6 +103,7 @@ def make_day_select():
         name='day',
         options=list(range(0, days + 1)),
         value=today.day,
+        size=input_size,
         required=True,
     )
 
@@ -110,6 +116,7 @@ def make_year_select():
         name='year',
         options=list(range(min_year, max_year + 1)),
         value=dt.date.today().year,
+        size=input_size,
         required=True,
     )
 
@@ -183,6 +190,7 @@ format_input = dbc.Row(
                         {'label': "Double Elimination", 'value': "double_elim"},
                         {'label': "Round Robin", 'value': "robin"},
                     ],
+                    size=input_size,
                     required=True,
                     # placeholder text in this field doesn't have the same muted appearance as the placeholders
                     # in input fields which looks weird so omitting it for now
@@ -203,6 +211,7 @@ add_theme_button = dbc.Button(
         "Add Theme"
     ],
     id=get_id(EleType.BUTTON,'add_theme'),
+    type='button',
     n_clicks=0
 )
 theme_input_field = html.Div([
@@ -212,6 +221,7 @@ theme_input_field = html.Div([
         dbc.Button(
             [html.I(className='fa-solid fa-minus')],
             id=get_id(EleType.BUTTON,'delete_theme'),
+            type='button',
             color='danger',
             n_clicks=0
         )

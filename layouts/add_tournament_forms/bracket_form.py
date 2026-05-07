@@ -33,6 +33,7 @@ def make_confirm_delete_button(dialog_id, confirm_message, button_text, button_c
     default_id.update(dialog_id)
     btn = dbc.Button(
         [html.I(className='fa-solid fa-minus me-2'), button_text],
+        type='button',
         color='danger',
         size='sm',
         n_clicks=0,
@@ -65,6 +66,7 @@ manual_input_header = html.Div(
         dbc.Button(
             [html.I(className='fa-solid fa-minus me-3'), "Remove Section"],
             id=get_id(EleType.BUTTON, 'delete_manual'),
+            type='button',
             color='danger',
             n_clicks=0,
             size='sm',
@@ -82,6 +84,7 @@ add_manual_button = html.Div([
             "Add Bracket Information Manually"
         ],
         id=get_id(EleType.BUTTON, 'add_manual'),
+        type='button',
         color='info',
         n_clicks=0
     )],
@@ -121,6 +124,7 @@ add_bracket_section = html.Div(
                         "New Bracket"
                     ],
                     id=get_id(EleType.BUTTON, 'add_bracket'),
+                    type='button',
                     disabled=True,
                     n_clicks=0
                 )
@@ -178,6 +182,7 @@ def make_add_match_button(bracket_index, round_index):
                     html.I(className='fa-solid fa-circle-plus fa-2xl')
                 ],
                 id={'type': 'add-match-button', 'bracket': bracket_index, 'round': round_index},
+                type='button',
                 size='lg',
                 n_clicks=0,
                 className='bg-transparent border border-0',
@@ -240,6 +245,7 @@ def get_match_row(bracket_index, round_index, match_index):
                     dbc.Button(
                         [html.I(className='fa-solid fa-minus')],
                         id={'type': 'delete-match-button', 'bracket': bracket_index, 'round': round_index, 'element': match_index},
+                        type='button',
                         color='danger',
                         n_clicks=0,
                         className='position-absolute end-0 align-self-center'
@@ -280,6 +286,7 @@ def make_delete_round_button(bracket_index, round_index):
             dbc.Button(
                 html.I(className='fa-solid fa-angle-down'),
                 id={'type': 'round-collapse-button', 'bracket': bracket_index, 'round': round_index},
+                type='button',
                 size='sm',
                 style={
                     'width': '30px'
@@ -328,6 +335,7 @@ def make_bracket_accordion(index):
                         "Add Round"
                     ],
                     id={'type': 'add-round-button', 'bracket': index},
+                    type='button',
                     n_clicks=0,
                     class_name=''
                 ),

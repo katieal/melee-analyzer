@@ -40,6 +40,7 @@ web_input_header = html.Div(
         dbc.Button(
             [html.I(className='fa-solid fa-minus me-3'), "Remove Section"],
             id=get_id(EleType.BUTTON, 'delete_website'),
+            type='button',
             color='danger',
             size='sm',
             n_clicks=0,
@@ -57,6 +58,7 @@ add_web_button = html.Div([
             "Add by Website URL"
         ],
         id=get_id(EleType.BUTTON, 'add_website'),
+        type='button',
         color='info',
         n_clicks=0
     )],

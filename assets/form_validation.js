@@ -99,6 +99,7 @@ async function sendFormDataAsync(formData, url) {
 }
 
 function storeFormData(formName, formData) {
+
     // build a dict with form data
     const data = {}
 
@@ -106,7 +107,7 @@ function storeFormData(formName, formData) {
         data[entry[0]] = entry[1]
     }
     //data['completed_forms'][formName] = true
-
+    console.log(data)
     //const data = new Map();
     //for (const entry of formData.entries()) {
     //    data.set(entry[0], entry[1])
@@ -117,7 +118,7 @@ function storeFormData(formName, formData) {
 
     // save new data to 'submitted_data' key in form store
     const patch = new dash_clientside.Patch;
-    //patch.merge(['submitted_data'], data);
-    patch.merge([], data);
+    patch.assign([formName], data);
+    // patch.merge([], data);
     dash_clientside.set_props('form-store', {data: patch.build()});
 }
